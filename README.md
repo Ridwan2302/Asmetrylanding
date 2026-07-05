@@ -2,15 +2,15 @@
 
 A single self-contained `index.html` marketing page for the Asmetry app — no build step, deploy as static files anywhere (Vercel, Netlify, GitHub Pages, etc).
 
-## Before you deploy
+## CTA link
 
-Open `index.html` and replace every occurrence of:
+Every "Get the App" / "Download" button currently points to:
 
 ```
-https://REPLACE-WITH-YOUR-ASMETRY-APP-URL.vercel.app
+https://verify-ruby.vercel.app/
 ```
 
-with the actual live URL of the Asmetry app (both "Get Started" buttons and the "Open the app" link use this).
+To point them elsewhere, search `index.html` for that URL and replace it — all four buttons (nav, hero, download section, closing section) use the same link.
 
 ## Deploying to Vercel
 
