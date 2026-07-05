@@ -125,6 +125,13 @@
     letter-spacing: -2px;
     max-width: 15ch;
   }
+  h1 .ch {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+  h1 .ch.in { opacity: 1; transform: translateY(0); }
   .hero-sub {
     margin-top: 26px;
     font-size: clamp(16px, 2vw, 20px);
@@ -565,6 +572,35 @@
   var langToggle = document.querySelector('[data-lang]');
   var langBtns = langToggle.querySelectorAll('button');
 
+  // Splits each hero headline line into per-character spans and reveals them
+  // in a fast left-to-right cascade (a quick "typing in" feel, not a slow typewriter).
+  function animateHeroText() {
+    var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var lines = document.querySelectorAll('h1 [data-i18n^="h1_line"]');
+    var perCharDelay = 14;
+    var index = 0;
+    lines.forEach(function (line) {
+      var text = line.textContent;
+      if (reduceMotion) return;
+      line.textContent = '';
+      var frag = document.createDocumentFragment();
+      for (var i = 0; i < text.length; i++) {
+        var ch = document.createElement('span');
+        ch.className = 'ch';
+        ch.textContent = text[i] === ' ' ? ' ' : text[i];
+        ch.style.transitionDelay = (index * perCharDelay) + 'ms';
+        frag.appendChild(ch);
+        index++;
+      }
+      line.appendChild(frag);
+    });
+    if (reduceMotion) return;
+    void document.body.offsetHeight;
+    requestAnimationFrame(function () {
+      document.querySelectorAll('h1 .ch').forEach(function (ch) { ch.classList.add('in'); });
+    });
+  }
+
   function setLang(lang) {
     var dict = translations[lang] || translations.en;
     i18nEls.forEach(function (el) {
@@ -575,6 +611,7 @@
     langToggle.classList.toggle('is-fr', lang === 'fr');
     langBtns.forEach(function (b) { b.classList.toggle('active', b.getAttribute('data-set-lang') === lang); });
     try { localStorage.setItem('asmetry_landing_lang', lang); } catch (e) {}
+    animateHeroText();
   }
   langBtns.forEach(function (b) {
     b.addEventListener('click', function () { setLang(b.getAttribute('data-set-lang')); });
@@ -604,6 +641,36 @@
   setTimeout(function () {
     revealEls.forEach(function (el) { el.classList.add('in'); });
   }, 2500);
+
+  // On load, ease the page down a little to hint there's more below —
+  // a slow, deliberate scroll rather than a jump. Skipped if the visitor
+  // scrolls themselves first, and respects prefers-reduced-motion.
+  (function () {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var cancelled = false;
+    ['wheel', 'touchstart', 'keydown'].forEach(function (evt) {
+      window.addEventListener(evt, function () { cancelled = true; }, { passive: true, once: true });
+    });
+    setTimeout(function () {
+      if (cancelled) return;
+      var target = document.querySelector('.hero-visual');
+      if (!target) return;
+      var startY = window.scrollY;
+      var targetY = startY + target.getBoundingClientRect().top - 24;
+      var diff = targetY - startY;
+      if (diff < 10) return;
+      var duration = 3200;
+      var start = performance.now();
+      function step(now) {
+        if (cancelled) return;
+        var progress = Math.min(1, (now - start) / duration);
+        var eased = progress < 0.5 ? 2 * progress * progress : 1 - Math.pow(-2 * progress + 2, 2) / 2;
+        window.scrollTo(0, startY + diff * eased);
+        if (progress < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    }, 900);
+  })();
 </script>
 </body>
 </html>
