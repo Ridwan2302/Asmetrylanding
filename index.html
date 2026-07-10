@@ -125,6 +125,7 @@
     letter-spacing: -2px;
     max-width: min(18ch, 92vw);
   }
+  h1:lang(fr) { max-width: min(34ch, 92vw); }
   h1 .ch {
     display: inline-block;
     opacity: 0;
@@ -132,6 +133,7 @@
     transition: opacity 0.28s ease, transform 0.28s ease;
   }
   h1 .ch.in { opacity: 1; transform: translateY(0); }
+  h1 span[data-i18n]:empty + br { display: none; }
   .hero-sub {
     margin-top: 26px;
     font-size: clamp(16px, 2vw, 20px);
@@ -524,11 +526,11 @@
     },
     fr: {
       get_app: "Obtenir l'app",
-      h1_line1: "Analysez votre visage.",
-      h1_line2: "Suivez un protocole.",
-      h1_line3: "Regardez-le changer.",
+      h1_line1: "Analysez votre visage, puis suivez un protocole personnalisé.",
+      h1_line2: "",
+      h1_line3: "",
       hero_sub: "Un scan de 90 secondes se transforme en un protocole personnel de 4 semaines — entièrement gratuit, basé sur une analyse réelle de votre visage sur l'appareil, pas une supposition.",
-      hero_micro: "Gratuit pour toujours. Aucune inscription. Installation en quelques secondes.",
+      hero_micro: "Gratuit pour toujours. Aucune carte de crédit requise. aucun paiement requis",
       how_kicker: "Comment ça marche",
       how_title: "Trois étapes simples.",
       step1_title: "Scannez votre visage",
@@ -582,15 +584,26 @@
       var text = line.textContent;
       if (reduceMotion) return;
       line.textContent = '';
+      if (!text) return;
       var frag = document.createDocumentFragment();
-      for (var i = 0; i < text.length; i++) {
-        var ch = document.createElement('span');
-        ch.className = 'ch';
-        ch.textContent = text[i] === ' ' ? ' ' : text[i];
-        ch.style.transitionDelay = (index * perCharDelay) + 'ms';
-        frag.appendChild(ch);
-        index++;
-      }
+      var words = text.split(String.fromCharCode(32));
+      words.forEach(function (word, wi) {
+        var wordSpan = document.createElement('span');
+        wordSpan.style.display = 'inline-block';
+        for (var i = 0; i < word.length; i++) {
+          var ch = document.createElement('span');
+          ch.className = 'ch';
+          ch.textContent = word[i];
+          ch.style.transitionDelay = (index * perCharDelay) + 'ms';
+          wordSpan.appendChild(ch);
+          index++;
+        }
+        frag.appendChild(wordSpan);
+        if (wi < words.length - 1) {
+          frag.appendChild(document.createTextNode(String.fromCharCode(32)));
+          index++;
+        }
+      });
       line.appendChild(frag);
     });
     if (reduceMotion) return;
@@ -604,7 +617,7 @@
     var dict = translations[lang] || translations.en;
     i18nEls.forEach(function (el) {
       var key = el.getAttribute('data-i18n');
-      if (dict[key]) el.textContent = dict[key];
+      if (key in dict) el.textContent = dict[key];
     });
     document.documentElement.lang = lang;
     langToggle.classList.toggle('is-fr', lang === 'fr');
