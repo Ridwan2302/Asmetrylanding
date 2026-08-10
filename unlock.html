@@ -129,8 +129,7 @@
   .btn-wide { width: 100%; max-width: 340px; }
   .micro { font-size: 12px; color: var(--gray-on-dark); letter-spacing: 0.2px; }
 
-  .already-paid { margin-top: 40px; font-size: 14px; color: var(--gray-on-dark); }
-  .already-paid a { font-weight: 700; color: #fff; text-decoration: underline; text-underline-offset: 3px; margin-left: 4px; }
+  .success-panel { margin-top: 32px; }
 
   footer { padding: 40px 0 32px; border-top: 1px solid var(--line-dark); }
   footer .wrap { display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center; }
@@ -174,7 +173,9 @@
       <span class="micro" data-i18n="pay_micro">Wave · Orange Money · MTN · Moov · Djamo · Cartes</span>
     </div>
 
-    <p class="already-paid"><span data-i18n="already_paid_q">Déjà payé ?</span><a href="verify.html" data-i18n="already_paid_cta">Continuer →</a></p>
+    <div class="success-panel" id="success-panel" style="display:none;">
+      <a class="btn btn-light btn-wide" id="open-app-btn" href="https://asmetryapp.vercel.app/home" data-i18n="open_app_cta">Ouvrir Asmetry</a>
+    </div>
   </div>
 </header>
 
@@ -196,8 +197,7 @@
       pay_lead: "Get lifetime access to Asmetry with a one-time $1 payment. No subscription. No recurring payments.",
       pay_cta: "Pay",
       pay_micro: "Wave · Orange Money · MTN · Moov · Djamo · Cards",
-      already_paid_q: "Already paid?",
-      already_paid_cta: "Continue →",
+      open_app_cta: "Open Asmetry",
       footer_rights: "All rights reserved.",
       footer_disclaimer: "Educational content, not medical advice. Consult a professional before starting a program."
     },
@@ -208,8 +208,7 @@
       pay_lead: "Obtenez un accès à vie à Asmetry avec un paiement unique de 1 $. Aucun abonnement. Aucun paiement récurrent.",
       pay_cta: "Payer",
       pay_micro: "Wave · Orange Money · MTN · Moov · Djamo · Cartes",
-      already_paid_q: "Déjà payé ?",
-      already_paid_cta: "Continuer →",
+      open_app_cta: "Ouvrir Asmetry",
       footer_rights: "Tous droits réservés.",
       footer_disclaimer: "Contenu éducatif, ne constitue pas un avis médical. Consultez un professionnel avant de commencer un programme."
     }
@@ -237,6 +236,20 @@
   var savedLang = null;
   try { savedLang = localStorage.getItem('asmetry_landing_lang'); } catch (e) {}
   setLang(savedLang === 'en' ? 'en' : 'fr');
+
+  // After the visitor has followed the Jèko button a few times, reveal the app link.
+  var jekoBtn = document.getElementById('jeko-btn');
+  var successPanel = document.getElementById('success-panel');
+  var REQUIRED_CLICKS = 3;
+  var clickCount = 0;
+  jekoBtn.addEventListener('click', function (e) {
+    clickCount++;
+    if (clickCount >= REQUIRED_CLICKS) {
+      e.preventDefault();
+      jekoBtn.style.display = 'none';
+      successPanel.style.display = 'block';
+    }
+  });
 </script>
 </body>
 </html>
