@@ -16,7 +16,7 @@ All pages default to French on first visit (Côte d'Ivoire audience); a visitor'
 
 1. Shows the $1 (≈616 FCFA) one-time price with "free forever after $1" copy — the app stays free, this is a single one-time payment, not a subscription.
 2. A "Payer" / "Pay" button opens the Wave payment link in a new tab, where the user actually pays (Wave is currently the only payment method offered).
-3. There is no server-side payment verification (honor system, no API/backend involved). After the visitor has clicked the Wave button 2 times, the button is replaced with an "Ouvrir Asmetry" / "Open Asmetry" button linking to the real app (`https://asmetryapp.vercel.app/home`).
+3. There is no server-side payment verification (honor system, no API/backend involved). After the visitor has clicked the Wave button 3 times, the button is replaced with an "Ouvrir Asmetry" / "Open Asmetry" button linking to the real app (`https://asmetryapp.vercel.app/home`).
 
 ## Deploying to Vercel
 
