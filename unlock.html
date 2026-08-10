@@ -1,0 +1,503 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Unlock Asmetry</title>
+<meta name="description" content="Unlock Asmetry for $1 — pay securely with Jèko, then verify your payment to get instant access." />
+<meta name="theme-color" content="#0b0b0c" />
+<meta name="robots" content="noindex" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet" />
+
+<style>
+  :root {
+    --ink: #0b0b0c;
+    --white: #ffffff;
+    --gray: #6e6e73;
+    --gray-dim: #98989d;
+    --line: rgba(0,0,0,0.08);
+    --line-dark: rgba(255,255,255,0.14);
+    --gray-on-dark: rgba(255,255,255,0.62);
+    --glass-bg: rgba(255,255,255,0.08);
+    --glass-border: rgba(255,255,255,0.18);
+    --glass-thumb: rgba(255,255,255,0.22);
+    --good: #1fb15a;
+    --bad: #d64545;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--white);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  img { display: block; max-width: 100%; }
+  a { color: inherit; }
+  .wrap { max-width: 720px; margin: 0 auto; padding: 0 24px; }
+  section { position: relative; }
+
+  nav { padding: 20px 0; }
+  nav .wrap { max-width: 1120px; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  .brand { display: flex; align-items: center; gap: 10px; min-width: 0; }
+  .brand-name { font-size: 16px; font-weight: 700; letter-spacing: -0.2px; }
+  .back-link { font-size: 13px; font-weight: 600; color: var(--gray); text-decoration: none; }
+
+  .toggle-row { display: flex; justify-content: center; margin-bottom: 28px; }
+  .glass-toggle {
+    position: relative;
+    display: inline-flex;
+    border-radius: 999px;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    padding: 2px;
+  }
+  .glass-toggle .thumb {
+    position: absolute;
+    top: 2px; bottom: 2px; left: 2px;
+    width: calc(50% - 2px);
+    border-radius: 999px;
+    background: var(--glass-thumb);
+    transition: transform 0.25s ease;
+  }
+  .glass-toggle.is-fr .thumb { transform: translateX(100%); }
+  .glass-toggle button {
+    position: relative;
+    z-index: 1;
+    width: 64px;
+    padding: 4px 0;
+    background: none;
+    border: none;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.4px;
+    color: var(--gray-on-dark);
+    cursor: pointer;
+    transition: color 0.3s ease;
+  }
+  .glass-toggle button.active { color: #fff; }
+
+  .pay-hero {
+    background: var(--ink);
+    color: #fff;
+    padding: 40px 0 76px;
+    text-align: center;
+  }
+  .kicker {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gray-on-dark);
+    margin-bottom: 14px;
+  }
+  h1.pay-title {
+    font-size: clamp(28px, 5vw, 42px);
+    line-height: 1.15;
+    font-weight: 800;
+    letter-spacing: -0.8px;
+    max-width: 20ch;
+    margin: 0 auto;
+  }
+  .price-block { margin-top: 40px; }
+  .price-main {
+    font-size: clamp(64px, 12vw, 100px);
+    font-weight: 800;
+    letter-spacing: -2px;
+    line-height: 1;
+  }
+  .price-sub { margin-top: 8px; font-size: 15px; color: var(--gray-on-dark); letter-spacing: 0.2px; }
+  .pay-lead {
+    margin: 22px auto 0;
+    font-size: clamp(15px, 1.6vw, 17px);
+    line-height: 1.6;
+    color: var(--gray-on-dark);
+    max-width: 40ch;
+  }
+  .cta-row { margin-top: 36px; display: flex; flex-direction: column; align-items: center; gap: 14px; }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    padding: 16px 34px;
+    border-radius: 999px;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.15s ease, opacity 0.15s ease;
+  }
+  .btn:active { transform: scale(0.97); }
+  .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+  .btn-light { background: #fff; color: #000; }
+  .btn-dark { background: var(--ink); color: #fff; }
+  .btn-wide { width: 100%; max-width: 340px; }
+  .micro { font-size: 12px; color: var(--gray-on-dark); letter-spacing: 0.2px; }
+
+  .section { padding: 72px 0; }
+  h2 {
+    font-size: clamp(24px, 3.4vw, 32px);
+    line-height: 1.15;
+    font-weight: 800;
+    letter-spacing: -0.6px;
+    text-align: center;
+  }
+  .section-lead {
+    margin: 14px auto 0;
+    font-size: 15px;
+    line-height: 1.55;
+    color: var(--gray);
+    max-width: 46ch;
+    text-align: center;
+  }
+
+  .steps-mini { margin-top: 44px; display: flex; flex-direction: column; gap: 22px; }
+  .step-mini { display: flex; gap: 16px; align-items: flex-start; }
+  .step-mini-index {
+    flex-shrink: 0;
+    width: 30px; height: 30px;
+    border-radius: 999px;
+    background: var(--ink);
+    color: #fff;
+    font-size: 13px;
+    font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .step-mini-body { font-size: 15px; line-height: 1.55; color: var(--gray); padding-top: 4px; }
+  .step-mini-body strong { color: var(--ink); }
+
+  .upload-card {
+    margin-top: 44px;
+    border: 1.5px dashed var(--line);
+    border-radius: 20px;
+    padding: 36px 24px;
+    text-align: center;
+    transition: border-color 0.2s ease, background-color 0.2s ease;
+  }
+  .upload-card.has-file { border-style: solid; border-color: var(--line); }
+  .upload-card input[type="file"] { display: none; }
+  .upload-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 12px 24px;
+    border-radius: 999px;
+    background: var(--ink);
+    color: #fff;
+    cursor: pointer;
+  }
+  .upload-hint { margin-top: 12px; font-size: 12px; color: var(--gray-dim); }
+  .preview-thumb {
+    margin: 0 auto 20px;
+    max-width: 200px;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    display: none;
+  }
+  .preview-thumb.show { display: block; }
+  .preview-thumb img { width: 100%; height: auto; }
+
+  .verify-actions { margin-top: 24px; display: flex; justify-content: center; }
+
+  .status-box {
+    margin-top: 20px;
+    padding: 16px 18px;
+    border-radius: 14px;
+    font-size: 14px;
+    line-height: 1.5;
+    text-align: left;
+    display: none;
+  }
+  .status-box.show { display: block; }
+  .status-box.pending { background: rgba(11,11,12,0.04); color: var(--gray); }
+  .status-box.success { background: rgba(31,177,90,0.1); color: #0d7a3a; }
+  .status-box.error { background: rgba(214,69,69,0.08); color: var(--bad); }
+
+  .success-panel { margin-top: 20px; text-align: center; }
+  .success-panel .btn { margin-top: 6px; }
+
+  .spinner {
+    display: inline-block;
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    border: 2px solid rgba(0,0,0,0.15);
+    border-top-color: var(--ink);
+    animation: spin 0.7s linear infinite;
+    vertical-align: -2px;
+    margin-right: 8px;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  footer { padding: 40px 0 32px; border-top: 1px solid var(--line); }
+  footer .wrap { display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center; }
+  .footer-fine { font-size: 12px; color: var(--gray); }
+  .footer-disclaimer { font-size: 11px; color: var(--gray-dim); max-width: 52ch; line-height: 1.5; }
+
+  @media (max-width: 480px) {
+    .section { padding: 56px 0; }
+    .upload-card { padding: 28px 18px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <div class="brand">
+      <div class="brand-name">Asmetry</div>
+    </div>
+    <a class="back-link" href="index.html" data-i18n="back_link">← Back to site</a>
+  </div>
+</nav>
+
+<header class="pay-hero">
+  <div class="wrap">
+    <div class="toggle-row">
+      <div class="glass-toggle" data-lang="en" role="group" aria-label="Language">
+        <div class="thumb"></div>
+        <button type="button" data-set-lang="en" class="active">EN</button>
+        <button type="button" data-set-lang="fr">FR</button>
+      </div>
+    </div>
+    <div class="kicker" data-i18n="pay_kicker">Unlock Asmetry</div>
+    <h1 class="pay-title" data-i18n="pay_title">One step between you and your results.</h1>
+
+    <div class="price-block">
+      <div class="price-main">$1</div>
+      <div class="price-sub">≈ 616 <span data-i18n="price_currency">FCFA (Côte d'Ivoire)</span></div>
+    </div>
+
+    <p class="pay-lead" data-i18n="pay_lead">A single one-time payment unlocks Asmetry — yours to keep, no subscription, ever.</p>
+
+    <div class="cta-row">
+      <a class="btn btn-light btn-wide" id="jeko-btn" href="https://pay.jeko.africa/pl/92f1c591-c1bb-44c1-a4db-a7ce412a9c85" target="_blank" rel="noopener" data-i18n="pay_cta">Pay with Jèko</a>
+      <span class="micro" data-i18n="pay_micro">Wave · Orange Money · MTN · Moov · Djamo · Cards</span>
+    </div>
+  </div>
+</header>
+
+<section class="section">
+  <div class="wrap">
+    <h2 data-i18n="verify_title">Verify your payment</h2>
+    <p class="section-lead" data-i18n="verify_lead">After paying, screenshot your Jèko confirmation page and upload it below — we'll verify it instantly.</p>
+
+    <div class="steps-mini">
+      <div class="step-mini">
+        <div class="step-mini-index">1</div>
+        <div class="step-mini-body" data-i18n="verify_step1"><strong>Pay $1</strong> using the Jèko button above with Wave, Orange Money, MTN, Moov, Djamo or a card.</div>
+      </div>
+      <div class="step-mini">
+        <div class="step-mini-index">2</div>
+        <div class="step-mini-body" data-i18n="verify_step2"><strong>Screenshot</strong> the Jèko confirmation page showing your successful payment.</div>
+      </div>
+      <div class="step-mini">
+        <div class="step-mini-index">3</div>
+        <div class="step-mini-body" data-i18n="verify_step3"><strong>Upload it below</strong> — Claude Vision checks it and unlocks your app link automatically.</div>
+      </div>
+    </div>
+
+    <div class="upload-card" id="upload-card">
+      <div class="preview-thumb" id="preview-thumb"><img id="preview-img" alt="" /></div>
+      <label class="upload-label" for="file-input">
+        <span data-i18n="upload_label">Choose screenshot</span>
+      </label>
+      <input type="file" id="file-input" accept="image/png,image/jpeg,image/webp" />
+      <p class="upload-hint" id="upload-hint" data-i18n="upload_hint">PNG or JPG, up to 8MB.</p>
+
+      <div class="verify-actions">
+        <button class="btn btn-dark" id="verify-btn" data-i18n="verify_cta" disabled>Verify payment</button>
+      </div>
+
+      <div class="status-box" id="status-box"></div>
+
+      <div class="success-panel" id="success-panel" style="display:none;">
+        <a class="btn btn-dark" id="open-app-btn" href="#" data-i18n="open_app_cta">Open Asmetry</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-fine">© <span id="year"></span> Asmetry. <span data-i18n="footer_rights">All rights reserved.</span></div>
+    <p class="footer-disclaimer" data-i18n="footer_disclaimer">Educational content, not medical advice. Consult a professional before starting a program.</p>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  var translations = {
+    en: {
+      back_link: "← Back to site",
+      pay_kicker: "Unlock Asmetry",
+      pay_title: "One step between you and your results.",
+      price_currency: "FCFA (Côte d'Ivoire)",
+      pay_lead: "A single one-time payment unlocks Asmetry — yours to keep, no subscription, ever.",
+      pay_cta: "Pay with Jèko",
+      pay_micro: "Wave · Orange Money · MTN · Moov · Djamo · Cards",
+      verify_title: "Verify your payment",
+      verify_lead: "After paying, screenshot your Jèko confirmation page and upload it below — we'll verify it instantly.",
+      verify_step1: "<strong>Pay $1</strong> using the Jèko button above with Wave, Orange Money, MTN, Moov, Djamo or a card.",
+      verify_step2: "<strong>Screenshot</strong> the Jèko confirmation page showing your successful payment.",
+      verify_step3: "<strong>Upload it below</strong> — Claude Vision checks it and unlocks your app link automatically.",
+      upload_label: "Choose screenshot",
+      upload_hint: "PNG or JPG, up to 8MB.",
+      verify_cta: "Verify payment",
+      verifying: "Verifying your screenshot…",
+      verify_success: "Payment verified. You're in.",
+      open_app_cta: "Open Asmetry",
+      too_large: "That image is too large. Please upload a file under 8MB.",
+      network_error: "Something went wrong reaching the verifier. Please try again.",
+      footer_rights: "All rights reserved.",
+      footer_disclaimer: "Educational content, not medical advice. Consult a professional before starting a program."
+    },
+    fr: {
+      back_link: "← Retour au site",
+      pay_kicker: "Débloquer Asmetry",
+      pay_title: "Une seule étape avant vos résultats.",
+      price_currency: "FCFA (Côte d'Ivoire)",
+      pay_lead: "Un unique paiement débloque Asmetry — à vous pour toujours, sans abonnement.",
+      pay_cta: "Payer avec Jèko",
+      pay_micro: "Wave · Orange Money · MTN · Moov · Djamo · Cartes",
+      verify_title: "Vérifiez votre paiement",
+      verify_lead: "Après le paiement, capturez la page de confirmation Jèko et téléversez-la ci-dessous — vérification instantanée.",
+      verify_step1: "<strong>Payez 1 $</strong> via le bouton Jèko ci-dessus avec Wave, Orange Money, MTN, Moov, Djamo ou une carte.",
+      verify_step2: "<strong>Capturez</strong> la page de confirmation Jèko montrant votre paiement réussi.",
+      verify_step3: "<strong>Téléversez-la ci-dessous</strong> — Claude Vision la vérifie et débloque automatiquement votre lien.",
+      upload_label: "Choisir la capture",
+      upload_hint: "PNG ou JPG, jusqu'à 8 Mo.",
+      verify_cta: "Vérifier le paiement",
+      verifying: "Vérification de votre capture…",
+      verify_success: "Paiement vérifié. C'est bon.",
+      open_app_cta: "Ouvrir Asmetry",
+      too_large: "Cette image est trop volumineuse. Téléversez un fichier de moins de 8 Mo.",
+      network_error: "Une erreur est survenue lors de la vérification. Réessayez.",
+      footer_rights: "Tous droits réservés.",
+      footer_disclaimer: "Contenu éducatif, ne constitue pas un avis médical. Consultez un professionnel avant de commencer un programme."
+    }
+  };
+
+  var i18nEls = document.querySelectorAll('[data-i18n]');
+  var langToggle = document.querySelector('[data-lang]');
+  var langBtns = langToggle.querySelectorAll('button');
+  var currentLang = 'en';
+
+  var htmlKeys = ['verify_step1', 'verify_step2', 'verify_step3'];
+
+  function setLang(lang) {
+    var dict = translations[lang] || translations.en;
+    currentLang = translations[lang] ? lang : 'en';
+    i18nEls.forEach(function (el) {
+      var key = el.getAttribute('data-i18n');
+      if (!dict[key]) return;
+      if (htmlKeys.indexOf(key) !== -1) el.innerHTML = dict[key];
+      else el.textContent = dict[key];
+    });
+    document.documentElement.lang = currentLang;
+    langToggle.classList.toggle('is-fr', currentLang === 'fr');
+    langBtns.forEach(function (b) { b.classList.toggle('active', b.getAttribute('data-set-lang') === currentLang); });
+    try { localStorage.setItem('asmetry_landing_lang', currentLang); } catch (e) {}
+  }
+  langBtns.forEach(function (b) {
+    b.addEventListener('click', function () { setLang(b.getAttribute('data-set-lang')); });
+  });
+  var savedLang = null;
+  try { savedLang = localStorage.getItem('asmetry_landing_lang'); } catch (e) {}
+  setLang(savedLang === 'fr' ? 'fr' : 'en');
+
+  // ---------- upload + verification ----------
+  var fileInput = document.getElementById('file-input');
+  var uploadCard = document.getElementById('upload-card');
+  var previewThumb = document.getElementById('preview-thumb');
+  var previewImg = document.getElementById('preview-img');
+  var verifyBtn = document.getElementById('verify-btn');
+  var statusBox = document.getElementById('status-box');
+  var successPanel = document.getElementById('success-panel');
+  var openAppBtn = document.getElementById('open-app-btn');
+  var uploadHint = document.getElementById('upload-hint');
+
+  var MAX_BYTES = 8 * 1024 * 1024;
+  var selectedDataUrl = null;
+  var selectedMediaType = null;
+
+  function t(key) {
+    return (translations[currentLang] && translations[currentLang][key]) || translations.en[key] || '';
+  }
+
+  function showStatus(kind, text) {
+    statusBox.className = 'status-box show ' + kind;
+    statusBox.textContent = text;
+  }
+  function hideStatus() {
+    statusBox.className = 'status-box';
+    statusBox.textContent = '';
+  }
+
+  fileInput.addEventListener('change', function () {
+    var file = fileInput.files && fileInput.files[0];
+    hideStatus();
+    successPanel.style.display = 'none';
+    if (!file) return;
+
+    if (file.size > MAX_BYTES) {
+      showStatus('error', t('too_large'));
+      fileInput.value = '';
+      verifyBtn.disabled = true;
+      return;
+    }
+
+    selectedMediaType = file.type || 'image/jpeg';
+    var reader = new FileReader();
+    reader.onload = function () {
+      selectedDataUrl = reader.result;
+      previewImg.src = selectedDataUrl;
+      previewThumb.classList.add('show');
+      uploadCard.classList.add('has-file');
+      verifyBtn.disabled = false;
+    };
+    reader.readAsDataURL(file);
+  });
+
+  verifyBtn.addEventListener('click', function () {
+    if (!selectedDataUrl) return;
+    verifyBtn.disabled = true;
+    fileInput.disabled = true;
+    successPanel.style.display = 'none';
+    showStatus('pending', t('verifying'));
+
+    fetch('/api/verify-payment', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ image: selectedDataUrl, mediaType: selectedMediaType, lang: currentLang })
+    })
+      .then(function (res) { return res.json(); })
+      .then(function (data) {
+        fileInput.disabled = false;
+        if (data && data.ok) {
+          showStatus('success', data.reason ? (t('verify_success') + ' ' + data.reason) : t('verify_success'));
+          openAppBtn.href = data.appUrl;
+          successPanel.style.display = 'block';
+          verifyBtn.disabled = true;
+        } else {
+          verifyBtn.disabled = false;
+          showStatus('error', (data && data.reason) || t('network_error'));
+        }
+      })
+      .catch(function () {
+        fileInput.disabled = false;
+        verifyBtn.disabled = false;
+        showStatus('error', t('network_error'));
+      });
+  });
+</script>
+</body>
+</html>
