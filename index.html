@@ -328,10 +328,10 @@
 <header class="hero">
   <div class="wrap">
     <div class="toggle-row">
-      <div class="glass-toggle" data-lang="en" role="group" aria-label="Language">
+      <div class="glass-toggle is-fr" data-lang="fr" role="group" aria-label="Language">
         <div class="thumb"></div>
-        <button type="button" data-set-lang="en" class="active">EN</button>
-        <button type="button" data-set-lang="fr">FR</button>
+        <button type="button" data-set-lang="en">EN</button>
+        <button type="button" data-set-lang="fr" class="active">FR</button>
       </div>
     </div>
     <h1>
@@ -623,7 +623,7 @@
   });
   var savedLang = null;
   try { savedLang = localStorage.getItem('asmetry_landing_lang'); } catch (e) {}
-  setLang(savedLang === 'fr' ? 'fr' : 'en');
+  setLang(savedLang === 'en' ? 'en' : 'fr');
 
   var heroHeight = document.querySelector('.hero').offsetHeight;
   function onScroll() {
