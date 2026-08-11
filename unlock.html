@@ -131,34 +131,6 @@
 
   .success-panel { margin-top: 32px; }
 
-  .iab-overlay {
-    position: fixed;
-    inset: 0;
-    z-index: 999;
-    background: var(--ink);
-    display: none;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 32px 28px;
-    text-align: center;
-  }
-  .iab-badge {
-    width: 52px;
-    height: 52px;
-    border-radius: 50%;
-    background: var(--glass-bg);
-    border: 1px solid var(--glass-border);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 22px;
-    margin-bottom: 20px;
-  }
-  .iab-title { font-size: 19px; font-weight: 700; letter-spacing: -0.2px; max-width: 26ch; }
-  .iab-body { margin: 10px 0 26px; font-size: 14px; line-height: 1.6; color: var(--gray-on-dark); max-width: 32ch; }
-  .iab-copied { margin-top: 12px; font-size: 13px; color: var(--gray-on-dark); }
-
   footer { padding: 40px 0 32px; border-top: 1px solid var(--line-dark); }
   footer .wrap { display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center; }
   .footer-fine { font-size: 12px; color: var(--gray-on-dark); }
@@ -169,14 +141,6 @@
 </style>
 </head>
 <body>
-
-<div class="iab-overlay" id="iab-overlay">
-  <div class="iab-badge">↗</div>
-  <div class="iab-title" data-i18n="iab_title">Ouvrez ce lien dans votre navigateur</div>
-  <p class="iab-body" data-i18n="iab_body">Le paiement ne peut pas s'ouvrir dans le navigateur intégré de TikTok. Appuyez sur ⋯ en haut de l'écran, puis choisissez « Ouvrir dans le navigateur ».</p>
-  <button type="button" class="btn btn-light btn-wide" id="iab-copy-btn" data-i18n="iab_copy">Copier le lien</button>
-  <div class="iab-copied" id="iab-copied" style="visibility:hidden;" data-i18n="iab_copied">Lien copié !</div>
-</div>
 
 <nav>
   <div class="wrap">
@@ -232,11 +196,7 @@
       pay_cta: "Pay",
       pay_micro: "Wave",
       open_app_cta: "Open Asmetry",
-      footer_rights: "All rights reserved.",
-      iab_title: "Open this link in your browser",
-      iab_body: "Payment can't open inside TikTok's built-in browser. Tap ⋯ at the top of the screen, then choose \"Open in browser\".",
-      iab_copy: "Copy link",
-      iab_copied: "Link copied!"
+      footer_rights: "All rights reserved."
     },
     fr: {
       back_link: "← Retour au site",
@@ -246,11 +206,7 @@
       pay_cta: "Payer",
       pay_micro: "Wave",
       open_app_cta: "Ouvrir Asmetry",
-      footer_rights: "Tous droits réservés.",
-      iab_title: "Ouvrez ce lien dans votre navigateur",
-      iab_body: "Le paiement ne peut pas s'ouvrir dans le navigateur intégré de TikTok. Appuyez sur ⋯ en haut de l'écran, puis choisissez « Ouvrir dans le navigateur ».",
-      iab_copy: "Copier le lien",
-      iab_copied: "Lien copié !"
+      footer_rights: "Tous droits réservés."
     }
   };
 
@@ -290,55 +246,6 @@
       successPanel.style.display = 'block';
     }
   });
-
-  // TikTok's (and Instagram/Facebook's) in-app browser refuses to open the Wave payment
-  // link — it just shows a native "can't open this site here" dialog. We detect that
-  // webview and get the visitor into a real browser instead of leaving them stuck.
-  (function escapeInAppBrowser() {
-    var ua = navigator.userAgent || '';
-    var isInApp = /musical_ly|TikTok|BytedanceWebview|FBAN|FBAV|Instagram|Line\/|MicroMessenger/i.test(ua);
-    if (!isInApp) return;
-
-    var overlay = document.getElementById('iab-overlay');
-    overlay.style.display = 'flex';
-
-    var copyBtn = document.getElementById('iab-copy-btn');
-    var copiedMsg = document.getElementById('iab-copied');
-    copyBtn.addEventListener('click', function () {
-      copyText(location.href, function () {
-        copiedMsg.style.visibility = 'visible';
-        setTimeout(function () { copiedMsg.style.visibility = 'hidden'; }, 2500);
-      });
-    });
-
-    // Android in-app browsers hand off "intent://" links to a real browser automatically —
-    // no tap needed. iOS has no equivalent, so the overlay above is the only option there.
-    if (/Android/i.test(ua)) {
-      var noScheme = location.href.replace(/^https?:\/\//, '');
-      var fallback = encodeURIComponent(location.href);
-      location.href = 'intent://' + noScheme + '#Intent;scheme=https;package=com.android.chrome;S.browser_fallback_url=' + fallback + ';end;';
-    }
-  })();
-
-  function copyText(text, onDone) {
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(text).then(onDone).catch(function () { legacyCopy(text, onDone); });
-    } else {
-      legacyCopy(text, onDone);
-    }
-  }
-  function legacyCopy(text, onDone) {
-    var ta = document.createElement('textarea');
-    ta.value = text;
-    ta.style.position = 'fixed';
-    ta.style.opacity = '0';
-    document.body.appendChild(ta);
-    ta.focus();
-    ta.select();
-    try { document.execCommand('copy'); } catch (e) {}
-    document.body.removeChild(ta);
-    onDone();
-  }
 </script>
 </body>
 </html>
