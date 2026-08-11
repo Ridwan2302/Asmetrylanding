@@ -23,7 +23,6 @@
     --gray-on-dark: rgba(255,255,255,0.62);
     --glass-bg: rgba(255,255,255,0.08);
     --glass-border: rgba(255,255,255,0.18);
-    --glass-thumb: rgba(255,255,255,0.22);
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
@@ -43,40 +42,6 @@
   nav .wrap { max-width: 1120px; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
   .brand-name { font-size: 16px; font-weight: 700; letter-spacing: -0.2px; }
   .back-link { font-size: 13px; font-weight: 600; color: var(--gray-on-dark); text-decoration: none; }
-
-  .toggle-row { display: flex; justify-content: center; margin-bottom: 28px; }
-  .glass-toggle {
-    position: relative;
-    display: inline-flex;
-    border-radius: 999px;
-    background: var(--glass-bg);
-    border: 1px solid var(--glass-border);
-    padding: 2px;
-  }
-  .glass-toggle .thumb {
-    position: absolute;
-    top: 2px; bottom: 2px; left: 2px;
-    width: calc(50% - 2px);
-    border-radius: 999px;
-    background: var(--glass-thumb);
-    transition: transform 0.25s ease;
-  }
-  .glass-toggle.is-fr .thumb { transform: translateX(100%); }
-  .glass-toggle button {
-    position: relative;
-    z-index: 1;
-    width: 64px;
-    padding: 4px 0;
-    background: none;
-    border: none;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.4px;
-    color: var(--gray-on-dark);
-    cursor: pointer;
-    transition: color 0.3s ease;
-  }
-  .glass-toggle button.active { color: #fff; }
 
   .pay-hero { padding: 40px 0 72px; text-align: center; }
   h1.pay-title, h2.pay-title {
@@ -201,14 +166,6 @@
 
 <header class="pay-hero">
   <div class="wrap">
-    <div class="toggle-row">
-      <div class="glass-toggle is-fr" data-lang="fr" role="group" aria-label="Language">
-        <div class="thumb"></div>
-        <button type="button" data-set-lang="en">EN</button>
-        <button type="button" data-set-lang="fr" class="active">FR</button>
-      </div>
-    </div>
-
     <h1 class="pay-title" data-i18n="pay_hero">1$ puis gratuit pour toujours.</h1>
 
     <div class="price-block">
@@ -309,29 +266,17 @@
     }
   };
 
-  var i18nEls = document.querySelectorAll('[data-i18n]');
-  var langToggle = document.querySelector('[data-lang]');
-  var langBtns = langToggle.querySelectorAll('button');
-
-  function setLang(lang) {
-    var dict = translations[lang] || translations.fr;
-    var resolved = translations[lang] ? lang : 'fr';
-    i18nEls.forEach(function (el) {
-      var key = el.getAttribute('data-i18n');
-      if (dict[key]) el.textContent = dict[key];
-    });
-    document.documentElement.lang = resolved;
-    langToggle.classList.toggle('is-fr', resolved === 'fr');
-    langBtns.forEach(function (b) { b.classList.toggle('active', b.getAttribute('data-set-lang') === resolved); });
-    try { localStorage.setItem('asmetry_landing_lang', resolved); } catch (e) {}
-  }
-  langBtns.forEach(function (b) {
-    b.addEventListener('click', function () { setLang(b.getAttribute('data-set-lang')); });
-  });
-  // French is the default on first visit; only a previously saved "en" choice overrides it.
+  // No language switcher on this page — it simply follows whatever language the visitor
+  // already chose on the main site (same "asmetry_landing_lang" key), defaulting to French.
   var savedLang = null;
   try { savedLang = localStorage.getItem('asmetry_landing_lang'); } catch (e) {}
-  setLang(savedLang === 'en' ? 'en' : 'fr');
+  var lang = savedLang === 'en' ? 'en' : 'fr';
+  var dict = translations[lang];
+  document.querySelectorAll('[data-i18n]').forEach(function (el) {
+    var key = el.getAttribute('data-i18n');
+    if (dict[key]) el.textContent = dict[key];
+  });
+  document.documentElement.lang = lang;
 
   // Smooth-scroll from the "Alternative gratuite" teaser button down to the free-option section,
   // instead of navigating anywhere — everything stays on this one page.
