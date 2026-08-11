@@ -105,14 +105,10 @@
 
   if (!isInApp) {
     location.replace(destination);
-  } else if (/Android/i.test(ua)) {
-    // Android in-app browsers hand off "intent://" links to a real browser automatically.
-    var noScheme = destination.replace(/^https?:\/\//, '');
-    var fallback = encodeURIComponent(destination);
-    location.href = 'intent://' + noScheme + '#Intent;scheme=https;package=com.android.chrome;S.browser_fallback_url=' + fallback + ';end;';
-    showStuck(); // shown only if the intent hand-off doesn't fire
   } else {
-    // iOS (and anything else) has no equivalent auto-escape — guide the visitor instead.
+    // No automatic escape attempt (Android's "intent://" hand-off throws a native
+    // "Action can't be completed" error in some in-app browsers) — go straight to
+    // clear manual instructions instead.
     showStuck();
   }
 
