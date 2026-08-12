@@ -290,6 +290,12 @@
     freeAltSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
   });
 
+  // Auto-nudge the page down toward the free-option section 2s after load, so visitors notice
+  // there's more below the fold without having to scroll themselves.
+  setTimeout(function () {
+    freeAltSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 2000);
+
   // Fade the free-alt section in as it comes into view (same motion language as index.html).
   var revealEls = document.querySelectorAll('.reveal');
   var io = new IntersectionObserver(function (entries) {
