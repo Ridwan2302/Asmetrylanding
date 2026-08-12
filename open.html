@@ -42,6 +42,24 @@
   }
   .title { font-size: 19px; font-weight: 700; letter-spacing: -0.2px; max-width: 26ch; }
   .body { margin: 10px 0 26px; font-size: 14px; line-height: 1.6; color: var(--gray-on-dark); max-width: 32ch; }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: 600;
+    padding: 16px 34px;
+    border-radius: 999px;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    background: #fff;
+    color: #000;
+    width: 100%;
+    max-width: 340px;
+  }
+  .btn:active { transform: scale(0.97); }
+  .copied { margin-top: 12px; font-size: 13px; color: var(--gray-on-dark); visibility: hidden; }
 </style>
 </head>
 <body>
@@ -49,18 +67,24 @@
 <div id="stuck" style="display:none;">
   <div class="badge">↗</div>
   <div class="title" id="stuck-title">Ouvrez ce lien dans votre navigateur</div>
-  <p class="body" id="stuck-body">Appuyez sur les trois points ⋯ en haut de l'écran, puis choisissez « Ouvrir dans le navigateur ».</p>
+  <p class="body" id="stuck-body">Appuyez sur ⋯ en haut de l'écran, puis choisissez « Ouvrir dans le navigateur ».</p>
+  <button type="button" class="btn" id="copy-btn">Copier le lien</button>
+  <div class="copied" id="copied">Lien copié !</div>
 </div>
 
 <script>
   var TEXT = {
     en: {
       title: "Open this link in your browser",
-      body: "Tap the three dots ⋯ at the top of the screen, then choose “Open in browser”."
+      body: "Tap ⋯ at the top of the screen, then choose “Open in browser”.",
+      copy: "Copy link",
+      copied: "Link copied!"
     },
     fr: {
       title: "Ouvrez ce lien dans votre navigateur",
-      body: "Appuyez sur les trois points ⋯ en haut de l'écran, puis choisissez « Ouvrir dans le navigateur »."
+      body: "Appuyez sur ⋯ en haut de l'écran, puis choisissez « Ouvrir dans le navigateur ».",
+      copy: "Copier le lien",
+      copied: "Lien copié !"
     }
   };
   var lang = 'fr';
@@ -91,7 +115,37 @@
   function showStuck() {
     document.getElementById('stuck-title').textContent = t.title;
     document.getElementById('stuck-body').textContent = t.body;
+    document.getElementById('copy-btn').textContent = t.copy;
+    document.getElementById('copied').textContent = t.copied;
     document.getElementById('stuck').style.display = 'block';
+
+    document.getElementById('copy-btn').addEventListener('click', function () {
+      copyText(destination, function () {
+        var copied = document.getElementById('copied');
+        copied.style.visibility = 'visible';
+        setTimeout(function () { copied.style.visibility = 'hidden'; }, 2500);
+      });
+    });
+  }
+
+  function copyText(text, onDone) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(onDone).catch(function () { legacyCopy(text, onDone); });
+    } else {
+      legacyCopy(text, onDone);
+    }
+  }
+  function legacyCopy(text, onDone) {
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.focus();
+    ta.select();
+    try { document.execCommand('copy'); } catch (e) {}
+    document.body.removeChild(ta);
+    onDone();
   }
 </script>
 </body>
