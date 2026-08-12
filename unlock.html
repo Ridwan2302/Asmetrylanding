@@ -315,17 +315,23 @@
     }
   });
 
-  // Option 2 — one click through to the partner offer reveals the app link.
+  // Option 2 — after the visitor has followed the partner survey a few times, reveal the app link.
   var offerBtn = document.getElementById('offer-btn');
   var offerSuccessPanel = document.getElementById('offer-success-panel');
   var orDivider = document.getElementById('or-divider');
   var scrollCtaRow = document.getElementById('scroll-cta-row');
-  offerBtn.addEventListener('click', function () {
-    offerBtn.style.display = 'none';
-    offerSuccessPanel.style.display = 'block';
-    // Free access is granted — the paid option no longer applies, so drop the "or" prompt above.
-    orDivider.style.display = 'none';
-    scrollCtaRow.style.display = 'none';
+  var OFFER_REQUIRED_CLICKS = 5;
+  var offerClicks = 0;
+  offerBtn.addEventListener('click', function (e) {
+    offerClicks++;
+    if (offerClicks >= OFFER_REQUIRED_CLICKS) {
+      e.preventDefault();
+      offerBtn.style.display = 'none';
+      offerSuccessPanel.style.display = 'block';
+      // Free access is granted — the paid option no longer applies, so drop the "or" prompt above.
+      orDivider.style.display = 'none';
+      scrollCtaRow.style.display = 'none';
+    }
   });
 </script>
 </body>
