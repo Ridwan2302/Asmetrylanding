@@ -290,11 +290,28 @@
     freeAltSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
   });
 
-  // Auto-nudge the page down toward the free-option section 7s after load, so visitors notice
-  // there's more below the fold without having to scroll themselves.
+  // Slower, duration-controlled scroll (native scrollIntoView's "smooth" speed isn't
+  // adjustable) — used for the auto-nudge below so its speed can be tuned independently.
+  function animateScrollTo(targetY, duration) {
+    var startY = window.scrollY;
+    var diff = targetY - startY;
+    if (Math.abs(diff) < 2) return;
+    var start = performance.now();
+    function step(now) {
+      var progress = Math.min(1, (now - start) / duration);
+      var eased = progress < 0.5 ? 2 * progress * progress : 1 - Math.pow(-2 * progress + 2, 2) / 2;
+      window.scrollTo(0, startY + diff * eased);
+      if (progress < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+
+  // Auto-nudge the page down toward the free-option section 4s after load, so visitors notice
+  // there's more below the fold without having to scroll themselves. Runs at half the speed of
+  // a normal smooth-scroll (1200ms instead of ~600ms) so it reads as a gentle nudge, not a jump.
   setTimeout(function () {
-    freeAltSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }, 7000);
+    animateScrollTo(freeAltSection.getBoundingClientRect().top + window.scrollY, 1200);
+  }, 4000);
 
   // Fade the free-alt section in as it comes into view (same motion language as index.html).
   var revealEls = document.querySelectorAll('.reveal');
