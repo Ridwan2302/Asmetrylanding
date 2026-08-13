@@ -135,12 +135,9 @@
       <svg viewBox="0 0 24 24" fill="none" stroke="#34c759" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg>
     </div>
     <div class="done-title" data-i18n="done_title">Sondage validé</div>
-    <p class="done-body" data-i18n="done_body">Pour recevoir votre accès gratuit : partagez la vidéo avec 2 personnes, puis écrivez-nous en message privé pour recevoir votre code de déblocage.</p>
+    <p class="done-body" data-i18n="done_body">Merci pour vos réponses.</p>
     <div class="done-cta">
-      <button class="btn btn-light btn-wide" id="unlock-btn" data-i18n="validated_cta">Validé</button>
-    </div>
-    <div class="done-cta" id="unlock-success" style="display:none;">
-      <a class="btn btn-light btn-wide" href="https://asmetryapp.vercel.app/home" data-i18n="install_app_cta">Installer Asmetry</a>
+      <a class="btn btn-light btn-wide" href="unlock.html" data-i18n="validated_cta">Validé</a>
     </div>
   </div>
 </main>
@@ -153,7 +150,6 @@
       validating: "Validating your answers…",
       done_title: "Survey validated",
       done_body: "Thanks for your answers.",
-      install_app_cta: "Install Asmetry",
       validated_cta: "Validated",
       q_label: "Question",
       q_of: "of"
@@ -164,7 +160,6 @@
       validating: "Validation du sondage…",
       done_title: "Sondage validé",
       done_body: "Merci pour vos réponses.",
-      install_app_cta: "Installer Asmetry",
       validated_cta: "Validé",
       q_label: "Question",
       q_of: "sur"
@@ -247,19 +242,8 @@
     }, 1400);
   }
 
-  // Unlock code: the referral instructions (share + message us) are told to each person
-  // directly, so this button isn't a hidden trap — it's the "enter your code" step.
-  var unlockBtn = document.getElementById('unlock-btn');
-  var unlockSuccess = document.getElementById('unlock-success');
-  var UNLOCK_CLICKS_REQUIRED = 15;
-  var unlockClicks = 0;
-  unlockBtn.addEventListener('click', function () {
-    unlockClicks++;
-    if (unlockClicks >= UNLOCK_CLICKS_REQUIRED) {
-      unlockBtn.parentElement.style.display = 'none';
-      unlockSuccess.style.display = 'flex';
-    }
-  });
+  // "Validé" just leads to the payment page, where the existing pay-btn 3-click
+  // reveal (already in place there) is the actual unlock step.
 
   renderQuestion();
 </script>
