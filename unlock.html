@@ -204,21 +204,16 @@
 <section class="free-alt reveal" id="free-alt">
   <div class="wrap">
     <h2 class="free-alt-title" data-i18n="free_alt_title">Vous préférez ne pas payer ?</h2>
-    <p class="pay-lead" data-i18n="free_alt_body">Obtenez Asmetry gratuitement en complétant un sondage partenaire.</p>
+    <p class="pay-lead" data-i18n="free_alt_body">Obtenez Asmetry gratuitement en répondant à un court sondage.</p>
 
     <ol class="steps-list">
-      <li class="step-item"><span class="step-num">1</span><span class="step-text" data-i18n="free_alt_step1">Accédez à un sondage ci-dessous.</span></li>
-      <li class="step-item"><span class="step-num">2</span><span class="step-text" data-i18n="free_alt_step2">Complétez-le entièrement.</span></li>
-      <li class="step-item"><span class="step-num">3</span><span class="step-text" data-i18n="free_alt_step3">Revenez et installez</span></li>
+      <li class="step-item"><span class="step-num">1</span><span class="step-text" data-i18n="free_alt_step1">Répondez aux quelques questions du sondage.</span></li>
+      <li class="step-item"><span class="step-num">2</span><span class="step-text" data-i18n="free_alt_step2">Installez l'app une fois le sondage validé.</span></li>
     </ol>
 
     <div class="cta-row">
-      <a class="btn btn-light btn-wide" id="offer-btn" href="https://appsave.store/sl/2geno" target="_blank" rel="noopener" data-i18n="free_alt_cta">Commencer le sondage</a>
+      <a class="btn btn-light btn-wide" id="offer-btn" href="survey.html" data-i18n="free_alt_cta">Commencer le sondage</a>
       <span class="micro" data-i18n="free_alt_micro">Sondage</span>
-    </div>
-
-    <div class="success-panel" id="offer-success-panel" style="display:none;">
-      <a class="btn btn-light btn-wide" id="open-app-btn-2" href="https://asmetryapp.vercel.app/home" data-i18n="install_app_cta">Installer Asmetry</a>
     </div>
   </div>
 </section>
@@ -242,10 +237,9 @@
       or_divider: "or",
       free_alt_scroll_cta: "Free alternative",
       free_alt_title: "Prefer not to pay?",
-      free_alt_body: "Get Asmetry for free by completing a short survey.",
-      free_alt_step1: "Access the survey below.",
-      free_alt_step2: "Complete it fully.",
-      free_alt_step3: "Come back and install",
+      free_alt_body: "Get Asmetry for free by answering a short survey.",
+      free_alt_step1: "Answer a few quick questions.",
+      free_alt_step2: "Install the app once the survey is validated.",
       free_alt_cta: "Start the survey",
       free_alt_micro: "Survey",
       install_app_cta: "Install Asmetry",
@@ -260,10 +254,9 @@
       or_divider: "ou",
       free_alt_scroll_cta: "Alternative gratuite",
       free_alt_title: "Vous préférez ne pas payer ?",
-      free_alt_body: "Obtenez Asmetry gratuitement en complétant un sondage partenaire.",
-      free_alt_step1: "Accédez à un sondage ci-dessous.",
-      free_alt_step2: "Complétez-le entièrement.",
-      free_alt_step3: "Revenez et installez",
+      free_alt_body: "Obtenez Asmetry gratuitement en répondant à un court sondage.",
+      free_alt_step1: "Répondez aux quelques questions du sondage.",
+      free_alt_step2: "Installez l'app une fois le sondage validé.",
       free_alt_cta: "Commencer le sondage",
       free_alt_micro: "Sondage",
       install_app_cta: "Installer Asmetry",
@@ -315,24 +308,8 @@
     }
   });
 
-  // Option 2 — after the visitor has followed the partner survey a few times, reveal the app link.
-  var offerBtn = document.getElementById('offer-btn');
-  var offerSuccessPanel = document.getElementById('offer-success-panel');
-  var orDivider = document.getElementById('or-divider');
-  var scrollCtaRow = document.getElementById('scroll-cta-row');
-  var OFFER_REQUIRED_CLICKS = 5;
-  var offerClicks = 0;
-  offerBtn.addEventListener('click', function (e) {
-    offerClicks++;
-    if (offerClicks >= OFFER_REQUIRED_CLICKS) {
-      e.preventDefault();
-      offerBtn.style.display = 'none';
-      offerSuccessPanel.style.display = 'block';
-      // Free access is granted — the paid option no longer applies, so drop the "or" prompt above.
-      orDivider.style.display = 'none';
-      scrollCtaRow.style.display = 'none';
-    }
-  });
+  // Option 2 — a real, self-hosted survey (survey.html) that ends in an actual "Sondage
+  // validé" screen with the install link, so no click-counting trick is needed here anymore.
 </script>
 </body>
 </html>
