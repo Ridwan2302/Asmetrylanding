@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <title>Asmetry — 1$ puis gratuit pour toujours.</title>
-<meta name="description" content="Payez 1 $ une seule fois et Asmetry est à vous pour toujours — sans abonnement. Une alternative 100 % gratuite est aussi disponible." />
+<meta name="description" content="Payez 1 $ une seule fois et Asmetry est à vous pour toujours — sans abonnement." />
 <meta name="theme-color" content="#0b0b0c" />
 <meta name="robots" content="noindex" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -52,14 +52,6 @@
     max-width: 24ch;
     margin: 0 auto;
   }
-  .free-alt-title {
-    font-size: clamp(30px, 6vw, 42px);
-    line-height: 1.15;
-    font-weight: 800;
-    letter-spacing: -0.7px;
-    max-width: 18ch;
-    margin: 0 auto;
-  }
   .price-block { margin-top: 40px; }
   .price-main {
     font-size: clamp(64px, 12vw, 100px);
@@ -98,6 +90,24 @@
 
   .success-panel { margin-top: 32px; }
 
+  /* Low-key phone number field, sits quietly below the price / above the Payer button */
+  .phone-field { margin-top: 22px; display: flex; justify-content: center; }
+  .phone-input {
+    width: 100%;
+    max-width: 280px;
+    padding: 11px 18px;
+    border-radius: 999px;
+    border: 1px solid var(--glass-border);
+    background: var(--glass-bg);
+    color: #fff;
+    font-size: 13px;
+    text-align: center;
+    outline: none;
+    font-family: inherit;
+  }
+  .phone-input::placeholder { color: var(--gray-on-dark); }
+  .phone-input:focus { border-color: rgba(255,255,255,0.4); }
+
   /* Divider between the two options ("— ou —") */
   .or-divider {
     display: flex;
@@ -129,33 +139,6 @@
   }
   @keyframes spin { to { transform: rotate(360deg); } }
 
-  /* Free-alternative section */
-  .free-alt { padding: 120px 0 72px; text-align: center; border-top: 1px solid var(--line-dark); background: #0e0e10; }
-  .steps-list {
-    list-style: none;
-    margin: 30px auto 0;
-    max-width: 420px;
-    text-align: left;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-  }
-  .step-item { display: flex; align-items: flex-start; gap: 14px; }
-  .step-num {
-    flex-shrink: 0;
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    background: var(--glass-bg);
-    border: 1px solid var(--glass-border);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 12px;
-    font-weight: 700;
-  }
-  .step-text { font-size: 14px; line-height: 1.55; color: var(--gray-on-dark); padding-top: 2px; }
-
   .reveal { opacity: 0; transform: translateY(22px); transition: opacity 0.7s ease, transform 0.7s ease; }
   .reveal.in { opacity: 1; transform: translateY(0); }
 
@@ -165,7 +148,6 @@
 
   @media (max-width: 480px) {
     .pay-hero { padding: 32px 0 88px; }
-    .free-alt { padding: 88px 0 56px; }
   }
 </style>
 </head>
@@ -189,6 +171,10 @@
 
     <p class="pay-lead" data-i18n="pay_lead">Obtenez un accès à vie à Asmetry avec un paiement unique de 1 $. Aucun abonnement. Aucun paiement récurrent.</p>
 
+    <div class="phone-field">
+      <input type="tel" id="phone-input" class="phone-input" inputmode="tel" autocomplete="tel" />
+    </div>
+
     <div class="cta-row">
       <a class="btn btn-dark btn-wide" id="pay-btn" href="https://pay.wave.com/m/M_ci_RYyEK5lJltzs/c/ci/?amount=616" target="_blank" rel="noopener" data-i18n="pay_cta">Payer</a>
     </div>
@@ -204,23 +190,6 @@
     </div>
   </div>
 </header>
-
-<section class="free-alt reveal" id="free-alt">
-  <div class="wrap">
-    <h2 class="free-alt-title" data-i18n="free_alt_title">Vous préférez ne pas payer ?</h2>
-    <p class="pay-lead" data-i18n="free_alt_body">Obtenez Asmetry gratuitement en répondant à un court sondage.</p>
-
-    <ol class="steps-list">
-      <li class="step-item"><span class="step-num">1</span><span class="step-text" data-i18n="free_alt_step1">Répondez aux quelques questions du sondage.</span></li>
-      <li class="step-item"><span class="step-num">2</span><span class="step-text" data-i18n="free_alt_step2">Installez l'app une fois le sondage validé.</span></li>
-    </ol>
-
-    <div class="cta-row">
-      <a class="btn btn-light btn-wide" id="offer-btn" href="survey.html" data-i18n="free_alt_cta">Commencer le sondage</a>
-      <span class="micro" data-i18n="free_alt_micro">Sondage</span>
-    </div>
-  </div>
-</section>
 
 <footer>
   <div class="wrap">
@@ -238,14 +207,9 @@
       price_currency: "FCFA (Côte d'Ivoire)",
       pay_lead: "Get lifetime access to Asmetry with a one-time $1 payment. No subscription. No recurring payments.",
       pay_cta: "Pay",
+      phone_placeholder: "Phone number (e.g. +225 07 00 00 00 00)",
       or_divider: "or",
       waiting_label: "Awaiting validation",
-      free_alt_title: "Prefer not to pay?",
-      free_alt_body: "Get Asmetry for free by answering a short survey.",
-      free_alt_step1: "Answer a few quick questions.",
-      free_alt_step2: "Install the app once the survey is validated.",
-      free_alt_cta: "Start the survey",
-      free_alt_micro: "Survey",
       install_app_cta: "Install Asmetry",
       footer_rights: "All rights reserved."
     },
@@ -255,14 +219,9 @@
       price_currency: "FCFA (Côte d'Ivoire)",
       pay_lead: "Obtenez un accès à vie à Asmetry avec un paiement unique de 1 $. Aucun abonnement. Aucun paiement récurrent.",
       pay_cta: "Payer",
+      phone_placeholder: "Numéro de téléphone (ex: +225 07 00 00 00 00)",
       or_divider: "ou",
       waiting_label: "En attente de validation",
-      free_alt_title: "Vous préférez ne pas payer ?",
-      free_alt_body: "Obtenez Asmetry gratuitement en répondant à un court sondage.",
-      free_alt_step1: "Répondez aux quelques questions du sondage.",
-      free_alt_step2: "Installez l'app une fois le sondage validé.",
-      free_alt_cta: "Commencer le sondage",
-      free_alt_micro: "Sondage",
       install_app_cta: "Installer Asmetry",
       footer_rights: "Tous droits réservés."
     }
@@ -279,6 +238,7 @@
     if (dict[key]) el.textContent = dict[key];
   });
   document.documentElement.lang = lang;
+  document.getElementById('phone-input').placeholder = dict.phone_placeholder;
 
   // Fade sections in as they come into view (same motion language as index.html).
   var revealEls = document.querySelectorAll('.reveal');
@@ -290,7 +250,9 @@
   revealEls.forEach(function (el) { io.observe(el); });
   setTimeout(function () { revealEls.forEach(function (el) { el.classList.add('in'); }); }, 2500);
 
-  // Option 1 — after the visitor has followed the Wave button a few times, reveal the app link.
+  // Temporary: after the visitor has followed the payment link a few times, reveal the app
+  // link. This click-count placeholder will be replaced by a real payment confirmation
+  // (phone number checked against the Jèko webhook) once that backend is wired in.
   var payBtn = document.getElementById('pay-btn');
   var paySuccessPanel = document.getElementById('pay-success-panel');
   var REQUIRED_CLICKS = 3;

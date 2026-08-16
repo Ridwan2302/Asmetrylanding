@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <title>Asmetry — 1$ puis gratuit pour toujours.</title>
-<meta name="description" content="Payez 1 $ une seule fois et Asmetry est à vous pour toujours — sans abonnement. Une alternative 100 % gratuite est aussi disponible." />
+<meta name="description" content="Payez 1 $ une seule fois et Asmetry est à vous pour toujours — sans abonnement." />
 <meta name="theme-color" content="#0b0b0c" />
 <meta name="robots" content="noindex" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -52,14 +52,6 @@
     max-width: 24ch;
     margin: 0 auto;
   }
-  .free-alt-title {
-    font-size: clamp(30px, 6vw, 42px);
-    line-height: 1.15;
-    font-weight: 800;
-    letter-spacing: -0.7px;
-    max-width: 18ch;
-    margin: 0 auto;
-  }
   .price-block { margin-top: 40px; }
   .price-main {
     font-size: clamp(64px, 12vw, 100px);
@@ -98,57 +90,23 @@
 
   .success-panel { margin-top: 32px; }
 
-  /* Divider between the two options ("— ou —") */
-  .or-divider {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin: 30px auto 0;
-    max-width: 220px;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    color: var(--gray-on-dark);
-  }
-  .or-divider::before, .or-divider::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: var(--line-dark);
-  }
-
-  /* CTA that reveals the free alternative below */
-  .cta-row-secondary { margin-top: 18px; display: flex; justify-content: center; }
-  .cta-row-secondary .btn svg { transition: transform 0.2s ease; }
-  .cta-row-secondary .btn:active svg { transform: translateY(2px); }
-
-  /* Free-alternative section */
-  .free-alt { padding: 120px 0 72px; text-align: center; border-top: 1px solid var(--line-dark); background: #0e0e10; }
-  .steps-list {
-    list-style: none;
-    margin: 30px auto 0;
-    max-width: 420px;
-    text-align: left;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-  }
-  .step-item { display: flex; align-items: flex-start; gap: 14px; }
-  .step-num {
-    flex-shrink: 0;
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    background: var(--glass-bg);
+  /* Low-key phone number field, sits quietly below the price / above the Payer button */
+  .phone-field { margin-top: 22px; display: flex; justify-content: center; }
+  .phone-input {
+    width: 100%;
+    max-width: 280px;
+    padding: 11px 18px;
+    border-radius: 999px;
     border: 1px solid var(--glass-border);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 12px;
-    font-weight: 700;
+    background: var(--glass-bg);
+    color: #fff;
+    font-size: 13px;
+    text-align: center;
+    outline: none;
+    font-family: inherit;
   }
-  .step-text { font-size: 14px; line-height: 1.55; color: var(--gray-on-dark); padding-top: 2px; }
+  .phone-input::placeholder { color: var(--gray-on-dark); }
+  .phone-input:focus { border-color: rgba(255,255,255,0.4); }
 
   .reveal { opacity: 0; transform: translateY(22px); transition: opacity 0.7s ease, transform 0.7s ease; }
   .reveal.in { opacity: 1; transform: translateY(0); }
@@ -159,7 +117,6 @@
 
   @media (max-width: 480px) {
     .pay-hero { padding: 32px 0 88px; }
-    .free-alt { padding: 88px 0 56px; }
   }
 </style>
 </head>
@@ -183,6 +140,10 @@
 
     <p class="pay-lead" data-i18n="pay_lead">Obtenez un accès à vie à Asmetry avec un paiement unique de 1 $. Aucun abonnement. Aucun paiement récurrent.</p>
 
+    <div class="phone-field">
+      <input type="tel" id="phone-input" class="phone-input" inputmode="tel" autocomplete="tel" />
+    </div>
+
     <div class="cta-row">
       <a class="btn btn-dark btn-wide" id="pay-btn" href="https://pay.wave.com/m/M_ci_RYyEK5lJltzs/c/ci/?amount=616" target="_blank" rel="noopener" data-i18n="pay_cta">Payer</a>
     </div>
@@ -190,33 +151,8 @@
     <div class="success-panel" id="pay-success-panel" style="display:none;">
       <a class="btn btn-dark btn-wide" id="open-app-btn" href="https://asmetryapp.vercel.app/home" data-i18n="install_app_cta">Installer Asmetry</a>
     </div>
-
-    <div class="or-divider" id="or-divider" data-i18n="or_divider">ou</div>
-    <div class="cta-row-secondary" id="scroll-cta-row">
-      <a href="#free-alt" class="btn btn-light" id="scroll-to-free-alt">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M6 13l6 6 6-6" /></svg>
-        <span data-i18n="free_alt_scroll_cta">Alternative gratuite</span>
-      </a>
-    </div>
   </div>
 </header>
-
-<section class="free-alt reveal" id="free-alt">
-  <div class="wrap">
-    <h2 class="free-alt-title" data-i18n="free_alt_title">Vous préférez ne pas payer ?</h2>
-    <p class="pay-lead" data-i18n="free_alt_body">Obtenez Asmetry gratuitement en répondant à un court sondage.</p>
-
-    <ol class="steps-list">
-      <li class="step-item"><span class="step-num">1</span><span class="step-text" data-i18n="free_alt_step1">Répondez aux quelques questions du sondage.</span></li>
-      <li class="step-item"><span class="step-num">2</span><span class="step-text" data-i18n="free_alt_step2">Installez l'app une fois le sondage validé.</span></li>
-    </ol>
-
-    <div class="cta-row">
-      <a class="btn btn-light btn-wide" id="offer-btn" href="survey.html" data-i18n="free_alt_cta">Commencer le sondage</a>
-      <span class="micro" data-i18n="free_alt_micro">Sondage</span>
-    </div>
-  </div>
-</section>
 
 <footer>
   <div class="wrap">
@@ -234,14 +170,7 @@
       price_currency: "FCFA (Côte d'Ivoire)",
       pay_lead: "Get lifetime access to Asmetry with a one-time $1 payment. No subscription. No recurring payments.",
       pay_cta: "Pay",
-      or_divider: "or",
-      free_alt_scroll_cta: "Free alternative",
-      free_alt_title: "Prefer not to pay?",
-      free_alt_body: "Get Asmetry for free by answering a short survey.",
-      free_alt_step1: "Answer a few quick questions.",
-      free_alt_step2: "Install the app once the survey is validated.",
-      free_alt_cta: "Start the survey",
-      free_alt_micro: "Survey",
+      phone_placeholder: "Phone number (e.g. +225 07 00 00 00 00)",
       install_app_cta: "Install Asmetry",
       footer_rights: "All rights reserved."
     },
@@ -251,14 +180,7 @@
       price_currency: "FCFA (Côte d'Ivoire)",
       pay_lead: "Obtenez un accès à vie à Asmetry avec un paiement unique de 1 $. Aucun abonnement. Aucun paiement récurrent.",
       pay_cta: "Payer",
-      or_divider: "ou",
-      free_alt_scroll_cta: "Alternative gratuite",
-      free_alt_title: "Vous préférez ne pas payer ?",
-      free_alt_body: "Obtenez Asmetry gratuitement en répondant à un court sondage.",
-      free_alt_step1: "Répondez aux quelques questions du sondage.",
-      free_alt_step2: "Installez l'app une fois le sondage validé.",
-      free_alt_cta: "Commencer le sondage",
-      free_alt_micro: "Sondage",
+      phone_placeholder: "Numéro de téléphone (ex: +225 07 00 00 00 00)",
       install_app_cta: "Installer Asmetry",
       footer_rights: "Tous droits réservés."
     }
@@ -275,16 +197,8 @@
     if (dict[key]) el.textContent = dict[key];
   });
   document.documentElement.lang = lang;
+  document.getElementById('phone-input').placeholder = dict.phone_placeholder;
 
-  // Smooth-scroll from the "Alternative gratuite" teaser button down to the free-option section,
-  // instead of navigating anywhere — everything stays on this one page.
-  var freeAltSection = document.getElementById('free-alt');
-  document.getElementById('scroll-to-free-alt').addEventListener('click', function (e) {
-    e.preventDefault();
-    freeAltSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  });
-
-  // Fade the free-alt section in as it comes into view (same motion language as index.html).
   var revealEls = document.querySelectorAll('.reveal');
   var io = new IntersectionObserver(function (entries) {
     entries.forEach(function (entry) {
@@ -294,7 +208,9 @@
   revealEls.forEach(function (el) { io.observe(el); });
   setTimeout(function () { revealEls.forEach(function (el) { el.classList.add('in'); }); }, 2500);
 
-  // Option 1 — after the visitor has followed the Wave button a few times, reveal the app link.
+  // Temporary: after the visitor has followed the payment link a few times, reveal the app
+  // link. This click-count placeholder will be replaced by a real payment confirmation
+  // (phone number checked against the Jèko webhook) once that backend is wired in.
   var payBtn = document.getElementById('pay-btn');
   var paySuccessPanel = document.getElementById('pay-success-panel');
   var REQUIRED_CLICKS = 3;
@@ -307,9 +223,6 @@
       paySuccessPanel.style.display = 'block';
     }
   });
-
-  // Option 2 — a real, self-hosted survey (survey.html) that ends in an actual "Sondage
-  // validé" screen with the install link, so no click-counting trick is needed here anymore.
 </script>
 </body>
 </html>
