@@ -90,8 +90,17 @@
 
   .success-panel { margin-top: 32px; }
 
-  /* Low-key phone number field, sits quietly below the price / above the Payer button */
-  .phone-field { margin-top: 22px; display: flex; justify-content: center; }
+  /* Low-key phone number field — hidden until the visitor clicks "Payer" once */
+  .phone-field {
+    margin-top: 0;
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    transition: max-height 0.35s ease, opacity 0.3s ease, margin-top 0.35s ease;
+  }
+  .phone-field.show { max-height: 60px; opacity: 1; margin-top: 16px; }
   .phone-input {
     width: 100%;
     max-width: 280px;
@@ -107,6 +116,7 @@
   }
   .phone-input::placeholder { color: var(--gray-on-dark); }
   .phone-input:focus { border-color: rgba(255,255,255,0.4); }
+  .phone-input.invalid { border-color: #ff6b6b; }
 
   .reveal { opacity: 0; transform: translateY(22px); transition: opacity 0.7s ease, transform 0.7s ease; }
   .reveal.in { opacity: 1; transform: translateY(0); }
@@ -140,12 +150,12 @@
 
     <p class="pay-lead" data-i18n="pay_lead">Obtenez un accès à vie à Asmetry avec un paiement unique de 1 $. Aucun abonnement. Aucun paiement récurrent.</p>
 
-    <div class="phone-field">
-      <input type="tel" id="phone-input" class="phone-input" inputmode="tel" autocomplete="tel" />
+    <div class="cta-row">
+      <a class="btn btn-dark btn-wide" id="pay-btn" href="https://pay.jeko.africa/pr/7798b36c-1623-4fa8-9fc3-397e6d319953" target="_blank" rel="noopener" data-i18n="pay_cta">Payer</a>
     </div>
 
-    <div class="cta-row">
-      <a class="btn btn-dark btn-wide" id="pay-btn" href="https://pay.wave.com/m/M_ci_RYyEK5lJltzs/c/ci/?amount=616" target="_blank" rel="noopener" data-i18n="pay_cta">Payer</a>
+    <div class="phone-field" id="phone-field">
+      <input type="tel" id="phone-input" class="phone-input" inputmode="tel" autocomplete="tel" />
     </div>
 
     <div class="success-panel" id="pay-success-panel" style="display:none;">
@@ -208,18 +218,47 @@
   revealEls.forEach(function (el) { io.observe(el); });
   setTimeout(function () { revealEls.forEach(function (el) { el.classList.add('in'); }); }, 2500);
 
+  // First click on "Payer" reveals the phone field instead of paying — the visitor must
+  // enter a valid number before the button actually opens the Jèko payment link.
+  var payBtn = document.getElementById('pay-btn');
+  var paySuccessPanel = document.getElementById('pay-success-panel');
+  var phoneField = document.getElementById('phone-field');
+  var phoneInput = document.getElementById('phone-input');
+  var phoneRevealed = false;
+
+  function isValidPhone(value) {
+    var digits = value.replace(/[\s-]/g, '');
+    return /^(\+?225)?\d{10}$/.test(digits);
+  }
+
+  phoneInput.addEventListener('input', function () {
+    phoneInput.classList.remove('invalid');
+  });
+
   // Temporary: after the visitor has followed the payment link a few times, reveal the app
   // link. This click-count placeholder will be replaced by a real payment confirmation
   // (phone number checked against the Jèko webhook) once that backend is wired in.
-  var payBtn = document.getElementById('pay-btn');
-  var paySuccessPanel = document.getElementById('pay-success-panel');
   var REQUIRED_CLICKS = 3;
   var payClicks = 0;
   payBtn.addEventListener('click', function (e) {
+    if (!phoneRevealed) {
+      e.preventDefault();
+      phoneRevealed = true;
+      phoneField.classList.add('show');
+      setTimeout(function () { phoneInput.focus(); }, 250);
+      return;
+    }
+    if (!isValidPhone(phoneInput.value)) {
+      e.preventDefault();
+      phoneInput.classList.add('invalid');
+      phoneInput.focus();
+      return;
+    }
     payClicks++;
     if (payClicks >= REQUIRED_CLICKS) {
       e.preventDefault();
       payBtn.style.display = 'none';
+      phoneField.style.display = 'none';
       paySuccessPanel.style.display = 'block';
     }
   });
