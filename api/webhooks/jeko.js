@@ -19,6 +19,12 @@ module.exports = async (req, res) => {
     return;
   }
 
+  if (!process.env.JEKO_WEBHOOK_SECRET) {
+    console.error('JEKO_WEBHOOK_SECRET is not set in Vercel env vars');
+    res.status(500).send('Webhook not configured');
+    return;
+  }
+
   const rawBody = await readRawBody(req);
 
   const signature = req.headers['jeko-signature'];
@@ -42,6 +48,10 @@ module.exports = async (req, res) => {
     console.error('Invalid JSON from Jèko webhook');
     return;
   }
+
+  // TEMPORARY — logs the full payload so we can see Jèko's real field names (phone number
+  // included) from a live test payment. Remove once the phone-matching field is confirmed.
+  console.log('Jèko webhook payload:', JSON.stringify(payload));
 
   if (payload.status !== 'success' || payload.transactionType !== 'payment') {
     return;
