@@ -1,3 +1,4 @@
+// Upstash KV is connected to this project (Production + Preview) — see api/_lib/kv.js.
 const crypto = require('crypto');
 const { normalizePhone } = require('../_lib/phone');
 const { kvSet } = require('../_lib/kv');
