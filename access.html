@@ -88,19 +88,18 @@
   .btn-wide { width: 100%; max-width: 340px; }
   .micro { font-size: 12px; color: var(--gray-on-dark); letter-spacing: 0.2px; }
   .already-paid-link {
-    width: 40px;
-    height: 40px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    border-radius: 50%;
+    padding: 10px 20px;
+    border-radius: 999px;
     background: var(--glass-bg);
     border: 1px solid var(--glass-border);
     color: #fff;
-    font-size: 16px;
+    font-size: 13px;
+    font-weight: 600;
     line-height: 1;
     text-decoration: none;
-    padding-left: 2px;
   }
 
   .success-panel { margin-top: 32px; }
@@ -170,7 +169,7 @@
 
     <div class="cta-row">
       <a class="btn btn-dark btn-wide" id="pay-btn" href="https://pay.jeko.africa/pl/3a7e2473-2b44-4007-9f53-5f1d8e1acf8a" target="_blank" rel="noopener" data-i18n="pay_cta">Payer</a>
-      <a class="already-paid-link" href="confirm.html" data-i18n="already_paid_link">→</a>
+      <a class="already-paid-link" href="confirm.html" data-i18n="already_paid_link">Confirmer</a>
     </div>
 
     <div class="or-divider" id="or-divider" data-i18n="or_divider">ou</div>
@@ -197,7 +196,7 @@
       price_currency: "FCFA (Côte d'Ivoire)",
       pay_lead: "Get lifetime access to Asmetry with a one-time $1 payment. No subscription. No recurring payments.",
       pay_cta: "Pay",
-      already_paid_link: "→",
+      already_paid_link: "Confirm",
       or_divider: "or",
       waiting_label: "Awaiting validation",
       footer_rights: "All rights reserved."
@@ -208,7 +207,7 @@
       price_currency: "FCFA (Côte d'Ivoire)",
       pay_lead: "Obtenez un accès à vie à Asmetry avec un paiement unique de 1 $. Aucun abonnement. Aucun paiement récurrent.",
       pay_cta: "Payer",
-      already_paid_link: "→",
+      already_paid_link: "Confirmer",
       or_divider: "ou",
       waiting_label: "En attente de validation",
       footer_rights: "Tous droits réservés."
