@@ -52,24 +52,13 @@ module.exports = async (req, res) => {
     return;
   }
 
-  // TEMPORARY — logs the full payload so we can see Jèko's real field names (phone number
-  // included) from a live test payment. Remove once the phone-matching field is confirmed.
-  console.log('Jèko webhook payload:', JSON.stringify(payload));
-
   if (payload.status !== 'success' || payload.transactionType !== 'payment') {
     return;
   }
 
-  // Try the common places a payer's phone number could be in Jèko's payload. Once we see a
-  // real payload (logged above), narrow this down to the exact field and drop the rest.
-  const rawPhone =
-    (payload.customer && payload.customer.phone) ||
-    (payload.payer && payload.payer.phone) ||
-    payload.phone ||
-    payload.msisdn ||
-    payload.payerPhone ||
-    payload.customerPhone ||
-    null;
+  // Confirmed from a real Jèko payload: the payer's phone number is in counterpartIdentifier
+  // (also duplicated in counterpartLabel).
+  const rawPhone = payload.counterpartIdentifier || payload.counterpartLabel || null;
 
   const amountCents = Number(payload.amount && payload.amount.amount);
   const currency = (payload.amount && payload.amount.currency) || 'XOF';
