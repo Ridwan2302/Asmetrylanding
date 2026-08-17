@@ -1,4 +1,6 @@
 const crypto = require('crypto');
+const { normalizePhone } = require('../_lib/phone');
+const { kvSet } = require('../_lib/kv');
 
 module.exports.config = {
   api: { bodyParser: false },
@@ -55,6 +57,30 @@ module.exports = async (req, res) => {
 
   if (payload.status !== 'success' || payload.transactionType !== 'payment') {
     return;
+  }
+
+  // Try the common places a payer's phone number could be in Jèko's payload. Once we see a
+  // real payload (logged above), narrow this down to the exact field and drop the rest.
+  const rawPhone =
+    (payload.customer && payload.customer.phone) ||
+    (payload.payer && payload.payer.phone) ||
+    payload.phone ||
+    payload.msisdn ||
+    payload.payerPhone ||
+    payload.customerPhone ||
+    null;
+
+  if (rawPhone) {
+    const phone = normalizePhone(rawPhone);
+    if (phone.length === 10) {
+      try {
+        await kvSet('paid:' + phone, payload.id || '1', 86400);
+      } catch (err) {
+        console.error('Failed to store paid phone in KV:', err);
+      }
+    }
+  } else {
+    console.error('No phone number field found in Jèko payload — check the logged payload above.');
   }
 
   const amountCents = Number(payload.amount && payload.amount.amount);

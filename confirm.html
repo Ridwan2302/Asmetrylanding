@@ -89,6 +89,17 @@
 
   .success-panel { margin-top: 32px; }
 
+  .waiting-panel { margin-top: 32px; }
+  .spinner {
+    width: 34px; height: 34px; margin: 0 auto 16px;
+    border-radius: 50%;
+    border: 3px solid var(--glass-bg);
+    border-top-color: #fff;
+    animation: spin 0.8s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .waiting-label { font-size: 14px; color: var(--gray-on-dark); }
+
   .reveal { opacity: 0; transform: translateY(22px); transition: opacity 0.7s ease, transform 0.7s ease; }
   .reveal.in { opacity: 1; transform: translateY(0); }
 
@@ -118,6 +129,12 @@
       <div class="cta-row">
         <button class="btn btn-dark btn-wide" id="confirm-btn" data-i18n="confirm_cta">Confirmer</button>
       </div>
+      <p class="confirm-lead" id="not-found-msg" style="display:none;" data-i18n="not_found_msg">Paiement non trouvé pour ce numéro pour l'instant. Réessayez dans un instant.</p>
+    </div>
+
+    <div class="waiting-panel" id="waiting-panel" style="display:none;">
+      <div class="spinner"></div>
+      <div class="waiting-label" data-i18n="waiting_label">En attente de confirmation du paiement…</div>
     </div>
 
     <div class="success-panel" id="success-panel" style="display:none;">
@@ -142,6 +159,8 @@
       confirm_lead: "Enter the number you used to pay to receive Asmetry.",
       phone_placeholder: "Phone number (e.g. +225 07 00 00 00 00)",
       confirm_cta: "Confirm",
+      waiting_label: "Waiting for payment confirmation…",
+      not_found_msg: "Payment not found yet for this number. Try again in a moment.",
       install_app_cta: "Install Asmetry",
       footer_rights: "All rights reserved."
     },
@@ -151,6 +170,8 @@
       confirm_lead: "Entrez le numéro utilisé pour le paiement afin de recevoir Asmetry.",
       phone_placeholder: "Numéro de téléphone (ex: +225 07 00 00 00 00)",
       confirm_cta: "Confirmer",
+      waiting_label: "En attente de confirmation du paiement…",
+      not_found_msg: "Paiement non trouvé pour ce numéro pour l'instant. Réessayez dans un instant.",
       install_app_cta: "Installer Asmetry",
       footer_rights: "Tous droits réservés."
     }
@@ -176,30 +197,70 @@
   revealEls.forEach(function (el) { io.observe(el); });
   setTimeout(function () { revealEls.forEach(function (el) { el.classList.add('in'); }); }, 2500);
 
+  function normalizePhone(value) {
+    var digits = value.replace(/[^\d]/g, '');
+    if (digits.length > 10) digits = digits.slice(-10);
+    return digits;
+  }
+
   function isValidPhone(value) {
-    var digits = value.replace(/[\s-]/g, '');
-    return /^(\+?225)?\d{10}$/.test(digits);
+    return normalizePhone(value).length === 10;
   }
 
   var phoneInput = document.getElementById('phone-input');
   var confirmForm = document.getElementById('confirm-form');
+  var waitingPanel = document.getElementById('waiting-panel');
   var successPanel = document.getElementById('success-panel');
+  var notFoundMsg = document.getElementById('not-found-msg');
 
   phoneInput.addEventListener('input', function () {
     phoneInput.classList.remove('invalid');
+    notFoundMsg.style.display = 'none';
   });
 
-  // Interim behavior: a valid-looking number reveals the app link right away. This will be
-  // replaced by a real check against the Jèko webhook once that backend is wired in — same
-  // number, no page change needed on our end at that point.
+  // Real check against the Jèko webhook data: we ask our own server whether this phone
+  // number has a confirmed payment on record, and keep asking every few seconds while the
+  // visitor waits — mobile money confirmations aren't always instant.
+  var pollTimer = null;
+  var pollAttempts = 0;
+  var MAX_ATTEMPTS = 30; // ~2 minutes at 4s intervals
+
+  function checkPayment(phone) {
+    return fetch('/api/check-payment?phone=' + encodeURIComponent(phone))
+      .then(function (r) { return r.json(); })
+      .then(function (data) { return !!data.paid; })
+      .catch(function () { return false; });
+  }
+
+  function poll(phone) {
+    pollAttempts++;
+    checkPayment(phone).then(function (paid) {
+      if (paid) {
+        clearInterval(pollTimer);
+        waitingPanel.style.display = 'none';
+        successPanel.style.display = 'block';
+      } else if (pollAttempts >= MAX_ATTEMPTS) {
+        clearInterval(pollTimer);
+        waitingPanel.style.display = 'none';
+        confirmForm.style.display = 'block';
+        notFoundMsg.style.display = 'block';
+      }
+    });
+  }
+
   document.getElementById('confirm-btn').addEventListener('click', function () {
     if (!isValidPhone(phoneInput.value)) {
       phoneInput.classList.add('invalid');
       phoneInput.focus();
       return;
     }
+    var phone = normalizePhone(phoneInput.value);
     confirmForm.style.display = 'none';
-    successPanel.style.display = 'block';
+    notFoundMsg.style.display = 'none';
+    waitingPanel.style.display = 'block';
+    pollAttempts = 0;
+    poll(phone);
+    pollTimer = setInterval(function () { poll(phone); }, 4000);
   });
 </script>
 </body>
