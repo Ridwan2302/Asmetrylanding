@@ -70,11 +70,19 @@ module.exports = async (req, res) => {
     payload.customerPhone ||
     null;
 
+  const amountCents = Number(payload.amount && payload.amount.amount);
+  const currency = (payload.amount && payload.amount.currency) || 'XOF';
+  const value = amountCents / 100;
+
   if (rawPhone) {
     const phone = normalizePhone(rawPhone);
     if (phone.length === 10) {
       try {
-        await kvSet('paid:' + phone, payload.id || '1', 86400);
+        await kvSet(
+          'paid:' + phone,
+          JSON.stringify({ id: payload.id || '1', value: value, currency: currency }),
+          86400
+        );
       } catch (err) {
         console.error('Failed to store paid phone in KV:', err);
       }
@@ -83,30 +91,31 @@ module.exports = async (req, res) => {
     console.error('No phone number field found in Jèko payload — check the logged payload above.');
   }
 
-  const amountCents = Number(payload.amount && payload.amount.amount);
-  const currency = (payload.amount && payload.amount.currency) || 'XOF';
-  const value = amountCents / 100;
-
-  try {
-    await fetch(
-      `https://graph.facebook.com/v20.0/${process.env.META_PIXEL_ID}/events?access_token=${process.env.META_CAPI_TOKEN}`,
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          data: [
-            {
-              event_name: 'Purchase',
-              event_time: Math.floor(new Date(payload.executedAt).getTime() / 1000),
-              event_id: payload.id,
-              action_source: 'website',
-              custom_data: { value: value, currency: currency },
-            },
-          ],
-        }),
-      }
-    );
-  } catch (err) {
-    console.error('Failed to send Purchase event to Meta:', err);
+  // Optional: server-side Meta Conversions API. Only fires if META_PIXEL_ID / META_CAPI_TOKEN
+  // are configured — harmless no-op otherwise. The client-side Pixel fired from confirm.html
+  // (after a real KV-verified payment) is the primary Purchase signal and doesn't depend on this.
+  if (process.env.META_PIXEL_ID && process.env.META_CAPI_TOKEN) {
+    try {
+      await fetch(
+        `https://graph.facebook.com/v20.0/${process.env.META_PIXEL_ID}/events?access_token=${process.env.META_CAPI_TOKEN}`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            data: [
+              {
+                event_name: 'Purchase',
+                event_time: Math.floor(new Date(payload.executedAt).getTime() / 1000),
+                event_id: payload.id,
+                action_source: 'website',
+                custom_data: { value: value, currency: currency },
+              },
+            ],
+          }),
+        }
+      );
+    } catch (err) {
+      console.error('Failed to send Purchase event to Meta:', err);
+    }
   }
 };
