@@ -265,7 +265,7 @@ fbq('init', '1041056588511714');
   var MAX_ATTEMPTS = 30; // ~2 minutes at 4s intervals
 
   function checkPayment(phone) {
-    return fetch('/api/check-payment?phone=' + encodeURIComponent(phone))
+    return fetch('/api/check-payment?phone=' + encodeURIComponent(phone), { cache: 'no-store' })
       .then(function (r) { return r.json(); })
       .catch(function () { return { paid: false }; });
   }

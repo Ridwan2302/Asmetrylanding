@@ -2,6 +2,9 @@ const { normalizePhone } = require('./_lib/phone');
 const { kvGet } = require('./_lib/kv');
 
 module.exports = async (req, res) => {
+  // This is polled repeatedly to check for a fresh payment — never let it be cached.
+  res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate');
+
   const phoneRaw = (req.query && req.query.phone) || '';
   const phone = normalizePhone(phoneRaw);
 
