@@ -41,18 +41,17 @@ module.exports = async (req, res) => {
     return;
   }
 
-  // Respond fast (Jèko requires a 2xx within 30s) before doing any outbound work.
-  res.status(200).send('OK');
-
   let payload;
   try {
     payload = JSON.parse(rawBody);
   } catch (e) {
     console.error('Invalid JSON from Jèko webhook');
+    res.status(200).send('OK');
     return;
   }
 
   if (payload.status !== 'success' || payload.transactionType !== 'payment') {
+    res.status(200).send('OK');
     return;
   }
 
@@ -112,4 +111,8 @@ module.exports = async (req, res) => {
       console.error('Failed to send Purchase event to Meta:', err);
     }
   }
+
+  // Respond only once all the work above has actually finished — Vercel can freeze the
+  // function as soon as a response is sent, cutting off any awaits still in flight.
+  res.status(200).send('OK');
 };
