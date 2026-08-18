@@ -7,6 +7,24 @@
 <meta name="description" content="Payez 10 $ une seule fois et Asmetry est à vous pour toujours — sans abonnement." />
 <meta name="theme-color" content="#0b0b0c" />
 <meta name="robots" content="noindex" />
+
+<!-- Meta Pixel Code. PageView here = "a arrivé sur la page de prix". Combiné à
+     l'InitiateCheckout du bouton Payer et au Purchase vérifié de confirm.html, ça donne
+     l'entonnoir complet et permet de voir à quelle étape les gens décrochent. -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1041056588511714');
+fbq('track', 'PageView');
+</script>
+<!-- End Meta Pixel Code -->
+
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet" />
@@ -197,6 +215,12 @@
   // phone number is collected — kept off this page entirely so the payment button stays clean.
   var payBtn = document.getElementById('pay-btn');
   payBtn.addEventListener('click', function () {
+    // Intention d'achat — la personne part vers Jèko. Ce n'est PAS une vente : seul le
+    // Purchase de confirm.html, déclenché après vérification du webhook, l'est. Cet
+    // événement sert à savoir si les abandons ont lieu avant ou pendant le paiement.
+    if (typeof fbq === 'function') {
+      fbq('track', 'InitiateCheckout', { value: 10.00, currency: 'USD' });
+    }
     setTimeout(function () { window.location.href = 'confirm.html'; }, 150);
   });
 </script>
