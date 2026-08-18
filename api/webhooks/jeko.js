@@ -66,6 +66,7 @@ module.exports = async (req, res) => {
 
   if (rawPhone) {
     const phone = normalizePhone(rawPhone);
+    console.log('Extracted phone from webhook:', rawPhone, '-> normalized:', phone);
     if (phone.length === 10) {
       try {
         await kvSet(
@@ -73,9 +74,12 @@ module.exports = async (req, res) => {
           JSON.stringify({ id: payload.id || '1', value: value, currency: currency }),
           86400
         );
+        console.log('Stored in KV under key paid:' + phone);
       } catch (err) {
-        console.error('Failed to store paid phone in KV:', err);
+        console.error('Failed to store paid phone in KV:', err && err.message);
       }
+    } else {
+      console.error('Normalized phone has unexpected length:', phone);
     }
   } else {
     console.error('No phone number field found in Jèko payload — check the logged payload above.');

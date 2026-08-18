@@ -15,6 +15,7 @@ module.exports = async (req, res) => {
 
   try {
     const result = await kvGet('paid:' + phone);
+    console.log('check-payment looked up paid:' + phone, '-> result:', result);
     if (!result) {
       res.status(200).json({ paid: false });
       return;
