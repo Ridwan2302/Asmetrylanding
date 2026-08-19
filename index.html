@@ -324,6 +324,127 @@ fbq('track', 'PageView');
     .body-visual { max-width: 240px; margin: 0 auto; }
     .body-list { text-align: left; }
   }
+
+  /* ---------- Preuve sociale : TikTok, transformations, avis ---------- */
+  .social-block { margin-top: 64px; }
+  .social-block:first-of-type { margin-top: 48px; }
+  .social-block-title {
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: -0.1px;
+    text-align: center;
+    margin-bottom: 22px;
+    color: var(--gray-on-dark);
+  }
+
+  /* Carte du profil TikTok */
+  .tiktok-card {
+    max-width: 340px;
+    margin: 0 auto;
+    border: 1px solid var(--glass-border);
+    border-radius: 28px;
+    overflow: hidden;
+    background: var(--glass-bg);
+  }
+  .tiktok-card img { width: 100%; display: block; }
+  .tiktok-card-foot { padding: 18px 20px 22px; text-align: center; }
+  .tiktok-stats {
+    display: flex;
+    justify-content: center;
+    gap: 28px;
+    margin-bottom: 16px;
+  }
+  .tiktok-stat-num { font-size: 20px; font-weight: 700; letter-spacing: -0.3px; }
+  .tiktok-stat-label { font-size: 12px; color: var(--gray-on-dark); margin-top: 2px; }
+
+  /* Grille des vidéos de transformation, format vertical */
+  .video-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    max-width: 760px;
+    margin: 0 auto;
+  }
+  .video-frame {
+    position: relative;
+    aspect-ratio: 9 / 16;
+    border-radius: 20px;
+    overflow: hidden;
+    border: 1px solid var(--glass-border);
+    background: #000;
+    cursor: pointer;
+    padding: 0;
+  }
+  .video-frame img { width: 100%; height: 100%; object-fit: cover; }
+  .video-frame::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.45), transparent 55%);
+  }
+  .video-play {
+    position: absolute;
+    left: 50%; top: 50%;
+    transform: translate(-50%, -50%);
+    width: 48px; height: 48px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.9);
+    display: flex; align-items: center; justify-content: center;
+    z-index: 1;
+  }
+  .video-play svg { width: 18px; height: 18px; margin-left: 3px; fill: #000; }
+
+  /* Lecture en surimpression — la vidéo reste sur le site, aucun renvoi vers TikTok */
+  .video-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.88);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+    padding: 24px;
+  }
+  .video-modal.open { display: flex; }
+  .video-modal video {
+    max-width: min(100%, 420px);
+    max-height: 88vh;
+    border-radius: 20px;
+    outline: none;
+  }
+  .video-modal-close {
+    position: absolute;
+    top: 18px; right: 18px;
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    border: 1px solid var(--glass-border);
+    background: var(--glass-bg);
+    color: #fff;
+    font-size: 20px;
+    line-height: 1;
+    cursor: pointer;
+  }
+
+  /* Captures des conversations */
+  .chat-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    max-width: 760px;
+    margin: 0 auto;
+  }
+  .chat-frame {
+    border-radius: 20px;
+    overflow: hidden;
+    border: 1px solid var(--glass-border);
+    background: var(--glass-bg);
+  }
+  .chat-frame img { width: 100%; display: block; }
+
+  @media (max-width: 640px) {
+    .video-grid, .chat-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    .social-block { margin-top: 48px; }
+  }
 </style>
 </head>
 <body>
@@ -490,6 +611,67 @@ fbq('track', 'PageView');
   </div>
 </section>
 
+
+<!-- Preuve sociale. Placée avant le footer : c'est ce que le visiteur venu d'une publicité
+     cherche avant de payer, il ne doit pas avoir à la chercher. -->
+<section class="section section-dark" id="social-proof">
+  <div class="wrap reveal">
+    <div class="kicker" data-i18n="social_kicker">Ils nous suivent déjà</div>
+    <h2 style="margin:0 auto;" data-i18n="social_title">Une communauté, pas une promesse.</h2>
+
+    <div class="social-block">
+      <a class="tiktok-card" href="TIKTOK_URL" target="_blank" rel="noopener">
+        <img src="media/tiktok-profile.png" alt="Profil TikTok Asmetry" />
+        <div class="tiktok-card-foot">
+          <div class="tiktok-stats">
+            <div>
+              <div class="tiktok-stat-num">7 000+</div>
+              <div class="tiktok-stat-label" data-i18n="tiktok_followers">abonnés</div>
+            </div>
+            <div>
+              <div class="tiktok-stat-num">25 000+</div>
+              <div class="tiktok-stat-label" data-i18n="tiktok_likes">j'aime</div>
+            </div>
+          </div>
+          <span class="btn btn-light" data-i18n="tiktok_cta">Allez sur TikTok</span>
+        </div>
+      </a>
+    </div>
+
+    <div class="social-block">
+      <div class="social-block-title" data-i18n="videos_title">Des transformations réelles</div>
+      <div class="video-grid">
+        <button class="video-frame" data-video="media/video-1.mp4">
+          <img src="media/video-1.jpg" alt="" />
+          <span class="video-play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>
+        </button>
+        <button class="video-frame" data-video="media/video-2.mp4">
+          <img src="media/video-2.jpg" alt="" />
+          <span class="video-play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>
+        </button>
+        <button class="video-frame" data-video="media/video-3.mp4">
+          <img src="media/video-3.jpg" alt="" />
+          <span class="video-play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>
+        </button>
+      </div>
+    </div>
+
+    <div class="social-block">
+      <div class="social-block-title" data-i18n="avis_title">Ce qu'ils nous ont écrit</div>
+      <div class="chat-grid">
+        <div class="chat-frame"><img src="media/avis-1.png" alt="" /></div>
+        <div class="chat-frame"><img src="media/avis-2.png" alt="" /></div>
+        <div class="chat-frame"><img src="media/avis-3.png" alt="" /></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="video-modal" id="video-modal">
+  <button class="video-modal-close" id="video-modal-close" aria-label="Fermer">&times;</button>
+  <video id="video-modal-player" controls playsinline></video>
+</div>
+
 <footer>
   <div class="wrap">
     <div class="footer-brand">
@@ -506,6 +688,13 @@ fbq('track', 'PageView');
   var translations = {
     en: {
       get_app: "Get the App",
+      social_kicker: "They already follow us",
+      social_title: "A community, not a promise.",
+      tiktok_followers: "followers",
+      tiktok_likes: "likes",
+      tiktok_cta: "Go to TikTok",
+      videos_title: "Real transformations",
+      avis_title: "What they wrote to us",
       h1_line1: "Asmetry.io",
       hero_sub: "Asmetry analyzes your face with precision using Claude Vision, then builds you a personalized, step-by-step plan for real looksmaxing results. Completely free.",
       hero_micro: "Free forever. No sign-up. No credit card needed.",
@@ -545,6 +734,13 @@ fbq('track', 'PageView');
       footer_rights: "All rights reserved."
     },
     fr: {
+      social_kicker: "Ils nous suivent déjà",
+      social_title: "Une communauté, pas une promesse.",
+      tiktok_followers: "abonnés",
+      tiktok_likes: "j'aime",
+      tiktok_cta: "Allez sur TikTok",
+      videos_title: "Des transformations réelles",
+      avis_title: "Ce qu'ils nous ont écrit",
       get_app: "Obtenir l'app",
       h1_line1: "Asmetry.io",
       hero_sub: "Asmetry est une application de looksmaxing qui analyse vos traits du visage, puis vous propose un plan personnalisé, étape par étape, pour obtenir de vrais résultats de looksmaxing.",
@@ -659,6 +855,27 @@ fbq('track', 'PageView');
   setTimeout(function () {
     revealEls.forEach(function (el) { el.classList.add('in'); });
   }, 2500);
+
+  // Les vidéos de transformation se lisent sur le site, en surimpression — aucun renvoi
+  // vers TikTok : le visiteur venu d'une publicité ne doit pas quitter la page.
+  var videoModal = document.getElementById('video-modal');
+  var videoPlayer = document.getElementById('video-modal-player');
+  function closeVideo() {
+    videoPlayer.pause();
+    videoPlayer.removeAttribute('src');
+    videoPlayer.load();
+    videoModal.classList.remove('open');
+  }
+  document.querySelectorAll('.video-frame').forEach(function (frame) {
+    frame.addEventListener('click', function () {
+      videoPlayer.src = frame.getAttribute('data-video');
+      videoModal.classList.add('open');
+      videoPlayer.play();
+    });
+  });
+  document.getElementById('video-modal-close').addEventListener('click', closeVideo);
+  videoModal.addEventListener('click', function (e) { if (e.target === videoModal) closeVideo(); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeVideo(); });
 </script>
 </body>
 </html>
