@@ -428,47 +428,6 @@ fbq('track', 'PageView');
     cursor: pointer;
   }
 
-  /* Bloc 3 : captures des conversations clients */
-  .chat-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 16px;
-    max-width: 760px;
-    margin: 0 auto;
-  }
-  .chat-frame {
-    display: block;
-    padding: 0;
-    border-radius: 20px;
-    overflow: hidden;
-    border: 1px solid var(--glass-border);
-    background: var(--glass-bg);
-    cursor: pointer;
-    transition: transform 0.15s ease;
-  }
-  .chat-frame:active { transform: scale(0.97); }
-  .chat-frame img { width: 100%; display: block; pointer-events: none; }
-
-  /* Dernier appel a l'action, dans le prolongement du fond noir */
-  .sp-final .sp-title { margin-bottom: 28px; }
-
-  /* Lecture des images en surimpression (meme mecanique que la modale video) */
-  .image-modal {
-    position: fixed; inset: 0;
-    background: rgba(0,0,0,0.9);
-    display: none;
-    align-items: center; justify-content: center;
-    z-index: 999;
-    padding: 24px;
-  }
-  .image-modal.open { display: flex; }
-  .image-modal img {
-    max-width: min(100%, 420px);
-    max-height: 88vh;
-    border-radius: 20px;
-    display: block;
-  }
-
   /* Footer de cloture, sur fond noir : symetrie avec le footer clair du milieu de page */
   .footer-dark {
     background: var(--ink);
@@ -490,7 +449,7 @@ fbq('track', 'PageView');
   .footer-dark .footer-fine { font-size: 12px; color: var(--gray-on-dark); }
 
   @media (max-width: 640px) {
-    .video-grid, .chat-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    .video-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
     .sp-row + .sp-row { margin-top: 72px; }
     .social-proof { padding: 64px 0 80px; }
   }
@@ -717,23 +676,28 @@ fbq('track', 'PageView');
       </div>
     </div>
 
-    <!-- Bloc 3 : captures des conversations clients -->
-    <div class="sp-row reveal">
-      <div class="sp-kicker" data-i18n="sp3_kicker">Ils nous l'ont dit</div>
-      <h2 class="sp-title" data-i18n="sp3_title">Ce que nos premiers utilisateurs nous ont écrit.</h2>
-      <div class="chat-grid">
-        <button class="chat-frame" data-img="media/testimonial-1.jpg"><img src="media/testimonial-1.jpg" alt="" /></button>
-        <button class="chat-frame" data-img="media/testimonial-2.jpg"><img src="media/testimonial-2.jpg" alt="" /></button>
-        <button class="chat-frame" data-img="media/testimonial-3.jpg"><img src="media/testimonial-3.jpg" alt="" /></button>
-      </div>
-    </div>
+  </div>
+</section>
 
-    <!-- Bloc 4 : dernier appel a l'action avant la fin de page -->
-    <div class="sp-row sp-final reveal">
-      <h2 class="sp-title" data-i18n="sp4_title">Prêt à voir votre propre potentiel ?</h2>
-      <a class="btn btn-light" href="unlock.html" data-i18n="sp4_cta">Télécharger</a>
+<section class="section download">
+  <div class="wrap reveal">
+    <div class="kicker" data-i18n="download_kicker">Get it now</div>
+    <h2 style="margin:0 auto;" data-i18n="download_title">Download Asmetry to your phone.</h2>
+    <p class="section-lead" style="margin-left:auto;margin-right:auto;" data-i18n="download_body">Installs straight from your browser in seconds — no waiting, no account required.</p>
+    <div class="cta-row" style="align-items:center;margin-top:36px;">
+      <a class="btn btn-dark" href="unlock.html" data-i18n="download_cta">Download</a>
+      <span class="micro" style="color:var(--gray);" data-i18n="download_platforms">Works on iPhone and Android</span>
     </div>
+  </div>
+</section>
 
+<section class="section final section-dark">
+  <div class="wrap reveal">
+    <h2 style="margin:0 auto;" data-i18n="final_title">Ready to see your score?</h2>
+    <p class="section-lead" style="margin-left:auto;margin-right:auto;" data-i18n="final_body">Takes about ninety seconds. One payment, then it's yours for life.</p>
+    <div class="cta-row" style="align-items:center;margin-top:34px;">
+      <a class="btn btn-light" href="unlock.html" data-i18n="get_app">Get the App</a>
+    </div>
   </div>
 </section>
 
@@ -752,11 +716,6 @@ fbq('track', 'PageView');
   <video id="video-modal-player" controls playsinline></video>
 </div>
 
-<div class="image-modal" id="image-modal">
-  <button class="video-modal-close" id="image-modal-close" aria-label="Fermer">&times;</button>
-  <img id="image-modal-img" src="" alt="" />
-</div>
-
 
 <script>
   document.getElementById('year').textContent = new Date().getFullYear();
@@ -765,15 +724,11 @@ fbq('track', 'PageView');
   var translations = {
     en: {
       get_app: "Get the App",
-      sp4_title: "Ready to see your own potential?",
-      sp4_cta: "Download",
       sp1_kicker: "Social proof",
       sp1_title: "A real community already follows us.",
       sp1_cta: "Follow @asmetry.io on TikTok",
       sp2_kicker: "Real results",
       sp2_title: "Looksmaxing transformations.",
-      sp3_kicker: "They told us",
-      sp3_title: "What our first users wrote to us.",
       social_kicker: "They already follow us",
       social_title: "A community, not a promise.",
       tiktok_followers: "followers",
@@ -820,15 +775,11 @@ fbq('track', 'PageView');
       footer_rights: "All rights reserved."
     },
     fr: {
-      sp4_title: "Prêt à voir votre propre potentiel ?",
-      sp4_cta: "Télécharger",
       sp1_kicker: "Preuve sociale",
       sp1_title: "Une vraie communauté nous suit déjà.",
       sp1_cta: "Suivre @asmetry.io sur TikTok",
       sp2_kicker: "Résultats réels",
       sp2_title: "Des transformations de looksmaxing.",
-      sp3_kicker: "Ils nous l'ont dit",
-      sp3_title: "Ce que nos premiers utilisateurs nous ont écrit.",
       social_kicker: "Ils nous suivent déjà",
       social_title: "Une communauté, pas une promesse.",
       tiktok_followers: "abonnés",
@@ -972,21 +923,6 @@ fbq('track', 'PageView');
   videoModal.addEventListener('click', function (e) { if (e.target === videoModal) closeVideo(); });
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeVideo(); });
 
-
-  // Les captures de témoignages se lisent aussi en surimpression, pour un agrandissement
-  // confortable sans quitter la page.
-  var imageModal = document.getElementById('image-modal');
-  var imageModalImg = document.getElementById('image-modal-img');
-  function closeImage() { imageModal.classList.remove('open'); }
-  document.querySelectorAll('.chat-frame').forEach(function (frame) {
-    frame.addEventListener('click', function () {
-      imageModalImg.src = frame.getAttribute('data-img');
-      imageModal.classList.add('open');
-    });
-  });
-  document.getElementById('image-modal-close').addEventListener('click', closeImage);
-  imageModal.addEventListener('click', function (e) { if (e.target === imageModal) closeImage(); });
-  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeImage(); });
 </script>
 </body>
 </html>
