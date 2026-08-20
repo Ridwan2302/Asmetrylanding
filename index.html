@@ -335,18 +335,18 @@ fbq('track', 'PageView');
   .sp-row + .sp-row { margin-top: 96px; }
   .sp-kicker {
     font-size: 12px;
-    font-weight: 700;
-    letter-spacing: 1.6px;
+    font-weight: 600;
+    letter-spacing: 2px;
     text-transform: uppercase;
     color: var(--gray-on-dark);
     margin-bottom: 14px;
   }
   .sp-title {
-    font-size: clamp(24px, 3.6vw, 34px);
-    font-weight: 700;
-    letter-spacing: -0.6px;
-    line-height: 1.2;
-    max-width: 22ch;
+    font-size: clamp(28px, 4vw, 44px);
+    font-weight: 800;
+    letter-spacing: -1px;
+    line-height: 1.12;
+    max-width: 20ch;
     margin: 0 auto 40px;
     color: #fff;
   }
@@ -359,14 +359,22 @@ fbq('track', 'PageView');
     gap: 20px;
   }
   .tiktok-proof-shot {
+    display: block;
     width: 100%;
     max-width: 260px;
     border-radius: 24px;
     border: 1px solid var(--glass-border);
     overflow: hidden;
     box-shadow: 0 12px 40px rgba(0,0,0,0.35);
+    transition: transform 0.2s ease;
   }
+  .tiktok-proof-shot:active { transform: scale(0.98); }
   .tiktok-proof-shot img { width: 100%; display: block; }
+  .tiktok-proof-handle {
+    font-size: 12px;
+    color: rgba(255,255,255,0.4);
+    text-decoration: none;
+  }
   /* Bloc 2 : grille de vidéos avant/après, format vertical */
   .video-grid {
     display: grid;
@@ -618,8 +626,6 @@ fbq('track', 'PageView');
   </div>
 </section>
 
-
-
 <!-- Preuve sociale, après le footer, fond noir. C'est ce que le visiteur venu d'une
      publicité vient chercher avant de payer : que quelqu'un d'autre existe déjà
      derrière l'application. Trois blocs : TikTok, résultats vidéo, témoignages. -->
@@ -629,11 +635,12 @@ fbq('track', 'PageView');
     <!-- Bloc 1 : capture d'écran TikTok, telle quelle -->
     <div class="sp-row reveal">
       <div class="sp-kicker" data-i18n="sp1_kicker">Preuve sociale</div>
-      <h2 class="sp-title" data-i18n="sp1_title">Une vraie communauté nous suit déjà.</h2>
+      <h2 class="sp-title" data-i18n="sp1_title">Ils sont déjà des milliers à nous suivre.</h2>
       <div class="tiktok-proof">
-        <div class="tiktok-proof-shot">
+        <a class="tiktok-proof-shot" href="https://www.tiktok.com/@asmetry.io" target="_blank" rel="noopener">
           <img src="media/tiktok-screenshot.jpg" alt="Compte TikTok Asmetry" />
-        </div>
+        </a>
+        <a class="tiktok-proof-handle" href="https://www.tiktok.com/@asmetry.io" target="_blank" rel="noopener">@asmetry.io</a>
       </div>
     </div>
 
@@ -701,7 +708,7 @@ fbq('track', 'PageView');
     en: {
       get_app: "Get the App",
       sp1_kicker: "Social proof",
-      sp1_title: "A real community already follows us.",
+      sp1_title: "Already thousands are following us.",
       sp2_kicker: "Real results",
       sp2_title: "Looksmaxing transformations.",
       social_kicker: "They already follow us",
@@ -751,7 +758,7 @@ fbq('track', 'PageView');
     },
     fr: {
       sp1_kicker: "Preuve sociale",
-      sp1_title: "Une vraie communauté nous suit déjà.",
+      sp1_title: "Ils sont déjà des milliers à nous suivre.",
       sp2_kicker: "Résultats réels",
       sp2_title: "Des transformations de looksmaxing.",
       social_kicker: "Ils nous suivent déjà",
