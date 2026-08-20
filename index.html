@@ -351,30 +351,6 @@ fbq('track', 'PageView');
     color: #fff;
   }
 
-  /* Bloc 1 : capture d'écran TikTok, modeste, avec légende et bouton */
-  .tiktok-proof {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
-  }
-  .tiktok-proof-shot {
-    display: block;
-    width: 100%;
-    max-width: 260px;
-    border-radius: 24px;
-    border: 1px solid var(--glass-border);
-    overflow: hidden;
-    box-shadow: 0 12px 40px rgba(0,0,0,0.35);
-    transition: transform 0.2s ease;
-  }
-  .tiktok-proof-shot:active { transform: scale(0.98); }
-  .tiktok-proof-shot img { width: 100%; display: block; }
-  .tiktok-proof-handle {
-    font-size: 12px;
-    color: rgba(255,255,255,0.4);
-    text-decoration: none;
-  }
   /* Bloc 2 : grille de vidéos avant/après, format vertical */
   .video-grid {
     display: grid;
@@ -425,6 +401,36 @@ fbq('track', 'PageView');
     border-radius: 20px;
     outline: none;
   }
+  /* Navigation entre les videos sans quitter le lecteur */
+  .video-modal-nav {
+    position: absolute;
+    left: 0; right: 0; bottom: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+  }
+  .video-nav-btn {
+    padding: 10px 20px;
+    border-radius: 999px;
+    border: 1px solid var(--glass-border);
+    background: var(--glass-bg);
+    color: #fff;
+    font-size: 13px;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    transition: opacity 0.15s ease, transform 0.15s ease;
+  }
+  .video-nav-btn:active { transform: scale(0.96); }
+  .video-nav-btn:disabled { opacity: 0.3; cursor: default; }
+  .video-nav-count {
+    font-size: 12px;
+    color: var(--gray-on-dark);
+    min-width: 40px;
+    text-align: center;
+  }
+
   .video-modal-close {
     position: absolute; top: 18px; right: 18px;
     width: 40px; height: 40px;
@@ -616,33 +622,11 @@ fbq('track', 'PageView');
   </div>
 </section>
 
-<section class="section final section-dark">
-  <div class="wrap reveal">
-    <h2 style="margin:0 auto;" data-i18n="final_title">Ready to see your score?</h2>
-    <p class="section-lead" style="margin-left:auto;margin-right:auto;" data-i18n="final_body">Takes about ninety seconds. One payment, then it's yours for life.</p>
-    <div class="cta-row" style="align-items:center;margin-top:34px;">
-      <a class="btn btn-light" href="unlock.html" data-i18n="get_app">Get the App</a>
-    </div>
-  </div>
-</section>
-
 <!-- Preuve sociale, après le footer, fond noir. C'est ce que le visiteur venu d'une
      publicité vient chercher avant de payer : que quelqu'un d'autre existe déjà
      derrière l'application. Trois blocs : TikTok, résultats vidéo, témoignages. -->
 <section class="social-proof">
   <div class="wrap">
-
-    <!-- Bloc 1 : capture d'écran TikTok, telle quelle -->
-    <div class="sp-row reveal">
-      <div class="sp-kicker" data-i18n="sp1_kicker">Preuve sociale</div>
-      <h2 class="sp-title" data-i18n="sp1_title">Ils sont déjà des milliers à nous suivre.</h2>
-      <div class="tiktok-proof">
-        <a class="tiktok-proof-shot" href="https://www.tiktok.com/@asmetry.io" target="_blank" rel="noopener">
-          <img src="media/tiktok-screenshot.jpg" alt="Compte TikTok Asmetry" />
-        </a>
-        <a class="tiktok-proof-handle" href="https://www.tiktok.com/@asmetry.io" target="_blank" rel="noopener">@asmetry.io</a>
-      </div>
-    </div>
 
     <!-- Bloc 2 : vidéos avant/après, lues sur le site -->
     <div class="sp-row reveal">
@@ -677,8 +661,8 @@ fbq('track', 'PageView');
 
 <section class="section final section-dark">
   <div class="wrap reveal">
-    <h2 style="margin:0 auto;" data-i18n="final_title">Ready to see your score?</h2>
-    <p class="section-lead" style="margin-left:auto;margin-right:auto;" data-i18n="final_body">Takes about ninety seconds. One payment, then it's yours for life.</p>
+    <h2 style="margin:0 auto;" data-i18n="final_title">Your four-week plan starts with one scan.</h2>
+    <p class="section-lead" style="margin-left:auto;margin-right:auto;" data-i18n="final_body">The scan reads your weakest features, then builds a daily program around them — facial exercises, routines and progress tracking.</p>
     <div class="cta-row" style="align-items:center;margin-top:34px;">
       <a class="btn btn-light" href="unlock.html" data-i18n="get_app">Get the App</a>
     </div>
@@ -698,6 +682,11 @@ fbq('track', 'PageView');
 <div class="video-modal" id="video-modal">
   <button class="video-modal-close" id="video-modal-close" aria-label="Fermer">&times;</button>
   <video id="video-modal-player" controls playsinline></video>
+  <div class="video-modal-nav">
+    <button class="video-nav-btn" id="video-prev" data-i18n="video_prev">Précédent</button>
+    <span class="video-nav-count" id="video-count"></span>
+    <button class="video-nav-btn" id="video-next" data-i18n="video_next">Suivant</button>
+  </div>
 </div>
 
 
@@ -707,15 +696,12 @@ fbq('track', 'PageView');
   var translations = {
     en: {
       get_app: "Get the App",
-      sp1_kicker: "Social proof",
-      sp1_title: "Already thousands are following us.",
+      video_prev: "Previous",
+      video_next: "Next",
       sp2_kicker: "Real results",
       sp2_title: "Looksmaxing transformations.",
       social_kicker: "They already follow us",
       social_title: "A community, not a promise.",
-      tiktok_followers: "followers",
-      tiktok_likes: "likes",
-      tiktok_cta: "Go to TikTok",
       videos_title: "Real transformations",
       avis_title: "What they wrote to us",
       h1_line1: "Asmetry.io",
@@ -752,20 +738,17 @@ fbq('track', 'PageView');
       download_body: "Installs straight from your browser in seconds — no waiting, no account required.",
       download_cta: "Download",
       download_platforms: "Works on iPhone and Android",
-      final_title: "Ready to see your score?",
-      final_body: "Takes about ninety seconds. One payment, then it's yours for life.",
+      final_title: "Your four-week plan starts with one scan.",
+      final_body: "The scan reads your weakest features, then builds a daily program around them — facial exercises, routines and progress tracking.",
       footer_rights: "All rights reserved."
     },
     fr: {
-      sp1_kicker: "Preuve sociale",
-      sp1_title: "Ils sont déjà des milliers à nous suivre.",
+      video_prev: "Précédent",
+      video_next: "Suivant",
       sp2_kicker: "Résultats réels",
       sp2_title: "Des transformations de looksmaxing.",
       social_kicker: "Ils nous suivent déjà",
       social_title: "Une communauté, pas une promesse.",
-      tiktok_followers: "abonnés",
-      tiktok_likes: "j'aime",
-      tiktok_cta: "Allez sur TikTok",
       videos_title: "Des transformations réelles",
       avis_title: "Ce qu'ils nous ont écrit",
       get_app: "Obtenir l'app",
@@ -803,8 +786,8 @@ fbq('track', 'PageView');
       download_body: "S'installe directement depuis votre navigateur en quelques secondes — sans attente, sans compte requis.",
       download_cta: "Télécharger",
       download_platforms: "Fonctionne sur iPhone et Android",
-      final_title: "Prêt à découvrir votre score ?",
-      final_body: "Environ quatre-vingt-dix secondes. Un seul paiement, puis c'est à vous à vie.",
+      final_title: "Votre programme de quatre semaines part d'un seul scan.",
+      final_body: "Le scan identifie vos traits les plus faibles, puis construit un programme quotidien autour d'eux — exercices faciaux, routines et suivi des progrès.",
       footer_rights: "Tous droits réservés."
     }
   };
@@ -885,24 +868,52 @@ fbq('track', 'PageView');
 
   // Les vidéos de transformation se lisent sur le site, en surimpression — aucun renvoi
   // vers TikTok : le visiteur venu d'une publicité ne doit pas quitter la page.
+  // On navigue d'une vidéo à l'autre sans refermer le lecteur.
   var videoModal = document.getElementById('video-modal');
   var videoPlayer = document.getElementById('video-modal-player');
+  var videoFrames = Array.prototype.slice.call(document.querySelectorAll('.video-frame'));
+  var videoSources = videoFrames.map(function (f) { return f.getAttribute('data-video'); });
+  var prevBtn = document.getElementById('video-prev');
+  var nextBtn = document.getElementById('video-next');
+  var videoCount = document.getElementById('video-count');
+  var currentVideo = 0;
+
+  function playVideoAt(index) {
+    currentVideo = index;
+    videoPlayer.src = videoSources[index];
+    videoPlayer.play();
+    videoCount.textContent = (index + 1) + ' / ' + videoSources.length;
+    prevBtn.disabled = index === 0;
+    nextBtn.disabled = index === videoSources.length - 1;
+  }
   function closeVideo() {
     videoPlayer.pause();
     videoPlayer.removeAttribute('src');
     videoPlayer.load();
     videoModal.classList.remove('open');
   }
-  document.querySelectorAll('.video-frame').forEach(function (frame) {
+
+  videoFrames.forEach(function (frame, index) {
     frame.addEventListener('click', function () {
-      videoPlayer.src = frame.getAttribute('data-video');
       videoModal.classList.add('open');
-      videoPlayer.play();
+      playVideoAt(index);
     });
   });
+  prevBtn.addEventListener('click', function () {
+    if (currentVideo > 0) playVideoAt(currentVideo - 1);
+  });
+  nextBtn.addEventListener('click', function () {
+    if (currentVideo < videoSources.length - 1) playVideoAt(currentVideo + 1);
+  });
+
   document.getElementById('video-modal-close').addEventListener('click', closeVideo);
   videoModal.addEventListener('click', function (e) { if (e.target === videoModal) closeVideo(); });
-  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeVideo(); });
+  document.addEventListener('keydown', function (e) {
+    if (!videoModal.classList.contains('open')) return;
+    if (e.key === 'Escape') closeVideo();
+    if (e.key === 'ArrowLeft' && currentVideo > 0) playVideoAt(currentVideo - 1);
+    if (e.key === 'ArrowRight' && currentVideo < videoSources.length - 1) playVideoAt(currentVideo + 1);
+  });
 
 </script>
 </body>
