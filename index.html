@@ -392,7 +392,7 @@ fbq('track', 'PageView');
     padding: 0;
     cursor: pointer;
   }
-  .video-frame img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .video-frame img, .video-frame video { width: 100%; height: 100%; object-fit: cover; display: block; pointer-events: none; }
   .video-frame::after {
     content: '';
     position: absolute; inset: 0;
@@ -645,7 +645,7 @@ fbq('track', 'PageView');
       <h2 class="sp-title" data-i18n="sp1_title">Une vraie communauté nous suit déjà.</h2>
       <div class="tiktok-proof">
         <div class="tiktok-proof-shot">
-          <img src="media/tiktok-screenshot.png" alt="Compte TikTok Asmetry" />
+          <img src="media/tiktok-screenshot.jpg" alt="Compte TikTok Asmetry" />
         </div>
         <p class="tiktok-proof-caption" data-i18n="sp1_caption">Compte TikTok officiel d'Asmetry — 7 375 abonnés et 25,6 K mentions J'aime.</p>
         <a class="btn btn-dark" href="https://www.tiktok.com/@asmetry.io" target="_blank" rel="noopener" data-i18n="sp1_cta">Suivre @asmetry.io sur TikTok</a>
@@ -658,15 +658,23 @@ fbq('track', 'PageView');
       <h2 class="sp-title" data-i18n="sp2_title">Des transformations, pas des promesses.</h2>
       <div class="video-grid">
         <button class="video-frame" data-video="media/proof-video-1.mp4">
-          <img src="media/proof-video-1.jpg" alt="" />
+          <video src="media/proof-video-1.mp4" muted playsinline preload="metadata"></video>
           <span class="video-play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>
         </button>
         <button class="video-frame" data-video="media/proof-video-2.mp4">
-          <img src="media/proof-video-2.jpg" alt="" />
+          <video src="media/proof-video-2.mp4" muted playsinline preload="metadata"></video>
           <span class="video-play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>
         </button>
         <button class="video-frame" data-video="media/proof-video-3.mp4">
-          <img src="media/proof-video-3.jpg" alt="" />
+          <video src="media/proof-video-3.mp4" muted playsinline preload="metadata"></video>
+          <span class="video-play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>
+        </button>
+        <button class="video-frame" data-video="media/proof-video-4.mp4">
+          <video src="media/proof-video-4.mp4" muted playsinline preload="metadata"></video>
+          <span class="video-play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>
+        </button>
+        <button class="video-frame" data-video="media/proof-video-5.mp4">
+          <video src="media/proof-video-5.mp4" muted playsinline preload="metadata"></video>
           <span class="video-play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>
         </button>
       </div>
@@ -677,12 +685,9 @@ fbq('track', 'PageView');
       <div class="sp-kicker" data-i18n="sp3_kicker">Ils nous l'ont dit</div>
       <h2 class="sp-title" data-i18n="sp3_title">Ce que nos premiers utilisateurs nous ont écrit.</h2>
       <div class="chat-grid">
-        <div class="chat-frame"><img src="media/testimonial-1.png" alt="" /></div>
-        <div class="chat-frame"><img src="media/testimonial-2.png" alt="" /></div>
-        <div class="chat-frame"><img src="media/testimonial-3.png" alt="" /></div>
-        <div class="chat-frame"><img src="media/testimonial-4.png" alt="" /></div>
-        <div class="chat-frame"><img src="media/testimonial-5.png" alt="" /></div>
-        <div class="chat-frame"><img src="media/testimonial-6.png" alt="" /></div>
+        <div class="chat-frame"><img src="media/testimonial-1.jpg" alt="" /></div>
+        <div class="chat-frame"><img src="media/testimonial-2.jpg" alt="" /></div>
+        <div class="chat-frame"><img src="media/testimonial-3.jpg" alt="" /></div>
       </div>
     </div>
 
