@@ -62,14 +62,6 @@ fbq('track', 'PageView');
   .back-link { font-size: 13px; font-weight: 600; color: var(--gray-on-dark); text-decoration: none; }
 
   .pay-hero { padding: 40px 0 120px; text-align: center; }
-  h1.pay-title {
-    font-size: clamp(17px, 2.6vw, 21px);
-    line-height: 1.3;
-    font-weight: 700;
-    letter-spacing: -0.3px;
-    max-width: 24ch;
-    margin: 0 auto;
-  }
   .price-block { margin-top: 40px; }
   .price-main {
     font-size: clamp(52px, 9vw, 78px);
@@ -202,8 +194,6 @@ fbq('track', 'PageView');
 
 <header class="pay-hero">
   <div class="wrap reveal">
-    <h1 class="pay-title" data-i18n="pay_hero">10$ puis gratuit pour toujours.</h1>
-
     <div class="price-block">
       <div class="price-main">$10</div>
       <div class="price-sub">≈ 6 000 <span data-i18n="price_currency">FCFA (Côte d'Ivoire)</span></div>
@@ -260,7 +250,6 @@ fbq('track', 'PageView');
   var translations = {
     en: {
       back_link: "← Back to site",
-      pay_hero: "$10 once, then free for life.",
       price_currency: "FCFA (Côte d'Ivoire)",
       pay_lead: "Get lifetime access to Asmetry with a one-time $10 payment. No subscription. No recurring payments.",
       pay_cta: "Pay",
@@ -280,7 +269,6 @@ fbq('track', 'PageView');
     },
     fr: {
       back_link: "← Retour au site",
-      pay_hero: "10$ puis gratuit pour toujours.",
       price_currency: "FCFA (Côte d'Ivoire)",
       pay_lead: "Obtenez un accès à vie à Asmetry avec un paiement unique de 10 $. Aucun abonnement. Aucun paiement récurrent.",
       pay_cta: "Payer",
