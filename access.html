@@ -167,11 +167,10 @@ fbq('track', 'PageView');
   }
   .plan-features li::before {
     content: '✓';
-    color: #fff;
+    color: rgba(255,255,255,0.35);
     font-weight: 700;
     flex-shrink: 0;
   }
-  .plan-features.dim li::before { color: rgba(255,255,255,0.35); }
 
   .alt-plan {
     margin-top: 56px;
@@ -224,13 +223,13 @@ fbq('track', 'PageView');
       <a class="already-paid-text" href="confirm.html" data-i18n="already_paid_link">Confirmer</a>
     </div>
 
-    <div class="alt-plan">
+    <div class="alt-plan" id="alt-plan">
       <div class="alt-kicker" data-i18n="alt_kicker">Ou, version essentielle</div>
       <div class="price-block">
         <div class="price-main">$5</div>
         <div class="price-sub">≈ 3 000 <span data-i18n="price_currency">FCFA (Côte d'Ivoire)</span></div>
       </div>
-        <ul class="plan-features dim">
+        <ul class="plan-features">
           <li data-i18n="plan5_1">Scan facial avec Claude Vision</li>
           <li data-i18n="plan5_2">Plan personnalisé</li>
           <li data-i18n="plan5_3">1 scan par jour</li>
@@ -344,6 +343,12 @@ fbq('track', 'PageView');
   }
   bindPayButton('pay-btn', 10.00);
   bindPayButton('pay-btn-5', 5.00);
+
+  // Défilement automatique vers la formule à 5 $, pour qu'elle ne passe pas inaperçue.
+  setTimeout(function () {
+    var altPlan = document.getElementById('alt-plan');
+    if (altPlan) altPlan.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 1500);
 </script>
 </body>
 </html>
