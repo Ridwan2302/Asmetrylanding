@@ -166,17 +166,19 @@ fbq('track', 'PageView');
     color: var(--gray-on-dark);
   }
   .plan-features li::before {
-    content: '•';
+    content: '✓';
     color: #fff;
     font-weight: 700;
     flex-shrink: 0;
   }
+  .plan-features.dim li::before { color: rgba(255,255,255,0.35); }
 
   .alt-plan {
     margin-top: 56px;
     padding-top: 44px;
     border-top: 1px solid var(--line-dark);
   }
+  .alt-plan .price-main { font-size: clamp(40px, 7vw, 56px); }
   .alt-kicker {
     font-size: 12px;
     font-weight: 700;
@@ -228,10 +230,7 @@ fbq('track', 'PageView');
         <div class="price-main">$5</div>
         <div class="price-sub">≈ 3 000 <span data-i18n="price_currency">FCFA (Côte d'Ivoire)</span></div>
       </div>
-
-      <p class="pay-lead" data-i18n="pay_lead_5">Obtenez un accès à vie à Asmetry avec un paiement unique de 5 $. Aucun abonnement. Aucun paiement récurrent.</p>
-
-        <ul class="plan-features">
+        <ul class="plan-features dim">
           <li data-i18n="plan5_1">Scan facial avec Claude Vision</li>
           <li data-i18n="plan5_2">Plan personnalisé</li>
           <li data-i18n="plan5_3">1 scan par jour</li>
@@ -265,7 +264,6 @@ fbq('track', 'PageView');
       pay_hero: "$10 once, then free for life.",
       price_currency: "FCFA (Côte d'Ivoire)",
       pay_lead: "Get lifetime access to Asmetry with a one-time $10 payment. No subscription. No recurring payments.",
-      pay_lead_5: "Get lifetime access to Asmetry with a one-time $5 payment. No subscription. No recurring payments.",
       pay_cta: "Pay",
       alt_kicker: "Or, essential version",
       plan10_1: "Facial scan with Claude Vision",
@@ -286,7 +284,6 @@ fbq('track', 'PageView');
       pay_hero: "10$ puis gratuit pour toujours.",
       price_currency: "FCFA (Côte d'Ivoire)",
       pay_lead: "Obtenez un accès à vie à Asmetry avec un paiement unique de 10 $. Aucun abonnement. Aucun paiement récurrent.",
-      pay_lead_5: "Obtenez un accès à vie à Asmetry avec un paiement unique de 5 $. Aucun abonnement. Aucun paiement récurrent.",
       pay_cta: "Payer",
       alt_kicker: "Ou, version essentielle",
       plan10_1: "Scan facial avec Claude Vision",
