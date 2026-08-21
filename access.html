@@ -63,7 +63,7 @@ fbq('track', 'PageView');
 
   .pay-hero { padding: 40px 0 120px; text-align: center; }
   h1.pay-title {
-    font-size: clamp(20px, 3.2vw, 26px);
+    font-size: clamp(17px, 2.6vw, 21px);
     line-height: 1.3;
     font-weight: 700;
     letter-spacing: -0.3px;
@@ -72,7 +72,7 @@ fbq('track', 'PageView');
   }
   .price-block { margin-top: 40px; }
   .price-main {
-    font-size: clamp(64px, 12vw, 100px);
+    font-size: clamp(52px, 9vw, 78px);
     font-weight: 800;
     letter-spacing: -2px;
     line-height: 1;
@@ -343,12 +343,6 @@ fbq('track', 'PageView');
   }
   bindPayButton('pay-btn', 10.00);
   bindPayButton('pay-btn-5', 5.00);
-
-  // Défilement automatique vers la formule à 5 $, pour qu'elle ne passe pas inaperçue.
-  setTimeout(function () {
-    var altPlan = document.getElementById('alt-plan');
-    if (altPlan) altPlan.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }, 1500);
 </script>
 </body>
 </html>
