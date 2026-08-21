@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-<title>Asmetry — 10$ puis gratuit pour toujours.</title>
-<meta name="description" content="Payez 10 $ une seule fois et Asmetry est à vous à vie — sans abonnement." />
+<title>Asmetry — À partir de 5$, gratuit pour toujours.</title>
+<meta name="description" content="À partir de 5 $, une seule fois, et Asmetry est à vous à vie — sans abonnement." />
 <meta name="theme-color" content="#0b0b0c" />
 <meta name="robots" content="noindex" />
 
@@ -114,6 +114,46 @@ fbq('track', 'PageView');
   footer .wrap { display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center; }
   .footer-fine { font-size: 12px; color: var(--gray-on-dark); }
 
+
+  .plan-features {
+    list-style: none;
+    text-align: left;
+    max-width: 300px;
+    margin: 18px auto 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .plan-features li {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    font-size: 14px;
+    line-height: 1.4;
+    color: var(--gray-on-dark);
+  }
+  .plan-features li::before {
+    content: '✓';
+    color: #fff;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .plan-features.dim li::before { color: rgba(255,255,255,0.35); }
+
+  .alt-plan {
+    margin-top: 56px;
+    padding-top: 44px;
+    border-top: 1px solid var(--line-dark);
+  }
+  .alt-plan .price-main { font-size: clamp(40px, 7vw, 56px); }
+  .alt-kicker {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--gray-on-dark);
+    margin-bottom: 6px;
+  }
   @media (max-width: 480px) {
     .pay-hero { padding: 32px 0 88px; }
   }
@@ -139,9 +179,33 @@ fbq('track', 'PageView');
 
     <p class="pay-lead" data-i18n="pay_lead">Obtenez un accès à vie à Asmetry avec un paiement unique de 10 $. Aucun abonnement. Aucun paiement récurrent.</p>
 
+      <ul class="plan-features">
+        <li data-i18n="plan10_1">Scan facial avec Claude Vision</li>
+        <li data-i18n="plan10_2">Plan personnalisé</li>
+        <li data-i18n="plan10_3">Suivi Asmetry IA</li>
+        <li data-i18n="plan10_4">Scans illimités</li>
+      </ul>
+
     <div class="cta-row">
       <a class="btn btn-dark btn-wide" id="pay-btn" href="https://pay.jeko.africa/pl/a91ca429-f018-41cb-bf41-5431b2aed3ee" target="_blank" rel="noopener" data-i18n="pay_cta">Payer</a>
       <a class="already-paid-text" href="confirm.html" data-i18n="already_paid_link">Confirmer</a>
+    </div>
+
+    <div class="alt-plan">
+      <div class="alt-kicker" data-i18n="alt_kicker">Ou, version essentielle</div>
+      <div class="price-block">
+        <div class="price-main">$5</div>
+        <div class="price-sub">≈ 3 000 <span data-i18n="price_currency">FCFA (Côte d'Ivoire)</span></div>
+      </div>
+        <ul class="plan-features dim">
+          <li data-i18n="plan5_1">Scan facial avec Claude Vision</li>
+          <li data-i18n="plan5_2">Plan personnalisé</li>
+          <li data-i18n="plan5_3">1 scan par jour</li>
+          <li data-i18n="plan5_4">Sans suivi Asmetry IA</li>
+        </ul>
+      <div class="cta-row" style="margin-top:22px;">
+        <a class="btn btn-dark btn-wide" id="pay-btn-5" href="https://pay.jeko.africa/pl/019f5d8b-27e1-4a90-96e8-2b2d221df623" target="_blank" rel="noopener" data-i18n="pay_cta">Payer</a>
+      </div>
     </div>
 
   </div>
@@ -163,6 +227,15 @@ fbq('track', 'PageView');
       price_currency: "FCFA (Côte d'Ivoire)",
       pay_lead: "Get lifetime access to Asmetry with a one-time $10 payment. No subscription. No recurring payments.",
       pay_cta: "Pay",
+      alt_kicker: "Or, essential version",
+      plan10_1: "Facial scan with Claude Vision",
+      plan10_2: "Personalized plan",
+      plan10_3: "Asmetry AI follow-up",
+      plan10_4: "Unlimited scans",
+      plan5_1: "Facial scan with Claude Vision",
+      plan5_2: "Personalized plan",
+      plan5_3: "1 scan per day",
+      plan5_4: "No Asmetry AI follow-up",
       already_paid_link: "Confirm",
       footer_rights: "All rights reserved."
     },
@@ -172,6 +245,15 @@ fbq('track', 'PageView');
       price_currency: "FCFA (Côte d'Ivoire)",
       pay_lead: "Obtenez un accès à vie à Asmetry avec un paiement unique de 10 $. Aucun abonnement. Aucun paiement récurrent.",
       pay_cta: "Payer",
+      alt_kicker: "Ou, version essentielle",
+      plan10_1: "Scan facial avec Claude Vision",
+      plan10_2: "Plan personnalisé",
+      plan10_3: "Suivi Asmetry IA",
+      plan10_4: "Scans illimités",
+      plan5_1: "Scan facial avec Claude Vision",
+      plan5_2: "Plan personnalisé",
+      plan5_3: "1 scan par jour",
+      plan5_4: "Sans suivi Asmetry IA",
       already_paid_link: "Confirmer",
       footer_rights: "Tous droits réservés."
     }
@@ -201,16 +283,24 @@ fbq('track', 'PageView');
   // "Payer" opens the Jèko payment link in a new tab, instantly — one click, no gate, exactly
   // like before. The current tab then moves on to confirm.html, a separate page where the
   // phone number is collected — kept off this page entirely so the payment button stays clean.
-  var payBtn = document.getElementById('pay-btn');
-  payBtn.addEventListener('click', function () {
-    // Intention d'achat — la personne part vers Jèko. Ce n'est PAS une vente : seul le
-    // Purchase de confirm.html, déclenché après vérification du webhook, l'est. Cet
-    // événement sert à savoir si les abandons ont lieu avant ou pendant le paiement.
-    if (typeof fbq === 'function') {
-      fbq('track', 'InitiateCheckout', { value: 10.00, currency: 'USD' });
-    }
-    setTimeout(function () { window.location.href = 'confirm.html'; }, 150);
-  });
+  // Les deux formules (10 $ et 5 $) partagent le même comportement : le clic ouvre Jèko
+  // dans un nouvel onglet et fait avancer l'onglet courant vers confirm.html. Seul le montant
+  // envoyé au pixel InitiateCheckout change selon le bouton cliqué.
+  function bindPayButton(id, value) {
+    var btn = document.getElementById(id);
+    if (!btn) return;
+    btn.addEventListener('click', function () {
+      // Intention d'achat — la personne part vers Jèko. Ce n'est PAS une vente : seul le
+      // Purchase de confirm.html, déclenché après vérification du webhook, l'est. Cet
+      // événement sert à savoir si les abandons ont lieu avant ou pendant le paiement.
+      if (typeof fbq === 'function') {
+        fbq('track', 'InitiateCheckout', { value: value, currency: 'USD' });
+      }
+      setTimeout(function () { window.location.href = 'confirm.html'; }, 150);
+    });
+  }
+  bindPayButton('pay-btn', 10.00);
+  bindPayButton('pay-btn-5', 5.00);
 </script>
 </body>
 </html>
