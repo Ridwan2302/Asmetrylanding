@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-<title>Asmetry — 5$ puis gratuit pour toujours.</title>
-<meta name="description" content="Payez 5 $ une seule fois et Asmetry est à vous à vie — sans abonnement." />
+<title>Asmetry — 10$ puis gratuit pour toujours.</title>
+<meta name="description" content="Payez 10 $ une seule fois et Asmetry est à vous à vie — sans abonnement." />
 <meta name="theme-color" content="#0b0b0c" />
 <meta name="robots" content="noindex" />
 
@@ -162,17 +162,17 @@ fbq('track', 'PageView');
 
 <header class="pay-hero">
   <div class="wrap reveal">
-    <h1 class="pay-title" data-i18n="pay_hero">5$ puis gratuit pour toujours.</h1>
+    <h1 class="pay-title" data-i18n="pay_hero">10$ puis gratuit pour toujours.</h1>
 
     <div class="price-block">
-      <div class="price-main">$5</div>
-      <div class="price-sub">≈ 3 000 <span data-i18n="price_currency">FCFA (Côte d'Ivoire)</span></div>
+      <div class="price-main">$10</div>
+      <div class="price-sub">≈ 6 000 <span data-i18n="price_currency">FCFA (Côte d'Ivoire)</span></div>
     </div>
 
-    <p class="pay-lead" data-i18n="pay_lead">Obtenez un accès à vie à Asmetry avec un paiement unique de 5 $. Aucun abonnement. Aucun paiement récurrent.</p>
+    <p class="pay-lead" data-i18n="pay_lead">Obtenez un accès à vie à Asmetry avec un paiement unique de 10 $. Aucun abonnement. Aucun paiement récurrent.</p>
 
     <div class="cta-row">
-      <a class="btn btn-dark btn-wide" id="pay-btn" href="https://pay.jeko.africa/pl/019f5d8b-27e1-4a90-96e8-2b2d221df623" target="_blank" rel="noopener" data-i18n="pay_cta">Payer</a>
+      <a class="btn btn-dark btn-wide" id="pay-btn" href="https://pay.jeko.africa/pl/eca92c35-4074-46a4-8502-439ee6238c1a" target="_blank" rel="noopener" data-i18n="pay_cta">Payer</a>
       <a class="already-paid-text" href="confirm.html" data-i18n="already_paid_link">Confirmer</a>
     </div>
 
@@ -191,9 +191,9 @@ fbq('track', 'PageView');
   var translations = {
     en: {
       back_link: "← Back to site",
-      pay_hero: "$5 once, then free forever.",
+      pay_hero: "$10 once, then free forever.",
       price_currency: "FCFA (Côte d'Ivoire)",
-      pay_lead: "Get lifetime access to Asmetry with a one-time $5 payment. No subscription. No recurring payments.",
+      pay_lead: "Get lifetime access to Asmetry with a one-time $10 payment. No subscription. No recurring payments.",
       pay_cta: "Pay",
       already_paid_link: "Confirm",
       or_divider: "or",
@@ -202,9 +202,9 @@ fbq('track', 'PageView');
     },
     fr: {
       back_link: "← Retour au site",
-      pay_hero: "5$ puis gratuit pour toujours.",
+      pay_hero: "10$ puis gratuit pour toujours.",
       price_currency: "FCFA (Côte d'Ivoire)",
-      pay_lead: "Obtenez un accès à vie à Asmetry avec un paiement unique de 5 $. Aucun abonnement. Aucun paiement récurrent.",
+      pay_lead: "Obtenez un accès à vie à Asmetry avec un paiement unique de 10 $. Aucun abonnement. Aucun paiement récurrent.",
       pay_cta: "Payer",
       already_paid_link: "Confirmer",
       or_divider: "ou",
@@ -244,7 +244,7 @@ fbq('track', 'PageView');
     // Purchase de confirm.html, déclenché après vérification du webhook, l'est. Cet
     // événement sert à savoir si les abandons ont lieu avant ou pendant le paiement.
     if (typeof fbq === 'function') {
-      fbq('track', 'InitiateCheckout', { value: 5.00, currency: 'USD' });
+      fbq('track', 'InitiateCheckout', { value: 10.00, currency: 'USD' });
     }
     setTimeout(function () { window.location.href = 'confirm.html'; }, 150);
   });
