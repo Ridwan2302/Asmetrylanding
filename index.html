@@ -246,20 +246,14 @@ fbq('track', 'PageView');
     padding: 44px 0;
     border-top: 1px solid var(--line);
     align-items: start;
-    transition: background 0.6s ease, border-color 0.6s ease;
   }
   .step:last-child { border-bottom: 1px solid var(--line); }
-  .step-index { font-size: 15px; font-weight: 700; color: var(--gray-dim); padding-top: 6px; transition: color 0.6s ease; }
+  .step-index { font-size: 15px; font-weight: 700; color: var(--gray-dim); padding-top: 6px; }
   .step-title { font-size: clamp(22px, 2.6vw, 30px); font-weight: 700; letter-spacing: -0.4px; }
   .step-body { margin-top: 10px; font-size: 16px; line-height: 1.55; color: var(--gray); max-width: 56ch; }
-  .step-icon { display: flex; justify-content: flex-end; align-items: flex-start; transition: transform 0.6s ease; }
+  .step-icon { display: flex; justify-content: flex-end; align-items: flex-start; }
   .step-icon svg { width: 40px; height: 40px; }
   .step-icon img { width: 42px; height: 68px; object-fit: cover; border-radius: 10px; box-shadow: 0 6px 18px rgba(0,0,0,0.12); }
-
-  /* Mise en avant automatique de l'étape active (voir setActiveStep dans le script) */
-  .step-active { background: rgba(11,11,12,0.035); border-top-color: var(--ink); }
-  .step-active .step-index { color: var(--ink); }
-  .step-active .step-icon { transform: scale(1.08); }
 
   /* ---------- clinical diagram section ---------- */
   .diagram-section .wrap.reveal { text-align: center; }
@@ -889,21 +883,6 @@ Installs in seconds.</span>
   setTimeout(function () {
     revealEls.forEach(function (el) { el.classList.add('in'); });
   }, 2500);
-
-  // Les trois étapes se mettent en avant tour à tour, automatiquement, pour attirer
-  // l'œil sur la section même sans interaction du visiteur.
-  var stepEls = Array.prototype.slice.call(document.querySelectorAll('.steps .step'));
-  if (stepEls.length) {
-    var activeStepIndex = 0;
-    function setActiveStep(i) {
-      stepEls.forEach(function (el, idx) { el.classList.toggle('step-active', idx === i); });
-    }
-    setActiveStep(activeStepIndex);
-    setInterval(function () {
-      activeStepIndex = (activeStepIndex + 1) % stepEls.length;
-      setActiveStep(activeStepIndex);
-    }, 2600);
-  }
 
   // Les vidéos de transformation se lisent sur le site, en surimpression — aucun renvoi
   // vers TikTok : le visiteur venu d'une publicité ne doit pas quitter la page.
