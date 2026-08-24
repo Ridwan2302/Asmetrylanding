@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-<title>Asmetry — 10$ puis gratuit pour toujours.</title>
-<meta name="description" content="Payez 10 $ une seule fois et Asmetry est à vous à vie — sans abonnement." />
+<title>Asmetry — 1$ puis gratuit pour toujours.</title>
+<meta name="description" content="Payez 1 $ une seule fois et Asmetry est à vous à vie — sans abonnement." />
 <meta name="theme-color" content="#0b0b0c" />
 <meta name="robots" content="noindex" />
 
@@ -84,22 +84,6 @@ fbq('track', 'PageView');
     color: var(--gray-on-dark);
     max-width: 42ch;
   }
-
-  .alt-plan {
-    margin-top: 56px;
-    padding-top: 44px;
-    border-top: 1px solid var(--line-dark);
-  }
-  .alt-plan .price-main { font-size: clamp(40px, 7vw, 56px); }
-  .alt-kicker {
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    color: var(--gray-on-dark);
-    margin-bottom: 6px;
-  }
-
   .cta-row { margin-top: 36px; display: flex; flex-direction: column; align-items: center; gap: 14px; }
   .btn {
     display: inline-flex;
@@ -178,34 +162,18 @@ fbq('track', 'PageView');
 
 <header class="pay-hero">
   <div class="wrap reveal">
-    <h1 class="pay-title" data-i18n="pay_hero">10$ puis gratuit pour toujours.</h1>
+    <h1 class="pay-title" data-i18n="pay_hero">1$ puis gratuit pour toujours.</h1>
 
     <div class="price-block">
-      <div class="price-main">$10</div>
-      <div class="price-sub">≈ 5 500 <span data-i18n="price_currency">FCFA (Westaf value)</span></div>
+      <div class="price-main">$1</div>
+      <div class="price-sub">≈ 550 <span data-i18n="price_currency">FCFA (Westaf value)</span></div>
     </div>
 
-    <p class="pay-lead" data-i18n="pay_lead">Obtenez un accès à vie à Asmetry avec un paiement unique de 10 $. Aucun abonnement. Aucun paiement récurrent.</p>
+    <p class="pay-lead" data-i18n="pay_lead">Obtenez un accès à vie à Asmetry avec un paiement unique de 1 $. Aucun abonnement. Aucun paiement récurrent.</p>
 
     <div class="cta-row">
-      <a class="btn btn-dark btn-wide" id="pay-btn" href="https://pay.jeko.africa/pl/eca92c35-4074-46a4-8502-439ee6238c1a" target="_blank" rel="noopener" data-i18n="pay_cta">Payer</a>
+      <a class="btn btn-dark btn-wide" id="pay-btn" href="https://pay.jeko.africa/pl/342a665d-90a5-455f-a54e-b2aa223d6d4b" target="_blank" rel="noopener" data-i18n="pay_cta">Payer</a>
       <a class="already-paid-text" href="confirm.html" data-i18n="already_paid_link">Confirmer</a>
-    </div>
-
-    <div class="alt-plan">
-      <div class="alt-kicker" data-i18n="alt_kicker">Essential</div>
-
-      <div class="price-block">
-        <div class="price-main">$5</div>
-        <div class="price-sub">≈ 3 000 <span data-i18n="price_currency">FCFA (Westaf value)</span></div>
-      </div>
-
-      <p class="pay-lead" data-i18n="pay_lead_5">Obtenez un accès à vie à Asmetry avec un paiement unique de 5 $. Aucun abonnement. Aucun paiement récurrent.</p>
-
-      <div class="cta-row">
-        <a class="btn btn-dark btn-wide" id="pay-btn-5" href="https://pay.jeko.africa/pl/019f5d8b-27e1-4a90-96e8-2b2d221df623" target="_blank" rel="noopener" data-i18n="pay_cta">Payer</a>
-        <a class="already-paid-text" href="confirm.html" data-i18n="already_paid_link">Confirmer</a>
-      </div>
     </div>
 
   </div>
@@ -223,11 +191,9 @@ fbq('track', 'PageView');
   var translations = {
     en: {
       back_link: "← Back to site",
-      pay_hero: "$10 once, then free forever.",
+      pay_hero: "$1 once, then free forever.",
       price_currency: "FCFA (Westaf value)",
-      pay_lead: "Get lifetime access to Asmetry with a one-time $10 payment. No subscription. No recurring payments.",
-      alt_kicker: "Essential",
-      pay_lead_5: "Get lifetime access to Asmetry with a one-time $5 payment. No subscription. No recurring payments.",
+      pay_lead: "Get lifetime access to Asmetry with a one-time $1 payment. No subscription. No recurring payments.",
       pay_cta: "Pay",
       already_paid_link: "Confirm",
       or_divider: "or",
@@ -236,11 +202,9 @@ fbq('track', 'PageView');
     },
     fr: {
       back_link: "← Retour au site",
-      pay_hero: "10$ puis gratuit pour toujours.",
+      pay_hero: "1$ puis gratuit pour toujours.",
       price_currency: "FCFA (Westaf value)",
-      pay_lead: "Obtenez un accès à vie à Asmetry avec un paiement unique de 10 $. Aucun abonnement. Aucun paiement récurrent.",
-      alt_kicker: "Essential",
-      pay_lead_5: "Obtenez un accès à vie à Asmetry avec un paiement unique de 5 $. Aucun abonnement. Aucun paiement récurrent.",
+      pay_lead: "Obtenez un accès à vie à Asmetry avec un paiement unique de 1 $. Aucun abonnement. Aucun paiement récurrent.",
       pay_cta: "Payer",
       already_paid_link: "Confirmer",
       or_divider: "ou",
@@ -274,20 +238,16 @@ fbq('track', 'PageView');
   // "Payer" opens the Jèko payment link in a new tab, instantly — one click, no gate, exactly
   // like before. The current tab then moves on to confirm.html, a separate page where the
   // phone number is collected — kept off this page entirely so the payment button stays clean.
-  function bindPayButton(id, value) {
-    var btn = document.getElementById(id);
-    btn.addEventListener('click', function () {
-      // Intention d'achat — la personne part vers Jèko. Ce n'est PAS une vente : seul le
-      // Purchase de confirm.html, déclenché après vérification du webhook, l'est. Cet
-      // événement sert à savoir si les abandons ont lieu avant ou pendant le paiement.
-      if (typeof fbq === 'function') {
-        fbq('track', 'InitiateCheckout', { value: value, currency: 'USD' });
-      }
-      setTimeout(function () { window.location.href = 'confirm.html'; }, 150);
-    });
-  }
-  bindPayButton('pay-btn', 10.00);
-  bindPayButton('pay-btn-5', 5.00);
+  var payBtn = document.getElementById('pay-btn');
+  payBtn.addEventListener('click', function () {
+    // Intention d'achat — la personne part vers Jèko. Ce n'est PAS une vente : seul le
+    // Purchase de confirm.html, déclenché après vérification du webhook, l'est. Cet
+    // événement sert à savoir si les abandons ont lieu avant ou pendant le paiement.
+    if (typeof fbq === 'function') {
+      fbq('track', 'InitiateCheckout', { value: 1.00, currency: 'USD' });
+    }
+    setTimeout(function () { window.location.href = 'confirm.html'; }, 150);
+  });
 </script>
 </body>
 </html>
