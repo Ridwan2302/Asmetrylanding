@@ -49,7 +49,7 @@ fbq('track', 'PageView');
     --glass-thumb: rgba(255,255,255,0.22);
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; }
+  html { scroll-behavior: smooth; scroll-snap-type: y proximity; }
   body {
     background: var(--white);
     color: var(--ink);
@@ -463,6 +463,7 @@ fbq('track', 'PageView');
     color: var(--ink);
     padding: 0 0 56px;
     border-top: 1px solid var(--line);
+    scroll-snap-align: start;
   }
   .footer-final .wrap {
     display: flex;
@@ -667,12 +668,8 @@ Installs in seconds.</span>
     <!-- Bloc 2 : vidéos avant/après, lues sur le site -->
     <div class="sp-row reveal">
       <div class="sp-kicker" data-i18n="sp2_kicker">Résultats réels</div>
-      <h2 class="sp-title" data-i18n="sp2_title">Des transformations de looksmaxing.</h2>
+      <h2 class="sp-title" data-i18n="sp2_title">Des résultats de looksmaxing.</h2>
       <div class="video-grid">
-        <button class="video-frame reveal" data-video="media/proof-video-1.mp4">
-          <video src="media/proof-video-1.mp4" muted playsinline preload="metadata"></video>
-          <span class="video-play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>
-        </button>
         <button class="video-frame reveal" data-video="media/proof-video-2.mp4">
           <video src="media/proof-video-2.mp4" muted playsinline preload="metadata"></video>
           <span class="video-play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>
@@ -683,6 +680,10 @@ Installs in seconds.</span>
         </button>
         <button class="video-frame reveal" data-video="media/proof-video-5.mp4">
           <video src="media/proof-video-5.mp4" muted playsinline preload="metadata"></video>
+          <span class="video-play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>
+        </button>
+        <button class="video-frame reveal" data-video="media/proof-video-1.mp4">
+          <video src="media/proof-video-1.mp4" muted playsinline preload="metadata"></video>
           <span class="video-play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>
         </button>
       </div>
@@ -760,7 +761,7 @@ Installs in seconds.</span>
       video_prev: "Précédent",
       video_next: "Suivant",
       sp2_kicker: "Résultats réels",
-      sp2_title: "Des transformations de looksmaxing.",
+      sp2_title: "Des résultats de looksmaxing.",
       social_kicker: "Ils nous suivent déjà",
       social_title: "Une communauté, pas une promesse.",
       videos_title: "Des transformations réelles",
