@@ -327,136 +327,6 @@ fbq('track', 'PageView');
     .body-list { text-align: left; }
   }
 
-  /* ---------- Preuve sociale (après le footer, fond noir) ---------- */
-  .social-proof {
-    background: var(--ink);
-    color: #fff;
-    padding: 88px 0 104px;
-  }
-  .sp-row { text-align: center; }
-  .sp-row + .sp-row { margin-top: 96px; }
-  .sp-kicker {
-    font-size: 12px;
-    font-weight: 600;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: var(--gray-on-dark);
-    margin-bottom: 14px;
-  }
-  .sp-title {
-    font-size: clamp(28px, 4vw, 44px);
-    font-weight: 800;
-    letter-spacing: -1px;
-    line-height: 1.12;
-    max-width: 20ch;
-    margin: 0 auto 40px;
-    color: #fff;
-  }
-
-  /* Bloc 2 : grille de vidéos avant/après, format vertical */
-  .video-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 16px;
-    max-width: 760px;
-    margin: 0 auto;
-  }
-  .video-frame {
-    position: relative;
-    aspect-ratio: 9 / 16;
-    border-radius: 20px;
-    overflow: hidden;
-    border: 1px solid var(--glass-border);
-    background: #111;
-    padding: 0;
-    cursor: pointer;
-  }
-  .video-frame img, .video-frame video { width: 100%; height: 100%; object-fit: cover; display: block; pointer-events: none; }
-  /* Effet d'entrée plus marqué pour chaque vidéo (au-delà du simple fondu générique) :
-     translation plus ample et léger effet de zoom. */
-  .video-frame.reveal {
-    opacity: 0;
-    transform: translateY(48px) scale(0.94);
-    transition: opacity 0.8s cubic-bezier(0.16, 0.8, 0.24, 1), transform 0.8s cubic-bezier(0.16, 0.8, 0.24, 1);
-  }
-  .video-frame.reveal.in { opacity: 1; transform: translateY(0) scale(1); }
-  /* Apparition en cascade : les vidéos se révèlent l'une après l'autre */
-  .video-grid .video-frame:nth-child(1) { transition-delay: 0s; }
-  .video-grid .video-frame:nth-child(2) { transition-delay: 0.15s; }
-  .video-grid .video-frame:nth-child(3) { transition-delay: 0.30s; }
-  .video-grid .video-frame:nth-child(4) { transition-delay: 0.45s; }
-  .video-frame::after {
-    content: '';
-    position: absolute; inset: 0;
-    background: linear-gradient(to top, rgba(0,0,0,0.5), transparent 55%);
-  }
-  .video-play {
-    position: absolute; left: 50%; top: 50%;
-    transform: translate(-50%, -50%);
-    width: 46px; height: 46px;
-    border-radius: 50%;
-    background: rgba(255,255,255,0.92);
-    display: flex; align-items: center; justify-content: center;
-    z-index: 1;
-  }
-  .video-play svg { width: 17px; height: 17px; margin-left: 3px; fill: #000; }
-
-  .video-modal {
-    position: fixed; inset: 0;
-    background: rgba(0,0,0,0.9);
-    display: none;
-    align-items: center; justify-content: center;
-    z-index: 999;
-    padding: 24px;
-  }
-  .video-modal.open { display: flex; }
-  .video-modal video {
-    max-width: min(100%, 420px);
-    max-height: 88vh;
-    border-radius: 20px;
-    outline: none;
-  }
-  /* Navigation entre les videos sans quitter le lecteur */
-  .video-modal-nav {
-    position: absolute;
-    left: 0; right: 0; bottom: 28px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 18px;
-  }
-  .video-nav-btn {
-    padding: 10px 20px;
-    border-radius: 999px;
-    border: 1px solid var(--glass-border);
-    background: var(--glass-bg);
-    color: #fff;
-    font-size: 13px;
-    font-weight: 600;
-    font-family: inherit;
-    cursor: pointer;
-    transition: opacity 0.15s ease, transform 0.15s ease;
-  }
-  .video-nav-btn:active { transform: scale(0.96); }
-  .video-nav-btn:disabled { opacity: 0.3; cursor: default; }
-  .video-nav-count {
-    font-size: 12px;
-    color: var(--gray-on-dark);
-    min-width: 40px;
-    text-align: center;
-  }
-
-  .video-modal-close {
-    position: absolute; top: 18px; right: 18px;
-    width: 40px; height: 40px;
-    border-radius: 50%;
-    border: 1px solid var(--glass-border);
-    background: var(--glass-bg);
-    color: #fff;
-    font-size: 20px; line-height: 1;
-    cursor: pointer;
-  }
-
   /* Footer de clôture, sur fond clair : referme la page sur la couleur du site */
   .footer-final {
     background: #fff;
@@ -476,12 +346,6 @@ fbq('track', 'PageView');
   .footer-final .footer-brand img { width: 22px; height: 22px; border-radius: 6px; object-fit: cover; }
   .footer-final .footer-brand span { font-size: 14px; font-weight: 700; color: var(--ink); }
   .footer-final .footer-fine { font-size: 12px; color: var(--gray); }
-
-  @media (max-width: 640px) {
-    .video-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
-    .sp-row + .sp-row { margin-top: 72px; }
-    .social-proof { padding: 64px 0 80px; }
-  }
 </style>
 </head>
 <body>
@@ -597,60 +461,6 @@ Installs in seconds.</span>
   </div>
 </section>
 
-<!-- Preuve sociale : les transformations en vidéo, lues sur le site. C'est ce que le
-     visiteur venu d'une publicité cherche avant de payer. -->
-<section class="social-proof">
-  <div class="wrap">
-
-    <!-- Bloc 2 : vidéos avant/après, lues sur le site -->
-    <div class="sp-row reveal">
-      <div class="sp-kicker" data-i18n="sp2_kicker">Résultats réels</div>
-      <h2 class="sp-title" data-i18n="sp2_title">Des transformations de looksmaxing.</h2>
-      <div class="video-grid">
-        <button class="video-frame reveal" data-video="media/proof-video-1.mp4">
-          <video src="media/proof-video-1.mp4" muted playsinline preload="metadata"></video>
-          <span class="video-play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>
-        </button>
-        <button class="video-frame reveal" data-video="media/proof-video-2.mp4">
-          <video src="media/proof-video-2.mp4" muted playsinline preload="metadata"></video>
-          <span class="video-play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>
-        </button>
-        <button class="video-frame reveal" data-video="media/proof-video-4.mp4">
-          <video src="media/proof-video-4.mp4" muted playsinline preload="metadata"></video>
-          <span class="video-play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>
-        </button>
-        <button class="video-frame reveal" data-video="media/proof-video-5.mp4">
-          <video src="media/proof-video-5.mp4" muted playsinline preload="metadata"></video>
-          <span class="video-play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>
-        </button>
-      </div>
-    </div>
-
-  </div>
-</section>
-
-<section class="section download">
-  <div class="wrap reveal">
-    <div class="kicker" data-i18n="download_kicker">Get it now</div>
-    <h2 style="margin:0 auto;" data-i18n="download_title">Download Asmetry to your phone.</h2>
-    <p class="section-lead" style="margin-left:auto;margin-right:auto;" data-i18n="download_body">Installs straight from your browser in seconds — no waiting, no account required.</p>
-    <div class="cta-row" style="align-items:center;margin-top:36px;">
-      <a class="btn btn-dark" href="unlock.html" data-i18n="download_cta">Download</a>
-      <span class="micro" style="color:var(--gray);" data-i18n="download_platforms">Works on iPhone and Android</span>
-    </div>
-  </div>
-</section>
-
-<section class="section final section-dark">
-  <div class="wrap reveal">
-    <h2 style="margin:0 auto;" data-i18n="score_title">Ready to see your score?</h2>
-    <p class="section-lead" style="margin-left:auto;margin-right:auto;" data-i18n="score_body">Takes about ninety seconds.</p>
-    <div class="cta-row" style="align-items:center;margin-top:34px;">
-      <a class="btn btn-light" href="unlock.html" data-i18n="get_app">Get the App</a>
-    </div>
-  </div>
-</section>
-
 <section class="section section-dark">
   <div class="wrap reveal">
     <div class="kicker" data-i18n="why_kicker">Why it works</div>
@@ -681,10 +491,22 @@ Installs in seconds.</span>
   </div>
 </section>
 
+<section class="section download">
+  <div class="wrap reveal">
+    <div class="kicker" data-i18n="download_kicker">Get it now</div>
+    <h2 style="margin:0 auto;" data-i18n="download_title">Download Asmetry to your phone.</h2>
+    <p class="section-lead" style="margin-left:auto;margin-right:auto;" data-i18n="download_body">Installs straight from your browser in seconds — no waiting, no account required.</p>
+    <div class="cta-row" style="align-items:center;margin-top:36px;">
+      <a class="btn btn-dark" href="unlock.html" data-i18n="download_cta">Download</a>
+      <span class="micro" style="color:var(--gray);" data-i18n="download_platforms">Works on iPhone and Android</span>
+    </div>
+  </div>
+</section>
+
 <section class="section final section-dark">
   <div class="wrap reveal">
-    <h2 style="margin:0 auto;" data-i18n="final_title">Your four-week plan starts with one scan.</h2>
-    <p class="section-lead" style="margin-left:auto;margin-right:auto;" data-i18n="final_body">The scan reads your weakest features, then builds a daily program around them — facial exercises, routines and progress tracking.</p>
+    <h2 style="margin:0 auto;" data-i18n="score_title">Ready to see your score?</h2>
+    <p class="section-lead" style="margin-left:auto;margin-right:auto;" data-i18n="score_body">Takes about ninety seconds.</p>
     <div class="cta-row" style="align-items:center;margin-top:34px;">
       <a class="btn btn-light" href="unlock.html" data-i18n="get_app">Get the App</a>
     </div>
@@ -701,16 +523,6 @@ Installs in seconds.</span>
   </div>
 </footer>
 
-<div class="video-modal" id="video-modal">
-  <button class="video-modal-close" id="video-modal-close" aria-label="Fermer">&times;</button>
-  <video id="video-modal-player" controls playsinline></video>
-  <div class="video-modal-nav">
-    <button class="video-nav-btn" id="video-prev" data-i18n="video_prev">Précédent</button>
-    <span class="video-nav-count" id="video-count"></span>
-    <button class="video-nav-btn" id="video-next" data-i18n="video_next">Suivant</button>
-  </div>
-</div>
-
 
 <script>
   document.getElementById('year2').textContent = new Date().getFullYear();
@@ -720,10 +532,6 @@ Installs in seconds.</span>
       get_app: "Get the App",
       score_title: "Ready to see your score?",
       score_body: "Takes about ninety seconds.",
-      video_prev: "Previous",
-      video_next: "Next",
-      sp2_kicker: "Real results",
-      sp2_title: "Looksmaxing transformations.",
       social_kicker: "They already follow us",
       social_title: "A community, not a promise.",
       videos_title: "Real transformations",
@@ -762,17 +570,11 @@ Installs in seconds.</span>
       download_body: "Installs straight from your browser in seconds — no waiting, no account required.",
       download_cta: "Download",
       download_platforms: "Works on iPhone and Android",
-      final_title: "Your four-week plan starts with one scan.",
-      final_body: "The scan reads your weakest features, then builds a daily program around them — facial exercises, routines and progress tracking.",
       footer_rights: "All rights reserved."
     },
     fr: {
       score_title: "Prêt à découvrir votre score ?",
       score_body: "Environ quatre-vingt-dix secondes.",
-      video_prev: "Précédent",
-      video_next: "Suivant",
-      sp2_kicker: "Résultats réels",
-      sp2_title: "Des transformations de looksmaxing.",
       social_kicker: "Ils nous suivent déjà",
       social_title: "Une communauté, pas une promesse.",
       videos_title: "Des transformations réelles",
@@ -812,8 +614,6 @@ Installs in seconds.</span>
       download_body: "S'installe directement depuis votre navigateur en quelques secondes — sans attente, sans compte requis.",
       download_cta: "Télécharger",
       download_platforms: "Fonctionne sur iPhone et Android",
-      final_title: "Votre programme de quatre semaines part d'un seul scan.",
-      final_body: "Le scan identifie vos traits les plus faibles, puis construit un programme quotidien autour d'eux — exercices faciaux, routines et suivi des progrès.",
       footer_rights: "Tous droits réservés."
     }
   };
@@ -891,55 +691,6 @@ Installs in seconds.</span>
   setTimeout(function () {
     revealEls.forEach(function (el) { el.classList.add('in'); });
   }, 2500);
-
-  // Les vidéos de transformation se lisent sur le site, en surimpression — aucun renvoi
-  // vers TikTok : le visiteur venu d'une publicité ne doit pas quitter la page.
-  // On navigue d'une vidéo à l'autre sans refermer le lecteur.
-  var videoModal = document.getElementById('video-modal');
-  var videoPlayer = document.getElementById('video-modal-player');
-  var videoFrames = Array.prototype.slice.call(document.querySelectorAll('.video-frame'));
-  var videoSources = videoFrames.map(function (f) { return f.getAttribute('data-video'); });
-  var prevBtn = document.getElementById('video-prev');
-  var nextBtn = document.getElementById('video-next');
-  var videoCount = document.getElementById('video-count');
-  var currentVideo = 0;
-
-  function playVideoAt(index) {
-    currentVideo = index;
-    videoPlayer.src = videoSources[index];
-    videoPlayer.play();
-    videoCount.textContent = (index + 1) + ' / ' + videoSources.length;
-    prevBtn.disabled = index === 0;
-    nextBtn.disabled = index === videoSources.length - 1;
-  }
-  function closeVideo() {
-    videoPlayer.pause();
-    videoPlayer.removeAttribute('src');
-    videoPlayer.load();
-    videoModal.classList.remove('open');
-  }
-
-  videoFrames.forEach(function (frame, index) {
-    frame.addEventListener('click', function () {
-      videoModal.classList.add('open');
-      playVideoAt(index);
-    });
-  });
-  prevBtn.addEventListener('click', function () {
-    if (currentVideo > 0) playVideoAt(currentVideo - 1);
-  });
-  nextBtn.addEventListener('click', function () {
-    if (currentVideo < videoSources.length - 1) playVideoAt(currentVideo + 1);
-  });
-
-  document.getElementById('video-modal-close').addEventListener('click', closeVideo);
-  videoModal.addEventListener('click', function (e) { if (e.target === videoModal) closeVideo(); });
-  document.addEventListener('keydown', function (e) {
-    if (!videoModal.classList.contains('open')) return;
-    if (e.key === 'Escape') closeVideo();
-    if (e.key === 'ArrowLeft' && currentVideo > 0) playVideoAt(currentVideo - 1);
-    if (e.key === 'ArrowRight' && currentVideo < videoSources.length - 1) playVideoAt(currentVideo + 1);
-  });
 
 </script>
 </body>
