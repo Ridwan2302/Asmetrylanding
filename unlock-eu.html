@@ -8,19 +8,6 @@
 <meta name="theme-color" content="#0b0b0c" />
 <meta name="robots" content="noindex" />
 
-<!-- Les navigateurs intégrés (TikTok, Instagram, etc.) bloquent souvent l'ouverture d'un
-     nouvel onglet et les redirections PayPal échouent dedans. On renvoie donc ces
-     visiteurs vers open.html, qui explique comment ouvrir le lien dans un vrai
-     navigateur, avant même qu'ils voient le bouton Payer. -->
-<script>
-(function () {
-  var ua = navigator.userAgent || '';
-  if (/musical_ly|TikTok|BytedanceWebview|FBAN|FBAV|Instagram|Line\/|MicroMessenger|Snapchat/i.test(ua)) {
-    location.replace('open.html?to=unlock-eu.html');
-  }
-})();
-</script>
-
 <!-- Meta Pixel Code. PageView here = "a arrivé sur la page de prix". Combiné à
      l'InitiateCheckout du bouton Payer et au Purchase de merci.html (déclenché par le retour
      automatique de PayPal après un paiement réel), ça donne l'entonnoir complet. -->
