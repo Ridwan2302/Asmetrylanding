@@ -8,6 +8,20 @@
 <meta name="theme-color" content="#0b0b0c" />
 <meta name="robots" content="noindex" />
 
+<!-- Les navigateurs intégrés (TikTok, Instagram, etc.) bloquent souvent l'ouverture d'un
+     nouvel onglet, et le paiement mobile money échoue dedans — le clic sur "Payer" ne
+     montre alors jamais Jèko et atterrit directement sur confirm.html. On renvoie donc
+     ces visiteurs vers open.html, qui explique comment ouvrir le lien dans un vrai
+     navigateur, avant même qu'ils voient le bouton Payer. -->
+<script>
+(function () {
+  var ua = navigator.userAgent || '';
+  if (/musical_ly|TikTok|BytedanceWebview|FBAN|FBAV|Instagram|Line\/|MicroMessenger|Snapchat/i.test(ua)) {
+    location.replace('open.html?to=unlock.html');
+  }
+})();
+</script>
+
 <!-- Meta Pixel Code. PageView here = "a arrivé sur la page de prix". Combiné à
      l'InitiateCheckout du bouton Payer et au Purchase vérifié de confirm.html, ça donne
      l'entonnoir complet et permet de voir à quelle étape les gens décrochent. -->
