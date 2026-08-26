@@ -232,7 +232,6 @@ fbq('track', 'PageView');
   .escape-title { font-size: 19px; font-weight: 700; letter-spacing: -0.2px; }
   .escape-body { margin: 10px 0 24px; font-size: 14px; line-height: 1.6; color: var(--gray-on-dark); }
   .escape-card .btn { width: 100%; }
-  .escape-copied { margin-top: 12px; font-size: 13px; color: var(--gray-on-dark); visibility: hidden; }
 
   .hero-visual {
     margin-top: 64px;
@@ -404,7 +403,6 @@ fbq('track', 'PageView');
     <div class="escape-title" data-i18n="escape_title">Ouvrez ce site dans votre navigateur</div>
     <p class="escape-body" data-i18n="escape_body">Appuyez sur ⋯ en haut de l'écran, puis choisissez « Ouvrir dans le navigateur ».</p>
     <button type="button" class="btn btn-light" id="escape-copy-btn" data-i18n="escape_copy">↗</button>
-    <div class="escape-copied" id="escape-copied" data-i18n="escape_copied">Lien copié !</div>
   </div>
 </div>
 
@@ -591,7 +589,6 @@ Installs in seconds.</span>
       escape_title: "Open this site in your browser",
       escape_body: "Tap ⋯ at the top of the screen, then choose “Open in browser”.",
       escape_copy: "↗",
-      escape_copied: "Link copied!",
       score_title: "Ready to see your score?",
       score_body: "Takes about ninety seconds.",
       social_kicker: "They already follow us",
@@ -638,7 +635,6 @@ Installs in seconds.</span>
       escape_title: "Ouvrez ce site dans votre navigateur",
       escape_body: "Appuyez sur ⋯ en haut de l'écran, puis choisissez « Ouvrir dans le navigateur ».",
       escape_copy: "↗",
-      escape_copied: "Lien copié !",
       score_title: "Prêt à découvrir votre score ?",
       score_body: "Environ quatre-vingt-dix secondes.",
       social_kicker: "Ils nous suivent déjà",
@@ -806,14 +802,10 @@ Installs in seconds.</span>
     });
   }
 
-  // "Copier le lien" sur l'overlay d'échappement du navigateur intégré — pratique pour
+  // "↗" sur l'overlay d'échappement du navigateur intégré — copie le lien, pratique pour
   // celles et ceux qui ne trouvent pas le menu ⋯, ou préfèrent coller le lien eux-mêmes.
   document.getElementById('escape-copy-btn').addEventListener('click', function () {
-    copyText(location.href, function () {
-      var copied = document.getElementById('escape-copied');
-      copied.style.visibility = 'visible';
-      setTimeout(function () { copied.style.visibility = 'hidden'; }, 2500);
-    });
+    copyText(location.href, function () {});
   });
 
   function copyText(text, onDone) {
