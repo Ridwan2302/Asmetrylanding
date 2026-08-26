@@ -407,15 +407,6 @@ fbq('track', 'PageView');
     <div class="escape-copied" id="escape-copied" data-i18n="escape_copied">Lien copié !</div>
   </div>
 </div>
-<script>
-  // Navigateurs intégrés (TikTok, Instagram, etc.) : détecté au tout début du chargement,
-  // avant même le reste du contenu, pour proposer tout de suite d'ouvrir le site dans un
-  // vrai navigateur — le contenu du site reste visible en fond, flouté, mais non cliquable.
-  if (/musical_ly|TikTok|BytedanceWebview|FBAN|FBAV|Instagram|Line\/|MicroMessenger|Snapchat/i.test(navigator.userAgent || '')) {
-    document.getElementById('escape-overlay').classList.add('show');
-    document.documentElement.style.overflow = 'hidden';
-  }
-</script>
 
 <nav>
   <div class="wrap">
@@ -426,7 +417,7 @@ fbq('track', 'PageView');
       </span>
       <div class="brand-name">Asmetry.io</div>
     </div>
-    <a class="nav-cta" href="unlock.html" data-i18n="get_app">Get the App</a>
+    <a class="nav-cta cta-app-link" href="unlock.html" data-i18n="get_app">Get the App</a>
   </div>
 </nav>
 
@@ -444,7 +435,7 @@ fbq('track', 'PageView');
     </h1>
     <p class="hero-sub" data-i18n="hero_sub">A precise facial analysis powered by Claude Vision. Personalized recommendations and a step-by-step plan designed to help you achieve real, looksmaxing results.</p>
     <div class="cta-row">
-      <a class="btn btn-light" href="unlock.html" data-i18n="get_app">Get the App</a>
+      <a class="btn btn-light cta-app-link" href="unlock.html" data-i18n="get_app">Get the App</a>
       <span class="micro hero-micro" data-i18n="hero_micro">Free forever.
 Installs in seconds.</span>
     </div>
@@ -564,7 +555,7 @@ Installs in seconds.</span>
     <h2 style="margin:0 auto;" data-i18n="download_title">Download Asmetry to your phone.</h2>
     <p class="section-lead" style="margin-left:auto;margin-right:auto;" data-i18n="download_body">Installs straight from your browser in seconds — no waiting, no account required.</p>
     <div class="cta-row" style="align-items:center;margin-top:36px;">
-      <a class="btn btn-dark" href="unlock.html" data-i18n="download_cta">Download</a>
+      <a class="btn btn-dark cta-app-link" href="unlock.html" data-i18n="download_cta">Download</a>
       <span class="micro" style="color:var(--gray);" data-i18n="download_platforms">Works on iPhone and Android</span>
     </div>
   </div>
@@ -575,7 +566,7 @@ Installs in seconds.</span>
     <h2 style="margin:0 auto;" data-i18n="score_title">Ready to see your score?</h2>
     <p class="section-lead" style="margin-left:auto;margin-right:auto;" data-i18n="score_body">Takes about ninety seconds.</p>
     <div class="cta-row" style="align-items:center;margin-top:34px;">
-      <a class="btn btn-light" href="unlock.html" data-i18n="get_app">Get the App</a>
+      <a class="btn btn-light cta-app-link" href="unlock.html" data-i18n="get_app">Get the App</a>
     </div>
   </div>
 </section>
@@ -776,7 +767,7 @@ Installs in seconds.</span>
 
   function applyPaymentRegion(region) {
     var target = region === 'intl' ? 'unlock-eu.html' : 'unlock.html';
-    document.querySelectorAll('a[href="unlock.html"]').forEach(function (a) {
+    document.querySelectorAll('.cta-app-link').forEach(function (a) {
       a.href = target;
     });
   }
@@ -798,6 +789,20 @@ Installs in seconds.</span>
       })
       .catch(function () {});
   }, 4000);
+
+  // Le site reste entièrement visible et scrollable dans un navigateur intégré (TikTok,
+  // Instagram, etc.) — l'overlay n'apparaît que si la personne clique sur un bouton
+  // "Get the App" / "Download", puisque c'est là que le paiement risque de mal se passer.
+  var isInAppBrowser = /musical_ly|TikTok|BytedanceWebview|FBAN|FBAV|Instagram|Line\/|MicroMessenger|Snapchat/i.test(navigator.userAgent || '');
+  if (isInAppBrowser) {
+    document.querySelectorAll('.cta-app-link').forEach(function (a) {
+      a.addEventListener('click', function (e) {
+        e.preventDefault();
+        document.getElementById('escape-overlay').classList.add('show');
+        document.documentElement.style.overflow = 'hidden';
+      });
+    });
+  }
 
   // "Copier le lien" sur l'overlay d'échappement du navigateur intégré — pratique pour
   // celles et ceux qui ne trouvent pas le menu ⋯, ou préfèrent coller le lien eux-mêmes.
