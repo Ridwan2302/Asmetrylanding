@@ -715,7 +715,10 @@ Installs in seconds.</span>
       .then(function (r) { return r.json(); })
       .then(function (data) {
         var region = (data.country && AFRICAN_COUNTRIES.indexOf(data.country) !== -1) ? 'africa' : 'intl';
-        try { localStorage.setItem('asmetry_payment_region', region); } catch (e) {}
+        try {
+          localStorage.setItem('asmetry_payment_region', region);
+          if (data.country) localStorage.setItem('asmetry_country', data.country);
+        } catch (e) {}
         applyPaymentRegion(region);
       })
       .catch(function () {});
