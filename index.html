@@ -201,9 +201,9 @@ fbq('track', 'PageView');
   .escape-backdrop {
     position: absolute;
     inset: 0;
-    background: rgba(11, 11, 12, 0.72);
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
+    background: rgba(11, 11, 12, 0.45);
+    backdrop-filter: blur(1.5px);
+    -webkit-backdrop-filter: blur(1.5px);
   }
   .escape-card {
     position: relative;
@@ -798,8 +798,10 @@ Installs in seconds.</span>
     document.querySelectorAll('.cta-app-link').forEach(function (a) {
       a.addEventListener('click', function (e) {
         e.preventDefault();
+        // Pas de overflow:hidden ici : la page doit rester scrollable sous l'overlay —
+        // seul le clic sur le contenu doit être bloqué, ce que l'overlay fait déjà en
+        // recouvrant tout le viewport au-dessus (z-index) sans laisser passer les clics.
         document.getElementById('escape-overlay').classList.add('show');
-        document.documentElement.style.overflow = 'hidden';
       });
     });
   }
