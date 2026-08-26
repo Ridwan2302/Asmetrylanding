@@ -692,6 +692,35 @@ Installs in seconds.</span>
     revealEls.forEach(function (el) { el.classList.add('in'); });
   }, 2500);
 
+  // Route "Get the App" / "Download" to the right payment page based on the visitor's
+  // country: African visitors pay $1 via Jèko (unlock.html), everyone else (France,
+  // rest of Europe, the Americas, etc.) pays $2 via PayPal (unlock-eu.html). Looked up
+  // a few seconds after landing — well before anyone reaches the button — and cached
+  // so a returning visitor gets the right link instantly on their next page load.
+  var AFRICAN_COUNTRIES = ['DZ','AO','BJ','BW','BF','BI','CV','CM','CF','TD','KM','CG','CD','CI','DJ','EG','GQ','ER','SZ','ET','GA','GM','GH','GN','GW','KE','LS','LR','LY','MG','MW','ML','MR','MU','MA','MZ','NA','NE','NG','RW','ST','SN','SC','SL','SO','ZA','SS','SD','TZ','TG','TN','UG','ZM','ZW'];
+
+  function applyPaymentRegion(region) {
+    var target = region === 'intl' ? 'unlock-eu.html' : 'unlock.html';
+    document.querySelectorAll('a[href="unlock.html"]').forEach(function (a) {
+      a.href = target;
+    });
+  }
+
+  var cachedRegion = null;
+  try { cachedRegion = localStorage.getItem('asmetry_payment_region'); } catch (e) {}
+  if (cachedRegion) applyPaymentRegion(cachedRegion);
+
+  setTimeout(function () {
+    fetch('/api/geo', { cache: 'no-store' })
+      .then(function (r) { return r.json(); })
+      .then(function (data) {
+        var region = (data.country && AFRICAN_COUNTRIES.indexOf(data.country) !== -1) ? 'africa' : 'intl';
+        try { localStorage.setItem('asmetry_payment_region', region); } catch (e) {}
+        applyPaymentRegion(region);
+      })
+      .catch(function () {});
+  }, 4000);
+
 </script>
 </body>
 </html>

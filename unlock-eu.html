@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Asmetry — 2$ puis gratuit pour toujours.</title>
+<meta name="description" content="Payez 2 $ une seule fois et Asmetry est à vous à vie — sans abonnement." />
+<meta name="theme-color" content="#0b0b0c" />
+<meta name="robots" content="noindex" />
+
+<!-- Meta Pixel Code. PageView here = "a arrivé sur la page de prix". Combiné à
+     l'InitiateCheckout du bouton Payer et au Purchase de merci.html (déclenché par le retour
+     automatique de PayPal après un paiement réel), ça donne l'entonnoir complet. -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1041056588511714');
+fbq('track', 'PageView');
+</script>
+<!-- End Meta Pixel Code -->
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet" />
+<noscript><style>.reveal { opacity: 1 !important; transform: none !important; }</style></noscript>
+
+<style>
+  :root {
+    --ink: #0b0b0c;
+    --white: #ffffff;
+    --gray: #6e6e73;
+    --gray-dim: #98989d;
+    --line: rgba(0,0,0,0.08);
+    --line-dark: rgba(255,255,255,0.14);
+    --gray-on-dark: rgba(255,255,255,0.62);
+    --glass-bg: rgba(255,255,255,0.08);
+    --glass-border: rgba(255,255,255,0.18);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--ink);
+    color: #fff;
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+    min-height: 100vh;
+  }
+  img { display: block; max-width: 100%; }
+  a { color: inherit; }
+  .wrap { max-width: 720px; margin: 0 auto; padding: 0 24px; }
+
+  nav { padding: 20px 0; }
+  nav .wrap { max-width: 1120px; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  .brand-name { font-size: 16px; font-weight: 700; letter-spacing: -0.2px; }
+  .back-link { font-size: 13px; font-weight: 600; color: var(--gray-on-dark); text-decoration: none; }
+
+  .pay-hero { padding: 40px 0 120px; text-align: center; }
+  .price-block { margin-top: 40px; }
+  .price-main {
+    font-size: clamp(58px, 10vw, 88px);
+    font-weight: 800;
+    letter-spacing: -2px;
+    line-height: 1;
+  }
+  .price-sub { margin-top: 8px; font-size: 15px; color: var(--gray-on-dark); letter-spacing: 0.2px; }
+
+  h1.pay-title {
+    font-size: clamp(17px, 2.6vw, 21px);
+    font-weight: 700;
+    letter-spacing: -0.2px;
+    color: #fff;
+  }
+  .pay-lead {
+    margin: 22px auto 0;
+    font-size: clamp(15px, 1.6vw, 17px);
+    line-height: 1.6;
+    color: var(--gray-on-dark);
+    max-width: 42ch;
+  }
+  .cta-row { margin-top: 36px; display: flex; flex-direction: column; align-items: center; gap: 14px; }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    padding: 16px 34px;
+    border-radius: 999px;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.15s ease, opacity 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+  }
+  .btn:active { transform: scale(0.97); }
+  .btn-light { background: #fff; color: #000; }
+  .btn-dark { background: var(--ink); border: 1.5px solid #fff; color: #fff; }
+  .btn-wide { width: 100%; max-width: 340px; }
+  .micro { font-size: 12px; color: var(--gray-on-dark); letter-spacing: 0.2px; }
+
+  .reveal { opacity: 0; transform: translateY(22px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .reveal.in { opacity: 1; transform: translateY(0); }
+
+  footer { padding: 40px 0 32px; border-top: 1px solid var(--line-dark); }
+  footer .wrap { display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center; }
+  .footer-fine { font-size: 12px; color: var(--gray-on-dark); }
+
+  @media (max-width: 480px) {
+    .pay-hero { padding: 32px 0 88px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <div class="brand-name">Asmetry</div>
+    <a class="back-link" href="index.html" data-i18n="back_link">← Retour au site</a>
+  </div>
+</nav>
+
+<header class="pay-hero">
+  <div class="wrap reveal">
+    <h1 class="pay-title" data-i18n="pay_hero">2$ puis gratuit pour toujours.</h1>
+
+    <div class="price-block">
+      <div class="price-main">$2</div>
+      <div class="price-sub">≈ 1,85 <span data-i18n="price_currency">€</span></div>
+    </div>
+
+    <p class="pay-lead" data-i18n="pay_lead">Obtenez un accès à vie à Asmetry avec un paiement unique de 2 $. Aucun abonnement. Aucun paiement récurrent.</p>
+
+    <div class="cta-row">
+      <a class="btn btn-dark btn-wide" id="pay-btn" href="https://www.paypal.com/PLACEHOLDER_PAYPAL_LINK" target="_blank" rel="noopener" data-i18n="pay_cta">Payer</a>
+    </div>
+
+  </div>
+</header>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-fine">© <span id="year"></span> Asmetry. <span data-i18n="footer_rights">Tous droits réservés.</span></div>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  var translations = {
+    en: {
+      back_link: "← Back to site",
+      pay_hero: "$2 once, then free forever.",
+      price_currency: "€",
+      pay_lead: "Get lifetime access to Asmetry with a one-time $2 payment. No subscription. No recurring payments.",
+      pay_cta: "Pay",
+      footer_rights: "All rights reserved."
+    },
+    fr: {
+      back_link: "← Retour au site",
+      pay_hero: "2$ puis gratuit pour toujours.",
+      price_currency: "€",
+      pay_lead: "Obtenez un accès à vie à Asmetry avec un paiement unique de 2 $. Aucun abonnement. Aucun paiement récurrent.",
+      pay_cta: "Payer",
+      footer_rights: "Tous droits réservés."
+    }
+  };
+
+  // No language switcher on this page — it simply follows whatever language the visitor
+  // already chose on the main site (same "asmetry_landing_lang" key), defaulting to French.
+  var savedLang = null;
+  try { savedLang = localStorage.getItem('asmetry_landing_lang'); } catch (e) {}
+  var lang = savedLang === 'en' ? 'en' : 'fr';
+  var dict = translations[lang];
+  document.querySelectorAll('[data-i18n]').forEach(function (el) {
+    var key = el.getAttribute('data-i18n');
+    if (dict[key]) el.textContent = dict[key];
+  });
+  document.documentElement.lang = lang;
+
+  var revealEls = document.querySelectorAll('.reveal');
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) entry.target.classList.add('in');
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -8% 0px' });
+  revealEls.forEach(function (el) { io.observe(el); });
+  setTimeout(function () { revealEls.forEach(function (el) { el.classList.add('in'); }); }, 2500);
+
+  // "Payer" ouvre PayPal dans un nouvel onglet. Contrairement au flux Jèko, il n'y a pas de
+  // confirm.html ici : PayPal renvoie lui-même le client vers merci.html une fois le paiement
+  // effectivement terminé (URL de redirection configurée côté PayPal), donc l'onglet courant
+  // n'a rien à faire de plus.
+  var payBtn = document.getElementById('pay-btn');
+  payBtn.addEventListener('click', function () {
+    if (typeof fbq === 'function') {
+      fbq('track', 'InitiateCheckout', { value: 2.00, currency: 'USD' });
+    }
+  });
+</script>
+</body>
+</html>
