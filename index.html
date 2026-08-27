@@ -402,7 +402,7 @@ fbq('track', 'PageView');
     <div class="escape-badge">↗</div>
     <div class="escape-title" data-i18n="escape_title">Ouvrez ce site dans votre navigateur</div>
     <p class="escape-body" data-i18n="escape_body">Appuyez sur ⋯ en haut de l'écran, puis choisissez « Ouvrir dans le navigateur ».</p>
-    <button type="button" class="btn btn-light" id="escape-copy-btn" data-i18n="escape_copy">↗</button>
+    <button type="button" class="btn btn-light" id="escape-copy-btn" data-i18n="escape_copy">↑</button>
   </div>
 </div>
 
@@ -588,7 +588,7 @@ Installs in seconds.</span>
       get_app: "Get the App",
       escape_title: "Open this site in your browser",
       escape_body: "Tap ⋯ at the top of the screen, then choose “Open in browser”.",
-      escape_copy: "↗",
+      escape_copy: "↑",
       score_title: "Ready to see your score?",
       score_body: "Takes about ninety seconds.",
       social_kicker: "They already follow us",
@@ -634,7 +634,7 @@ Installs in seconds.</span>
     fr: {
       escape_title: "Ouvrez ce site dans votre navigateur",
       escape_body: "Appuyez sur ⋯ en haut de l'écran, puis choisissez « Ouvrir dans le navigateur ».",
-      escape_copy: "↗",
+      escape_copy: "↑",
       score_title: "Prêt à découvrir votre score ?",
       score_body: "Environ quatre-vingt-dix secondes.",
       social_kicker: "Ils nous suivent déjà",
@@ -802,7 +802,7 @@ Installs in seconds.</span>
     });
   }
 
-  // "↗" sur l'overlay d'échappement du navigateur intégré — copie le lien, pratique pour
+  // "↑" sur l'overlay d'échappement du navigateur intégré — copie le lien, pratique pour
   // celles et ceux qui ne trouvent pas le menu ⋯, ou préfèrent coller le lien eux-mêmes.
   document.getElementById('escape-copy-btn').addEventListener('click', function () {
     copyText(location.href, function () {});
