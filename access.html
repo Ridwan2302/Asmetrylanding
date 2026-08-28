@@ -172,7 +172,7 @@ fbq('track', 'PageView');
     <p class="pay-lead" data-i18n="pay_lead">Obtenez un accès à vie à Asmetry avec un paiement unique de 1 $. Aucun abonnement. Aucun paiement récurrent.</p>
 
     <div class="cta-row">
-      <a class="btn btn-dark btn-wide" id="pay-btn" href="https://pay.jeko.africa/pl/342a665d-90a5-455f-a54e-b2aa223d6d4b" target="_blank" rel="noopener" data-i18n="pay_cta">Payer</a>
+      <a class="btn btn-dark btn-wide" id="pay-btn" href="https://pay.jeko.africa/pl/342a665d-90a5-455f-a54e-b2aa223d6d4b" data-i18n="pay_cta">Payer</a>
       <a class="already-paid-text" href="confirm.html" data-i18n="already_paid_link">Confirmer</a>
     </div>
 
@@ -235,27 +235,23 @@ fbq('track', 'PageView');
   revealEls.forEach(function (el) { io.observe(el); });
   setTimeout(function () { revealEls.forEach(function (el) { el.classList.add('in'); }); }, 2500);
 
-  // "Payer" opens the Jèko payment link in a new tab, instantly — one click, no gate, exactly
-  // like before. The current tab then moves on to confirm.html, a separate page where the
-  // phone number is collected — kept off this page entirely so the payment button stays clean.
-  //
-  // Navigateurs intégrés (TikTok, Instagram…) : target="_blank" y est souvent ignoré ou
-  // bloqué, donc le nouvel onglet vers Jèko ne s'ouvre jamais — mais si on bascule quand
-  // même l'onglet courant vers confirm.html, la personne n'a jamais vu la page de paiement.
-  // On laisse donc le lien naviguer normalement dans l'onglet courant, sans forcer ce saut.
-  var isInAppBrowser = /musical_ly|TikTok|BytedanceWebview|FBAN|FBAV|Instagram|Line\/|MicroMessenger|Snapchat/i.test(navigator.userAgent || '');
+  // "Payer" navigue dans le MÊME onglet vers confirm.html, qui relaie aussitôt vers Jèko.
+  // Ça insère confirm.html dans l'historique du navigateur avant Jèko : quand la personne
+  // appuie sur "Retour" après avoir payé, elle retombe directement sur notre page de
+  // confirmation (dans ce même onglet) au lieu d'un onglet Jèko égaré qu'elle ne saurait
+  // pas retrouver. Marche pareil pour les navigateurs intégrés (TikTok, Instagram…), qui
+  // ignorent souvent target="_blank" de toute façon — plus besoin de cas particulier.
   var payBtn = document.getElementById('pay-btn');
-  if (isInAppBrowser) payBtn.removeAttribute('target');
-  payBtn.addEventListener('click', function () {
+  var JEKO_URL = payBtn.href;
+  payBtn.addEventListener('click', function (e) {
+    e.preventDefault();
     // Intention d'achat — la personne part vers Jèko. Ce n'est PAS une vente : seul le
     // Purchase de confirm.html, déclenché après vérification du webhook, l'est. Cet
     // événement sert à savoir si les abandons ont lieu avant ou pendant le paiement.
     if (typeof fbq === 'function') {
       fbq('track', 'InitiateCheckout', { value: 1.00, currency: 'USD' });
     }
-    if (!isInAppBrowser) {
-      setTimeout(function () { window.location.href = 'confirm.html'; }, 150);
-    }
+    window.location.href = 'confirm.html?next=' + encodeURIComponent(JEKO_URL);
   });
 </script>
 </body>
