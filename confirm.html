@@ -153,15 +153,8 @@ fbq('init', '1041056588511714');
 
 <header class="confirm-hero">
   <div class="wrap reveal">
-    <h1 class="confirm-title" id="page-title" data-i18n="confirm_title">Vous venez de payer ?</h1>
-    <p class="confirm-lead" id="page-lead" data-i18n="confirm_lead">Entrez le numéro utilisé pour le paiement afin de recevoir Asmetry.</p>
-
-    <div id="redirect-panel" style="display:none;">
-      <p class="confirm-lead" data-i18n="redirect_body">Vous allez être redirigé vers Jèko pour finaliser votre paiement de façon sécurisée. Revenez sur cette page ensuite avec le bouton "Retour" de votre navigateur.</p>
-      <div class="cta-row">
-        <a class="btn btn-dark btn-wide" id="continue-pay-btn" href="#" data-i18n="redirect_cta">Continuer vers le paiement</a>
-      </div>
-    </div>
+    <h1 class="confirm-title" data-i18n="confirm_title">Vous venez de payer ?</h1>
+    <p class="confirm-lead" data-i18n="confirm_lead">Entrez le numéro utilisé pour le paiement afin de recevoir Asmetry.</p>
 
     <div id="confirm-form">
       <div class="phone-field">
@@ -203,9 +196,6 @@ fbq('init', '1041056588511714');
       back_link: "← Back",
       confirm_title: "Just paid?",
       confirm_lead: "Enter the number you used to pay to receive Asmetry.",
-      redirect_title: "One step before paying",
-      redirect_body: "You'll be redirected to Jèko to complete your payment securely. Come back to this page afterwards with your browser's \"Back\" button.",
-      redirect_cta: "Continue to payment",
       phone_placeholder: "Phone number (e.g. +225 07 00 00 00 00)",
       confirm_cta: "Confirm",
       waiting_label: "Waiting for payment confirmation…",
@@ -217,9 +207,6 @@ fbq('init', '1041056588511714');
       back_link: "← Retour",
       confirm_title: "Vous venez de payer ?",
       confirm_lead: "Entrez le numéro utilisé pour le paiement afin de recevoir Asmetry.",
-      redirect_title: "Encore une étape avant de payer",
-      redirect_body: "Vous allez être redirigé vers Jèko pour finaliser votre paiement de façon sécurisée. Revenez sur cette page ensuite avec le bouton \"Retour\" de votre navigateur.",
-      redirect_cta: "Continuer vers le paiement",
       phone_placeholder: "Numéro de téléphone (ex: +225 07 00 00 00 00)",
       confirm_cta: "Confirmer",
       waiting_label: "En attente de confirmation du paiement…",
@@ -264,37 +251,6 @@ fbq('init', '1041056588511714');
   var waitingPanel = document.getElementById('waiting-panel');
   var successPanel = document.getElementById('success-panel');
   var notFoundMsg = document.getElementById('not-found-msg');
-  var redirectPanel = document.getElementById('redirect-panel');
-
-  // On arrive ici depuis unlock.html/access.html avec ?next=<lien Jèko>. On affiche un
-  // bouton "Continuer" plutôt que de rediriger tout seul : un clic réel garde cette page
-  // dans l'historique du navigateur (une redirection automatique via script, elle, se fait
-  // sauter au bouton "Retour" par les navigateurs modernes — protection anti-abus contre
-  // les enchaînements de redirections). Une fois ce lien utilisé une première fois, on ne
-  // le réaffiche plus : revenir en arrière montre directement le formulaire normal.
-  (function () {
-    var next = new URLSearchParams(location.search).get('next');
-    if (!next) return;
-    var already = false;
-    try { already = sessionStorage.getItem('asmetry_went_to_jeko') === '1'; } catch (e) {}
-    if (already) return;
-    var valid = false;
-    try {
-      var u = new URL(next);
-      valid = u.protocol === 'https:' && /(^|\.)jeko\.africa$/i.test(u.hostname);
-    } catch (e) {}
-    if (!valid) return;
-
-    confirmForm.style.display = 'none';
-    redirectPanel.style.display = 'block';
-    document.getElementById('page-title').textContent = dict.redirect_title;
-    document.getElementById('page-lead').style.display = 'none';
-    var continueBtn = document.getElementById('continue-pay-btn');
-    continueBtn.href = next;
-    continueBtn.addEventListener('click', function () {
-      try { sessionStorage.setItem('asmetry_went_to_jeko', '1'); } catch (e) {}
-    });
-  })();
 
   phoneInput.addEventListener('input', function () {
     phoneInput.classList.remove('invalid');
