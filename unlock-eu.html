@@ -126,13 +126,13 @@ fbq('track', 'PageView');
 
 <header class="pay-hero">
   <div class="wrap reveal">
-    <h1 class="pay-title" data-i18n="pay_hero">2$ puis gratuit pour toujours.</h1>
+    <h1 class="pay-title" data-i18n="pay_hero">5$ puis gratuit pour toujours.</h1>
 
     <div class="price-block">
-      <div class="price-main" id="price-main">$2</div>
+      <div class="price-main" id="price-main">$5</div>
     </div>
 
-    <p class="pay-lead" data-i18n="pay_lead">Obtenez un accès à vie à Asmetry avec un paiement unique de 2 $. Aucun abonnement. Aucun paiement récurrent.</p>
+    <p class="pay-lead" data-i18n="pay_lead">Obtenez un accès à vie à Asmetry avec un paiement unique de 5 $. Aucun abonnement. Aucun paiement récurrent.</p>
 
     <div class="cta-row">
       <a class="btn btn-dark btn-wide" id="pay-btn" href="https://www.paypal.com/ncp/payment/N2HSCW9A5F8VE" target="_blank" rel="noopener" data-i18n="pay_cta">Payer</a>
@@ -174,21 +174,21 @@ fbq('track', 'PageView');
   var lang = savedLang === 'en' ? 'en' : 'fr';
 
   // Pays francophones de cette page (l'Afrique a déjà son propre flux à 1$/Jèko) : on y
-  // affiche 2€, partout ailleurs (US, UK, reste de l'Europe non francophone…) on affiche 2$.
+  // affiche 5€, partout ailleurs (US, UK, reste de l'Europe non francophone…) on affiche 5$.
   // Le montant réellement débité dépend uniquement de la devise configurée sur le lien
   // PayPal lui-même — ceci ne change que ce qui est affiché à l'écran.
   var FRANCOPHONE_COUNTRIES = ['FR', 'BE', 'CH', 'LU', 'MC', 'CA'];
   var currency = 'USD';
 
   function formatAmount(currentLang, currentCurrency) {
-    if (currentCurrency === 'EUR') return currentLang === 'fr' ? '2 €' : '€2';
-    return currentLang === 'fr' ? '2 $' : '$2';
+    if (currentCurrency === 'EUR') return currentLang === 'fr' ? '5 €' : '€5';
+    return currentLang === 'fr' ? '5 $' : '$5';
   }
 
   function renderPricing() {
     var dict = translations[lang];
     var amount = formatAmount(lang, currency);
-    document.getElementById('price-main').textContent = currency === 'EUR' ? '€2' : '$2';
+    document.getElementById('price-main').textContent = currency === 'EUR' ? '€5' : '$5';
     document.querySelectorAll('[data-i18n]').forEach(function (el) {
       var key = el.getAttribute('data-i18n');
       if (key === 'pay_hero') el.textContent = dict.pay_hero_tpl.replace('{amount}', amount);
@@ -240,7 +240,7 @@ fbq('track', 'PageView');
   var payBtn = document.getElementById('pay-btn');
   payBtn.addEventListener('click', function () {
     if (typeof fbq === 'function') {
-      fbq('track', 'InitiateCheckout', { value: 2.00, currency: currency });
+      fbq('track', 'InitiateCheckout', { value: 5.00, currency: currency });
     }
   });
 </script>
