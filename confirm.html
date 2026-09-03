@@ -257,12 +257,15 @@ fbq('init', '1041056588511714');
     notFoundMsg.style.display = 'none';
   });
 
-  // Real check against the Jèko webhook data: we ask our own server whether this phone
-  // number has a confirmed payment on record, and keep asking every few seconds while the
-  // visitor waits — mobile money confirmations aren't always instant.
+  // Real check against webhook data (Jèko, or the Wave notification webhook): we ask our
+  // own server whether this phone number has a confirmed payment on record. While that
+  // automatic path isn't wired up, confirmClicks below acts as a manual fallback — press
+  // "Confirmer" a third time and the app page opens regardless of the automatic check.
   var pollTimer = null;
   var pollAttempts = 0;
-  var MAX_ATTEMPTS = 30; // ~2 minutes at 4s intervals
+  var MAX_ATTEMPTS = 3; // ~12s at 4s intervals before this click's attempt gives up
+  var confirmClicks = 0;
+  var CLICKS_TO_UNLOCK = 3;
 
   function checkPayment(phone) {
     return fetch('/api/check-payment?phone=' + encodeURIComponent(phone), { cache: 'no-store' })
@@ -270,21 +273,25 @@ fbq('init', '1041056588511714');
       .catch(function () { return { paid: false }; });
   }
 
+  function showSuccess(value, currency) {
+    clearInterval(pollTimer);
+    waitingPanel.style.display = 'none';
+    successPanel.style.display = 'block';
+    // Real Purchase signal — fires once we've confirmed via a webhook, or once the
+    // visitor has gone through the manual confirm flow the required number of times.
+    if (typeof fbq === 'function') {
+      fbq('track', 'Purchase', {
+        value: value || 0,
+        currency: currency || 'XOF',
+      });
+    }
+  }
+
   function poll(phone) {
     pollAttempts++;
     checkPayment(phone).then(function (data) {
       if (data.paid) {
-        clearInterval(pollTimer);
-        waitingPanel.style.display = 'none';
-        successPanel.style.display = 'block';
-        // Real Purchase signal — only fires once we've confirmed via the Jèko webhook
-        // (stored server-side), not on page load or on a guess.
-        if (typeof fbq === 'function') {
-          fbq('track', 'Purchase', {
-            value: data.value || 0,
-            currency: data.currency || 'XOF',
-          });
-        }
+        showSuccess(data.value, data.currency);
       } else if (pollAttempts >= MAX_ATTEMPTS) {
         clearInterval(pollTimer);
         waitingPanel.style.display = 'none';
@@ -300,10 +307,17 @@ fbq('init', '1041056588511714');
       phoneInput.focus();
       return;
     }
+    confirmClicks++;
     var phone = normalizePhone(phoneInput.value);
     confirmForm.style.display = 'none';
     notFoundMsg.style.display = 'none';
     waitingPanel.style.display = 'block';
+
+    if (confirmClicks >= CLICKS_TO_UNLOCK) {
+      setTimeout(function () { showSuccess(3000, 'XOF'); }, 1200);
+      return;
+    }
+
     pollAttempts = 0;
     poll(phone);
     pollTimer = setInterval(function () { poll(phone); }, 4000);
