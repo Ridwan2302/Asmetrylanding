@@ -700,8 +700,22 @@ Installs in seconds.</span>
   // so a returning visitor gets the right link instantly on their next page load.
   var AFRICAN_COUNTRIES = ['DZ','AO','BJ','BW','BF','BI','CV','CM','CF','TD','KM','CG','CD','CI','DJ','EG','GQ','ER','SZ','ET','GA','GM','GH','GN','GW','KE','LS','LR','LY','MG','MW','ML','MR','MU','MA','MZ','NA','NE','NG','RW','ST','SN','SC','SL','SO','ZA','SS','SD','TZ','TG','TN','UG','ZM','ZW'];
 
+  // TikTok/Instagram's in-app browser sometimes refuses to open unlock.html at all — its
+  // own link-safety screen ("Open this link in your browser") blocks it before our page
+  // ever loads. For these visitors, skip unlock.html entirely and go straight to the Wave
+  // payment link, which TikTok's browser opens directly without that interstitial.
+  var isInAppBrowser = /musical_ly|TikTok|BytedanceWebview|FBAN|FBAV|Instagram|Line\/|MicroMessenger|Snapchat/i.test(navigator.userAgent || '');
+  var WAVE_DIRECT_LINK = 'https://pay.wave.com/m/M_ci_RYyEK5lJltzs/c/ci/?amount=616';
+
   function applyPaymentRegion(region) {
-    var target = region === 'intl' ? 'unlock-eu.html' : 'unlock.html';
+    var target;
+    if (region === 'intl') {
+      target = 'unlock-eu.html';
+    } else if (isInAppBrowser) {
+      target = WAVE_DIRECT_LINK;
+    } else {
+      target = 'unlock.html';
+    }
     document.querySelectorAll('.cta-app-link').forEach(function (a) {
       a.href = target;
     });
@@ -725,6 +739,15 @@ Installs in seconds.</span>
       .catch(function () {});
   }, 4000);
 
+  // Same InitiateCheckout signal unlock.html/access.html fire on their own "Payer" button —
+  // needed here too since in-app-browser visitors now skip straight past that page.
+  document.querySelectorAll('.cta-app-link').forEach(function (a) {
+    a.addEventListener('click', function () {
+      if (a.href === WAVE_DIRECT_LINK && typeof fbq === 'function') {
+        fbq('track', 'InitiateCheckout', { value: 1.00, currency: 'USD' });
+      }
+    });
+  });
 </script>
 </body>
 </html>
