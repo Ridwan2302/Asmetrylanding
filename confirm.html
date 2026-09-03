@@ -102,6 +102,12 @@ fbq('init', '1041056588511714');
   .btn-wide { width: 100%; max-width: 280px; }
 
   .success-panel { margin-top: 32px; }
+  .success-title {
+    font-size: clamp(20px, 4vw, 24px);
+    font-weight: 700;
+    letter-spacing: -0.2px;
+    margin-bottom: 20px;
+  }
 
   .waiting-panel { margin-top: 32px; }
   .spinner {
@@ -172,6 +178,7 @@ fbq('init', '1041056588511714');
     </div>
 
     <div class="success-panel" id="success-panel" style="display:none;">
+      <div class="success-title" data-i18n="success_title">Paiement effectué</div>
       <a class="btn btn-dark btn-wide" id="open-app-btn" href="https://asmetryapp.vercel.app/" data-i18n="install_app_cta">Installer Asmetry</a>
     </div>
   </div>
@@ -200,6 +207,7 @@ fbq('init', '1041056588511714');
       confirm_cta: "Confirm",
       waiting_label: "Waiting for payment confirmation…",
       not_found_msg: "Payment not found yet for this number. Try again in a moment.",
+      success_title: "Payment successful",
       install_app_cta: "Install Asmetry",
       footer_rights: "All rights reserved."
     },
@@ -211,6 +219,7 @@ fbq('init', '1041056588511714');
       confirm_cta: "Confirmer",
       waiting_label: "En attente de confirmation du paiement…",
       not_found_msg: "Paiement non trouvé pour ce numéro pour l'instant. Réessayez dans un instant.",
+      success_title: "Paiement effectué",
       install_app_cta: "Installer Asmetry",
       footer_rights: "Tous droits réservés."
     }
@@ -261,9 +270,7 @@ fbq('init', '1041056588511714');
   // own server whether this phone number has a confirmed payment on record. While that
   // automatic path isn't wired up, confirmClicks below acts as a manual fallback — press
   // "Confirmer" a third time and the app page opens regardless of the automatic check.
-  var pollTimer = null;
-  var pollAttempts = 0;
-  var MAX_ATTEMPTS = 3; // ~12s at 4s intervals before this click's attempt gives up
+  var WAIT_MS = 5000; // spinner always shows for exactly 5s before the result appears
   var confirmClicks = 0;
   var CLICKS_TO_UNLOCK = 3;
 
@@ -274,7 +281,6 @@ fbq('init', '1041056588511714');
   }
 
   function showSuccess(value, currency) {
-    clearInterval(pollTimer);
     waitingPanel.style.display = 'none';
     successPanel.style.display = 'block';
     // Real Purchase signal — fires once we've confirmed via a webhook, or once the
@@ -287,18 +293,10 @@ fbq('init', '1041056588511714');
     }
   }
 
-  function poll(phone) {
-    pollAttempts++;
-    checkPayment(phone).then(function (data) {
-      if (data.paid) {
-        showSuccess(data.value, data.currency);
-      } else if (pollAttempts >= MAX_ATTEMPTS) {
-        clearInterval(pollTimer);
-        waitingPanel.style.display = 'none';
-        confirmForm.style.display = 'block';
-        notFoundMsg.style.display = 'block';
-      }
-    });
+  function showNotFound() {
+    waitingPanel.style.display = 'none';
+    confirmForm.style.display = 'block';
+    notFoundMsg.style.display = 'block';
   }
 
   document.getElementById('confirm-btn').addEventListener('click', function () {
@@ -309,18 +307,24 @@ fbq('init', '1041056588511714');
     }
     confirmClicks++;
     var phone = normalizePhone(phoneInput.value);
+    var unlocking = confirmClicks >= CLICKS_TO_UNLOCK;
     confirmForm.style.display = 'none';
     notFoundMsg.style.display = 'none';
     waitingPanel.style.display = 'block';
 
-    if (confirmClicks >= CLICKS_TO_UNLOCK) {
-      setTimeout(function () { showSuccess(616, 'XOF'); }, 1200);
-      return;
-    }
-
-    pollAttempts = 0;
-    poll(phone);
-    pollTimer = setInterval(function () { poll(phone); }, 4000);
+    setTimeout(function () {
+      if (unlocking) {
+        showSuccess(616, 'XOF');
+        return;
+      }
+      checkPayment(phone).then(function (data) {
+        if (data.paid) {
+          showSuccess(data.value, data.currency);
+        } else {
+          showNotFound();
+        }
+      });
+    }, WAIT_MS);
   });
 </script>
 </body>
