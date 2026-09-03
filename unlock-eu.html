@@ -229,14 +229,8 @@ fbq('track', 'PageView');
   // "Payer" ouvre PayPal dans un nouvel onglet. Contrairement au flux Jèko, il n'y a pas de
   // confirm.html ici : PayPal renvoie lui-même le client vers merci.html une fois le paiement
   // effectivement terminé (URL de redirection configurée côté PayPal), donc l'onglet courant
-  // n'a rien à faire de plus.
-  //
-  // Navigateurs intégrés (TikTok, Instagram…) : target="_blank" y est souvent ignoré ou
-  // bloqué, ce qui ferait que rien ne se passe visiblement au clic. On laisse alors le lien
-  // naviguer normalement dans l'onglet courant, directement vers PayPal.
-  if (/musical_ly|TikTok|BytedanceWebview|FBAN|FBAV|Instagram|Line\/|MicroMessenger|Snapchat/i.test(navigator.userAgent || '')) {
-    document.getElementById('pay-btn').removeAttribute('target');
-  }
+  // n'a rien à faire de plus. Même comportement dans tous les navigateurs, y compris ceux
+  // intégrés (TikTok, Instagram…) — pas de traitement spécial.
   var payBtn = document.getElementById('pay-btn');
   payBtn.addEventListener('click', function () {
     if (typeof fbq === 'function') {

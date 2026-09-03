@@ -235,17 +235,11 @@ fbq('track', 'PageView');
   revealEls.forEach(function (el) { io.observe(el); });
   setTimeout(function () { revealEls.forEach(function (el) { el.classList.add('in'); }); }, 2500);
 
-  // "Payer" opens the Jèko payment link in a new tab, instantly — one click, no gate, exactly
-  // like before. The current tab then moves on to confirm.html, a separate page where the
-  // phone number is collected — kept off this page entirely so the payment button stays clean.
-  //
-  // Navigateurs intégrés (TikTok, Instagram…) : target="_blank" y est souvent ignoré ou
-  // bloqué, donc le nouvel onglet vers Jèko ne s'ouvre jamais — mais si on bascule quand
-  // même l'onglet courant vers confirm.html, la personne n'a jamais vu la page de paiement.
-  // On laisse donc le lien naviguer normalement dans l'onglet courant, sans forcer ce saut.
-  var isInAppBrowser = /musical_ly|TikTok|BytedanceWebview|FBAN|FBAV|Instagram|Line\/|MicroMessenger|Snapchat/i.test(navigator.userAgent || '');
+  // "Payer" opens the payment link in a new tab, instantly — one click, no gate. The current
+  // tab then moves on to confirm.html, a separate page where the phone number is collected —
+  // kept off this page entirely so the payment button stays clean. Same behavior in every
+  // browser, TikTok/Instagram's in-app browser included — no special-casing.
   var payBtn = document.getElementById('pay-btn');
-  if (isInAppBrowser) payBtn.removeAttribute('target');
   payBtn.addEventListener('click', function () {
     // Intention d'achat — la personne part vers Jèko. Ce n'est PAS une vente : seul le
     // Purchase de confirm.html, déclenché après vérification du webhook, l'est. Cet
@@ -253,9 +247,7 @@ fbq('track', 'PageView');
     if (typeof fbq === 'function') {
       fbq('track', 'InitiateCheckout', { value: 1.00, currency: 'USD' });
     }
-    if (!isInAppBrowser) {
-      setTimeout(function () { window.location.href = 'confirm.html'; }, 150);
-    }
+    setTimeout(function () { window.location.href = 'confirm.html'; }, 150);
   });
 </script>
 </body>
