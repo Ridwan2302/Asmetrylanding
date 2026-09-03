@@ -187,52 +187,6 @@ fbq('track', 'PageView');
   /* Coupure maitrisee : "Installation en quelques secondes." passe a la ligne */
   .hero-micro { white-space: pre-line; }
 
-  /* ---------- Escape overlay : navigateur intégré (TikTok, Instagram, etc.) ---------- */
-  .escape-overlay {
-    display: none;
-    position: fixed;
-    inset: 0;
-    z-index: 9999;
-    align-items: center;
-    justify-content: center;
-    padding: 24px;
-  }
-  .escape-overlay.show { display: flex; }
-  .escape-backdrop {
-    position: absolute;
-    inset: 0;
-    background: rgba(11, 11, 12, 0.45);
-    backdrop-filter: blur(1.5px);
-    -webkit-backdrop-filter: blur(1.5px);
-  }
-  .escape-card {
-    position: relative;
-    width: 100%;
-    max-width: 360px;
-    background: var(--ink);
-    color: #fff;
-    border-radius: 24px;
-    border: 1px solid var(--glass-border);
-    box-shadow: 0 24px 60px rgba(0,0,0,0.45);
-    padding: 32px 28px;
-    text-align: center;
-  }
-  .escape-badge {
-    width: 52px;
-    height: 52px;
-    margin: 0 auto 18px;
-    border-radius: 50%;
-    background: var(--glass-bg);
-    border: 1px solid var(--glass-border);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 22px;
-  }
-  .escape-title { font-size: 19px; font-weight: 700; letter-spacing: -0.2px; }
-  .escape-body { margin: 10px 0 24px; font-size: 14px; line-height: 1.6; color: var(--gray-on-dark); }
-  .escape-card .btn { width: 100%; }
-
   .hero-visual {
     margin-top: 64px;
     width: 100%;
@@ -396,15 +350,6 @@ fbq('track', 'PageView');
 </head>
 <body>
 
-<div class="escape-overlay" id="escape-overlay">
-  <div class="escape-backdrop"></div>
-  <div class="escape-card">
-    <div class="escape-badge">↗</div>
-    <div class="escape-title" data-i18n="escape_title">Ouvrez ce site dans votre navigateur</div>
-    <p class="escape-body" data-i18n="escape_body">Appuyez sur les trois points (⋯) en haut de l'écran, puis choisissez « Ouvrir dans le navigateur ».</p>
-    <button type="button" class="btn btn-light" id="escape-copy-btn" data-i18n="escape_copy">↑</button>
-  </div>
-</div>
 
 <nav>
   <div class="wrap">
@@ -586,9 +531,6 @@ Installs in seconds.</span>
   var translations = {
     en: {
       get_app: "Get the App",
-      escape_title: "Open this site in your browser",
-      escape_body: "Tap ⋯ at the top of the screen, then choose “Open in browser”.",
-      escape_copy: "↑",
       score_title: "Ready to see your score?",
       score_body: "Takes about ninety seconds.",
       social_kicker: "They already follow us",
@@ -632,9 +574,6 @@ Installs in seconds.</span>
       footer_rights: "All rights reserved."
     },
     fr: {
-      escape_title: "Ouvrez ce site dans votre navigateur",
-      escape_body: "Appuyez sur les trois points (⋯) en haut de l'écran, puis choisissez « Ouvrir dans le navigateur ».",
-      escape_copy: "↑",
       score_title: "Prêt à découvrir votre score ?",
       score_body: "Environ quatre-vingt-dix secondes.",
       social_kicker: "Ils nous suivent déjà",
@@ -786,47 +725,6 @@ Installs in seconds.</span>
       .catch(function () {});
   }, 4000);
 
-  // Le site reste entièrement visible et scrollable dans un navigateur intégré (TikTok,
-  // Instagram, etc.) — l'overlay n'apparaît que si la personne clique sur un bouton
-  // "Get the App" / "Download", puisque c'est là que le paiement risque de mal se passer.
-  var isInAppBrowser = /musical_ly|TikTok|BytedanceWebview|FBAN|FBAV|Instagram|Line\/|MicroMessenger|Snapchat/i.test(navigator.userAgent || '');
-  if (isInAppBrowser) {
-    document.querySelectorAll('.cta-app-link').forEach(function (a) {
-      a.addEventListener('click', function (e) {
-        e.preventDefault();
-        // Pas de overflow:hidden ici : la page doit rester scrollable sous l'overlay —
-        // seul le clic sur le contenu doit être bloqué, ce que l'overlay fait déjà en
-        // recouvrant tout le viewport au-dessus (z-index) sans laisser passer les clics.
-        document.getElementById('escape-overlay').classList.add('show');
-      });
-    });
-  }
-
-  // "↑" sur l'overlay d'échappement du navigateur intégré — copie le lien, pratique pour
-  // celles et ceux qui ne trouvent pas le menu ⋯, ou préfèrent coller le lien eux-mêmes.
-  document.getElementById('escape-copy-btn').addEventListener('click', function () {
-    copyText(location.href, function () {});
-  });
-
-  function copyText(text, onDone) {
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(text).then(onDone).catch(function () { legacyCopy(text, onDone); });
-    } else {
-      legacyCopy(text, onDone);
-    }
-  }
-  function legacyCopy(text, onDone) {
-    var ta = document.createElement('textarea');
-    ta.value = text;
-    ta.style.position = 'fixed';
-    ta.style.opacity = '0';
-    document.body.appendChild(ta);
-    ta.focus();
-    ta.select();
-    try { document.execCommand('copy'); } catch (e) {}
-    document.body.removeChild(ta);
-    onDone();
-  }
 </script>
 </body>
 </html>
